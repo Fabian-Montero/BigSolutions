@@ -1,7 +1,4 @@
-﻿@*
-
-*@
-@{
+﻿@{
     ViewData["Title"] = "Registro";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
@@ -13,43 +10,41 @@
                 <div class="col-lg-4 mx-auto">
                     <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                         <div class="brand-logo">
-                            <img src="~/page/images/logo.svg" alt="logo">
+                            <img src="~/page/images/bigsolutions-logo.jpg" alt="logo">
                         </div>
-                        <h4>New here?</h4>
-                        <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-                        <form class="pt-3">
+                        <h4>Datos necesarios para Registrarse:</h4>
+
+                      
+                        <div id="alert-container">
+                            <!-- Las alertas se mostrarán aquí -->
+                        </div>
+
+                        <form id="registration-form" class="pt-3">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username">
+                                <input type="text" class="form-control form-control-lg" id="fullName" placeholder="Nombre completo" required>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+                                <input type="text" class="form-control form-control-lg" id="cedula" placeholder="Cédula" required>
                             </div>
                             <div class="form-group">
-                                <select class="form-control form-control-lg" id="exampleFormControlSelect2">
-                                    <option>Country</option>
-                                    <option>United States of America</option>
-                                    <option>United Kingdom</option>
-                                    <option>India</option>
-                                    <option>Germany</option>
-                                    <option>Argentina</option>
-                                </select>
+                                <input type="tel" class="form-control form-control-lg" id="phoneNumber" placeholder="Número de teléfono" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                                <input type="email" class="form-control form-control-lg" id="email" placeholder="Correo" required>
                             </div>
-                            <div class="mb-4">
-                                <div class="form-check">
-                                    <label class="form-check-label text-muted">
-                                        <input type="checkbox" class="form-check-input">
-                                        I agree to all Terms & Conditions
-                                    </label>
-                                </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-lg" id="address" placeholder="Dirección exacta" required>
+                            </div>
+                            <h6 class="font-weight-light">La Contraseña tiene que tener 1 Mayúscula y 8 Caracteres</h6>
+                            <div class="form-group">
+                                <input type="password" class="form-control form-control-lg" id="password" placeholder="Contraseña" pattern="(?=.*[A-Z]).{8,}" required>
                             </div>
                             <div class="mt-3">
-                                <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN UP</a>
+                                <button type="submit" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">REGISTRARSE</button>
                             </div>
+
                             <div class="text-center mt-4 font-weight-light">
-                                Already have an account? <a href="@Url.Action("InicioSesion", "Usuario")" class="text-primary">Login</a>
+                                ¿Ya tienes una cuenta? <a href="@Url.Action("InicioSesion", "Usuario")" class="auth-link text-black">Iniciar sesión</a>
                             </div>
                         </form>
                     </div>
@@ -59,4 +54,70 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('registration-form');
+        const alertContainer = document.getElementById('alert-container');
 
+        form.addEventListener('submit', function (event) {
+            let isValid = true;
+            alertContainer.innerHTML = ''; // Limpiar alertas anteriores
+
+            // Validar Nombre Completo
+            const fullName = document.getElementById('fullName').value;
+            if (!fullName) {
+                isValid = false;
+                showAlert('Nombre completo es obligatorio.');
+            }
+
+            // Validar Cédula
+            const cedula = document.getElementById('cedula').value;
+            if (!cedula) {
+                isValid = false;
+                showAlert('Cédula es obligatoria.');
+            }
+
+            // Validar Número de Teléfono
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            if (!phoneNumber) {
+                isValid = false;
+                showAlert('Número de teléfono es obligatorio.');
+            }
+
+            // Validar Correo
+            const email = document.getElementById('email').value;
+            if (!email) {
+                isValid = false;
+                showAlert('Correo es obligatorio.');
+            }
+
+            // Validar Dirección
+            const address = document.getElementById('address').value;
+            if (!address) {
+                isValid = false;
+                showAlert('Dirección exacta es obligatoria.');
+            }
+
+            // Validar Contraseña
+            const password = document.getElementById('password').value;
+            const passwordPattern = /^(?=.*[A-Z]).{8,}$/;
+            if (!passwordPattern.test(password)) {
+                isValid = false;
+                showAlert('La contraseña debe tener al menos 8 caracteres y una mayúscula.');
+            }
+
+            if (!isValid) {
+                event.preventDefault(); // Evitar el envío del formulario
+            }
+        });
+
+        function showAlert(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-warning';
+            alertDiv.style.textAlign = 'center';
+            alertDiv.role = 'alert';
+            alertDiv.innerText = message;
+            alertContainer.appendChild(alertDiv);
+        }
+    });
+</script>
