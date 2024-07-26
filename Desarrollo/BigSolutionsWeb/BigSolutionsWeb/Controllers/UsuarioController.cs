@@ -23,5 +23,9 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
+        public IActionResult SinUsuariosRegistrados()
+        {
+            return View();
+        }
     }
 }
