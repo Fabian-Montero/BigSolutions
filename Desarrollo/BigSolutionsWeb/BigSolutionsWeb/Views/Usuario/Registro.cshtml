@@ -14,30 +14,30 @@
                         </div>
                         <h4>Datos necesarios para Registrarse:</h4>
 
-                      
+                        <!-- Contenedor de Alertas -->
                         <div id="alert-container">
                             <!-- Las alertas se mostrarán aquí -->
                         </div>
 
-                        <form id="registration-form" class="pt-3">
+                        <form id="registration-form" class="pt-3" novalidate>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="fullName" placeholder="Nombre completo" required>
+                                <input type="text" class="form-control form-control-lg" id="fullName" placeholder="Nombre completo">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="cedula" placeholder="Cédula" required>
+                                <input type="text" class="form-control form-control-lg" id="cedula" placeholder="Cédula">
                             </div>
                             <div class="form-group">
-                                <input type="tel" class="form-control form-control-lg" id="phoneNumber" placeholder="Número de teléfono" required>
+                                <input type="tel" class="form-control form-control-lg" id="phoneNumber" placeholder="Número de teléfono">
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="email" placeholder="Correo" required>
+                                <input type="email" class="form-control form-control-lg" id="email" placeholder="Correo">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="address" placeholder="Dirección exacta" required>
+                                <input type="text" class="form-control form-control-lg" id="address" placeholder="Dirección exacta">
                             </div>
                             <h6 class="font-weight-light">La Contraseña tiene que tener 1 Mayúscula y 8 Caracteres</h6>
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" id="password" placeholder="Contraseña" pattern="(?=.*[A-Z]).{8,}" required>
+                                <input type="password" class="form-control form-control-lg" id="password" placeholder="Contraseña" pattern="(?=.*[A-Z]).{8,}">
                             </div>
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">REGISTRARSE</button>
@@ -64,42 +64,42 @@
             alertContainer.innerHTML = ''; // Limpiar alertas anteriores
 
             // Validar Nombre Completo
-            const fullName = document.getElementById('fullName').value;
+            const fullName = document.getElementById('fullName').value.trim();
             if (!fullName) {
                 isValid = false;
                 showAlert('Nombre completo es obligatorio.');
             }
 
             // Validar Cédula
-            const cedula = document.getElementById('cedula').value;
+            const cedula = document.getElementById('cedula').value.trim();
             if (!cedula) {
                 isValid = false;
                 showAlert('Cédula es obligatoria.');
             }
 
             // Validar Número de Teléfono
-            const phoneNumber = document.getElementById('phoneNumber').value;
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
             if (!phoneNumber) {
                 isValid = false;
                 showAlert('Número de teléfono es obligatorio.');
             }
 
             // Validar Correo
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             if (!email) {
                 isValid = false;
                 showAlert('Correo es obligatorio.');
             }
 
             // Validar Dirección
-            const address = document.getElementById('address').value;
+            const address = document.getElementById('address').value.trim();
             if (!address) {
                 isValid = false;
                 showAlert('Dirección exacta es obligatoria.');
             }
 
             // Validar Contraseña
-            const password = document.getElementById('password').value;
+            const password = document.getElementById('password').value.trim();
             const passwordPattern = /^(?=.*[A-Z]).{8,}$/;
             if (!passwordPattern.test(password)) {
                 isValid = false;
