@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "Consultar Usuario Prueba";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Skydash Admin</title>
+    <link rel="stylesheet" href="~/page/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/page/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/page/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/page/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/page/css/vertical-layout-light/style.css">
+    <link rel="shortcut icon" href="~/page/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+
+</head>
+<div>
+    <img src="https://raw.githubusercontent.com/WenndyP/imgUniversity/main/ActualizacionExistosa.png" class="img-fluid">
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var table = new DataTable("#tabla-Usuarios", {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0] }]
+        });
+    });
+</script>
