@@ -23,5 +23,33 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
+        public IActionResult SinUsuariosRegistrados()
+        {
+            return View();
+        }
+        public IActionResult ErrorSQL_Usuarios()
+        {
+        return View();
+        }
+        public IActionResult ActualizarGeneral()
+        {
+            return View();
+        }
+        public IActionResult ActualizacionExitosa()
+        {
+            return View();
+        }
+        public IActionResult Actualizacion_Error_InfoIncompleta()
+        {
+            return View();
+        }
+        public IActionResult Actualizacion_ERROR_DatosExistentes()
+        {
+            return View();
+        }
+        public IActionResult EliminacionExitosa()
+        {
+            return View();
+        }
     }
 }

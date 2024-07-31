@@ -3,7 +3,19 @@
     ViewData["Title"] = "Consultar Usuario Prueba";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Skydash Admin</title>
+    <link rel="stylesheet" href="~/page/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/page/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/page/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/page/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/page/css/vertical-layout-light/style.css">
+    <link rel="shortcut icon" href="~/page/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
 
+</head>
 <table id="tabla-Usuarios" class="table table-hover">
     <thead>
         <tr>
@@ -12,95 +24,180 @@
             <th>Correo</th>
             <th>Rol</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-            <tr>
-                <td>118560019</td>
-                <td>Fabián</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Evelyn</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Jacqueline</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Tania</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Andres</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Kevin</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Fabián</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Fabián</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Alonso</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Wenndy</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Melissa</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Rodrigo</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Dilan</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr><tr>
-                <td>118560019</td>
-                <td>Josue</td>
-                <td>fabianja0477@gmail.com</td>
-                <td>Estudiante</td>
-                <td>Activo</td>
-            </tr>
-        
+        <tr>
+            <td>118560019</td>
+            <td>Fabián</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Cliente</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="/Usuario/ActualizarGeneral" class="btn btn-primary">Actualizar</a>
+                    <button class="btn btn-primary" onclick="confirmarBorrado()">Borrar</button>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Evelyn</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Profesor</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Jacqueline</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Profesor</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Tania</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Profesor</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Andres</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Administrador</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Kevin</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Administrador</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Fabián</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Estudiante</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Fabián</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Cliente</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Alonso</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Estudiante</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Wenndy</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Estudiante</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Melissa</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Cliente</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Rodrigo</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Estudiante</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Dilan</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Estudiante</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr><tr>
+            <td>118560019</td>
+            <td>Josue</td>
+            <td>fabianja0477@gmail.com</td>
+            <td>Cliente</td>
+            <td>Activo</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="link_para_actualizar" class="btn btn-primary">Actualizar</a>
+                    <a href="link_para_borrar" class="btn btn-primary">Borrar</a>
+                </div>
+            </td>
+        </tr>
+   
     </tbody>
 </table>
 
@@ -115,4 +212,14 @@
             columnDefs: [{ type: 'string', target: [0] }]
         });
     });
+
+    function confirmarBorrado() {
+        if (confirm("¿Está seguro de que desea eliminar este registro?")) {
+            // Redirige a la página de eliminación si el usuario confirma
+            window.location.href = 'EliminacionExitosa';
+        } else {
+            // Muestra una alerta diciendo que el registro no se eliminará
+            alert("El registro no se eliminará.");
+        }
+    }
 </script>
