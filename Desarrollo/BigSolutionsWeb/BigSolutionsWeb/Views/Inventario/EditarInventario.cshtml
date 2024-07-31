@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Editar Inventario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/hojaestilos.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header text-center">
+                    <h3 class="font-weight-extra-bold my-4">Editar Producto</h3>
+                    <!-- Alertas-->
+                    <div id="successAlert" class="alert alert-success alert-custom" role="alert">
+                        Producto agregado exitosamente
+                    </div>
+                    <div id="warningAlert" class="alert alert-warning alert-custom" role="alert">
+                        Por favor, complete todos los campos antes de enviar
+                    </div>
+                    <!-- Alertas-->
+                </div>
+                <div class="card-body">
+                    <br />
+                    <div class="pl-lg-4 pr-lg-4">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Nombre del producto</label>
+                                    <input type="text" id="NombreProducto" name="NombreProducto" class="form-control form-control-user" placeholder="Botella" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Cantidad</label>
+                                    <input type="number" id="Cantidad" name="Cantidad" class="form-control form-control-user" placeholder="100 unidades" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Precio</label>
+                                    <input type="number" id="Precio" name="Precio" class="form-control form-control-user" placeholder="₡ 2 000" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Imagen</label>
+                                    <input type="file" id="ImagenProducto" name="ImagenProducto" class="form-control form-control-user" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="button" class="botones" onclick="submitForm()">Aceptar</button>
+                    </div>
+                    <br />
+                </div>
+                <div class="card-footer text-center py-3">
+                    <a href="@Url.Action("ConsultarInventario", "Inventario")" class="inventario-link">Volver al inventario</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        var nombre = document.getElementById('NombreProducto').value.trim();
+        var cantidad = document.getElementById('Cantidad').value.trim();
+        var precio = document.getElementById('Precio').value.trim();
+        var imagen = document.getElementById('ImagenProducto').files.length > 0;
+
+        var warningAlert = document.getElementById('warningAlert');
+        var successAlert = document.getElementById('successAlert');
+        warningAlert.classList.remove('show');
+        successAlert.classList.remove('show');
+
+        if (nombre === '' || cantidad === '' || precio === '' || !imagen) {
+            warningAlert.classList.add('show');
+            return;
+        }
+
+        successAlert.classList.add('show');
+
+        setTimeout(function () {
+            successAlert.classList.remove('show');
+            window.location.href = '@Url.Action("ConsultarInventario", "Inventario")';
+        }, 2000);
+    }
+</script>
