@@ -1,0 +1,65 @@
+﻿/* Para los botones */
+.botones {
+    display: inline-block !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    color: white !important;
+    background-color: #c1952c !important;
+    border: none !important;
+    border-radius: 5px !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    transition: background-color 0.3s ease !important;
+}
+
+    .botones:hover {
+        background-color: #3f392e !important;
+    }
+
+    .botones:active {
+        background-color: #837033 !important;
+    }
+
+/* Centrar imagen dataTable */
+.image-centered {
+    text-align: center;
+}
+
+/*Botón de volver al inventario*/
+.inventario-link {
+    color: #837033;
+    text-decoration: none;
+}
+    .inventario-link:hover {
+        color: #3f392e;
+    }
+
+/*Para alerta al eliminar*/
+.my-swal-popup {
+    padding: 20px !important; /* Ajusta el padding según sea necesario */
+}
+
+/*Para la alerta al apretar el botón de aceptar*/
+/* Estilos generales para alertas personalizadas */
+.alert-custom {
+    display: none;
+    width: 100%;
+    max-width: calc(100% - 30px);
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+    .alert-custom.show {
+        display: block;
+    }
+
+.alert-success {
+    background-color: #d4edda; 
+    color: #155724; 
+    border-color: #c3e6cb; 
+}
+
+.alert-warning {
+    background-color: #fff3cd; 
+    color: #856404; 
+    border-color: #ffeeba; 
+}
