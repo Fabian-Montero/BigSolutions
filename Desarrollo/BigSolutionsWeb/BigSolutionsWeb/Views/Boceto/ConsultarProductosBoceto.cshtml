@@ -1,0 +1,283 @@
+﻿@{
+    ViewData["Title"] = "Consultar Productos boceto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.msj != null)
+{
+    <div class="alert alert-primary" role="alert" style="width: 365px; height: 80px;">
+        @ViewBag.msj
+    </div>
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Generar Boceto</h1>
+        <p>En esta página, puedes seleccionar un producto de nuestro catálogo y generar un boceto con tu logo. Usa la barra de búsqueda para encontrar rápidamente el producto que deseas.</p>
+    </div>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Lista de productos</h3>
+            <div class="form-inline">
+                <input type="text" id="productSearch" class="form-control" placeholder="Buscar producto...">
+            </div>
+        </div>
+        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-inline">
+                    <label for="showEntries">Mostrar </label>
+                    <select id="showEntries" class="form-control mx-2">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>25</option>
+                        <option>50</option>
+                    </select>
+                    <label> entradas</label>
+                </div>
+                <div id="datatable_info">Mostrando 1 a 10 de 50 entradas</div>
+            </div>
+            <div class="row" id="product-container">
+                @* @foreach (var item in Model)
+                { *@
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                    <div class="card" style="background-color: #f8f9fa;">
+                        <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
+                        <div class="card-body">
+                            <h5 class="card-title">Botella</h5>
+                            <p class="card-text">
+                                Todos los datos del producto
+                            </p>
+                            <div class="text-center">
+                                <button class="btn btn-primary select-product" data-toggle="modal" data-target="#productModal">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* } *@
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <div id="datatable_info">Mostrando 1 a 10 de 50 entradas</div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center" id="pagination">
+                <li class="page-item"><a class="page-link" href="#">Primero</a></li>
+                <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                <li class="page-item"><a class="page-link" href="#">Último</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Detalles del Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none">
+                    Error al crear el boceto
+                </div>
+                <div id="successAlert" class="alert alert-success" role="alert" style="display:none">
+                    Boceto creado exitosamente. <a href="#" id="viewSketchLink" class="alert-link" style="font-size: inherit;">Puedes ver tu boceto aquí</a>
+                </div>
+                <img id="modalProductImage" src="" class="img-fluid" alt="Producto">
+                <p id="modalProductDescription">Descripción completa del producto.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="logoUpload">Adjuntar Logo</label>
+                        <input type="file" class="form-control-file" id="logoUpload">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="generateSketch">Generar Boceto</button>
+            </div>
+        </div>
+    </div>
+</div>
+                @* } *@
+            </div>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center" id="pagination">
+        </ul>
+    </nav>
+
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.select-product').on('click', function () {
+            var card = $(this).closest('.col-lg-2, .col-md-3, .col-sm-4, .col-6');
+            var productName = card.data('name');
+            var productDescription = card.data('description');
+            var productImageUrl = card.data('image-url');
+
+            $('#productModalLabel').text(productName);
+            $('#modalProductImage').attr('src', productImageUrl);
+            $('#modalProductDescription').text(productDescription);
+        });
+    
+
+        $('#generateSketch').on('click', function () {
+
+            $('#errorAlert').show();
+            $('#successAlert').show();
+        
+        });
+    });
+
+    /*
+    $('#generateSketch').on('click', function () {
+        
+        var hasError = false; Si se quiere que salgo el error esto tiene que estar en true, en false para que muestre el mensaje de confirmación
+        if (hasError) {
+            $('#errorAlert').show();
+            $('#successAlert').hide();
+        } else {
+            $('#errorAlert').hide();
+            $('#successAlert').show();
+        }
+    });
+    */
+    
+</script>

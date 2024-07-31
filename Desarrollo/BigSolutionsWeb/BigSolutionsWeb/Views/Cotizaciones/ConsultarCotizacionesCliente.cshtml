@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Consultar Cotizaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Consultar Cotizaciones</h1>
+        <p>Aquí puedes ver todas las cotizaciones que se han generado para ti.</p>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Lista de Cotizaciones</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Cotizaciones" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Número de Solicitud</th>
+                        <th style="text-align:left">Número de Cotización</th>
+                        <th style="text-align:left">Descripción de la Solicitud</th>
+                        <th style="text-align:left">Descripción de la Cotización</th>
+                        <th style="text-align:left">Archivo de la Cotización</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* @foreach (var cotizacion in Model)
+                    { *@
+                    <tr>
+                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">22222</td>
+                        <td style="text-align:left">Esta es la descripción de la solicitud.</td>
+                        <td style="text-align:left">Esta es la descripción de la cotización.</td>
+                        <td style="text-align:left">
+                            <a href="~/page/archivos/pdf-prueba.pdf" target="_blank" class="btn btn-primary">Ver Cotización</a>
+                            <a href="#" class="btn btn-primary">Generar una orden con esta cotización</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">11112</td>
+                        <td style="text-align:left">22223</td>
+                        <td style="text-align:left">Esta es la descripción de la solicitud.</td>
+                        <td style="text-align:left">Esta es la descripción de la cotización.</td>
+                        <td style="text-align:left">
+                            <a href="~/page/archivos/pdf-prueba.pdf" target="_blank" class="btn btn-primary">Ver Cotización</a>
+                            <a href="#" class="btn btn-primary">Generar una orden con esta cotización</a>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">11113</td>
+                        <td style="text-align:left">22224</td>
+                        <td style="text-align:left">Esta es la descripción de la solicitud.</td>
+                        <td style="text-align:left">Esta es la descripción de la cotización.</td>
+                        <td style="text-align:left">
+                            <a href="~/page/archivos/pdf-prueba.pdf" target="_blank" class="btn btn-primary">Ver Cotización</a>
+                            <a href="#" class="btn btn-primary">Generar una orden con esta cotización</a>
+                        </td>
+                    </tr>
+                    @* } *@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tabla-Cotizaciones').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+    });
+</script>

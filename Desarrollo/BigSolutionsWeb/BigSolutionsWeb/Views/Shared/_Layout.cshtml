@@ -82,6 +82,42 @@
                         </div>
                     </li>
                     <li class="nav-item">
+
+                        <a class="nav-link" data-toggle="collapse" href="#bocetoscliente" aria-expanded="false" aria-controls="bocetoscliente">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Bocetos (cliente)</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="bocetoscliente">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarProductosBoceto", "Boceto")">Generar boceto</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarBocetosCliente", "Boceto")">Mis bocetos</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#cotizacionescliente" aria-expanded="false" aria-controls="cotizacionescliente">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Cotizaciones (cliente)</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="cotizacionescliente">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarSolicitudCotizacionesCliente", "Cotizaciones")">Solicitudes de cotización</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarCotizacionesCliente", "Cotizaciones")">Mis cotizaciones</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#ordenescliente" aria-expanded="false" aria-controls="ordenescliente">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Órdenes (cliente)</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ordenescliente">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="#">Mis ordenes</a></li>
+
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic-2" aria-expanded="false" aria-controls="ui-basic-2">
                             <i class="icon-layout menu-icon"></i>
                             <span class="menu-title">Usuarios</span>
@@ -92,6 +128,7 @@
                                 <li class="nav-item"> <a class="nav-link" href="/Usuario/ConsultarUsuariosPrueba">Usuarios con registros</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="/Usuario/SinUsuariosRegistrados">Usuarios sin registros</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="/Usuario/ErrorSQL_Usuarios">Error en Base de datos</a></li>
+
                             </ul>
                         </div>
                     </li>

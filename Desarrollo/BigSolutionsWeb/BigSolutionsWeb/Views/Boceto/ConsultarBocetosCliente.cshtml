@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Mis Bocetos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Mis Bocetos</h1>
+        <p>Aquí puedes ver todos los bocetos que has generado.</p>
+    </div>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Lista de Bocetos</h3>
+        </div>
+        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            <table id="tabla-Bocetos" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Número de Boceto</th>
+                        <th style="text-align:left">Imagen del Boceto</th>
+                        <th style="text-align:left">Producto</th>
+                        <th style="text-align:left">Fecha de Generación</th>
+                        <th style="text-align:left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* @foreach (var boceto in Model)
+                    { *@
+                    <tr>
+                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">
+                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                        </td>
+                        <td style="text-align:left">Botella</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">
+                            <button class="btn btn-primary view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">
+                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                        </td>
+                        <td style="text-align:left">Botella</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">
+                            <button class="btn btn-primary view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">
+                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                        </td>
+                        <td style="text-align:left">Botella</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">
+                            <button class="btn btn-primary view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                        </td>
+                    </tr>
+                    @* } *@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        var table = $('#tabla-Bocetos').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+
+        $('#tabla-Bocetos').on('click', '.boceto-img', function () {
+            var src = $(this).data('src');
+            $('#modalImage').attr('src', src);
+        });
+
+        $('#tabla-Bocetos').on('click', '.view-image', function () {
+            var src = $(this).data('src');
+            $('#modalImage').attr('src', src);
+        });
+
+
+    });
+</script>
