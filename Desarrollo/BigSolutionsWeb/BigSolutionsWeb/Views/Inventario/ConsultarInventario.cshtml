@@ -1,0 +1,219 @@
+﻿@{
+    ViewData["Title"] = "Consultar Inventario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/hojaestilos.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div>
+    <a class="botones" href="@Url.Action("AgregarInventario", "Inventario")"> + Agregar</a>
+    <br />
+    <br />
+</div>
+
+<table id="tabla-Inventario" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="image-centered"><img style="width:125px; height:125px;" src="~/page/images/imagenbotella.jpeg" /></td>
+            <td>Botella</td>
+            <td>100 unidades</td>
+            <td>₡ 2 000</td>
+            <td style="text-align:center">
+                <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
+                <br />
+                <br />
+                <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var table = new DataTable("#tabla-Inventario", {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0] }]
+        });
+
+        //Alerta de eliminación
+        $('.eliminar-producto').on('click', function (e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            Swal.fire({
+                title: '¿Está seguro que deseas eliminar este producto?',
+                text: "No podrá revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#c1952c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                customClass: {
+                    popup: 'my-swal-popup'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Eliminado',
+                        text: 'El producto ha sido eliminado',
+                        icon: 'success',
+                        confirmButtonColor: '#c1952c',
+                        customClass: {
+                            popup: 'my-swal-popup'
+                        }
+                    }).then(() => {
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+
