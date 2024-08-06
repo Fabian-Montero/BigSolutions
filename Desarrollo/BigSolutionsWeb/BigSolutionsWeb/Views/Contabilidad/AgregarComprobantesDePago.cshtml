@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["Title"] = "Agregar comprobante de pago";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/hojaestilos.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header text-center">
+                    <h3 class="font-weight-extra-bold my-4">Registrar Comprobante de Pago</h3>
+                    <!-- Alertas-->
+                    <div id="successAlert" class="alert alert-success alert-custom" role="alert">
+                        Comprobante de pago agregado exitosamente
+                    </div>
+                    <div id="warningAlert" class="alert alert-warning alert-custom" role="alert">
+                        Por favor, complete todos los campos antes de aceptar
+                    </div>
+                    <!-- Alertas-->
+                </div>
+                <div class="card-body">
+                    <br />
+                    <div class="pl-lg-4 pr-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div>
+                                        <h3>Cliente</h3>
+                                        <hr>
+                                    </div>
+                                    <table id="tabla-Cliente" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:left">Seleccionar</th>
+                                                <th style="text-align:left">Identificación</th>
+                                                <th style="text-align:left">Nombre</th>
+                                                <th style="text-align:left">Correo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:left">
+                                                    <input type="radio" name="selectBoceto" class="select-boceto">
+                                                </td>
+                                                <td style="text-align:left">456789015</td>
+                                                <td style="text-align:left">Juan Pérez Barquero</td>
+                                                <td style="text-align:left">juanperez4567@gmail.com</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left">
+                                                    <input type="radio" name="selectBoceto" class="select-boceto">
+                                                </td>
+                                                <td style="text-align:left">456789016</td>
+                                                <td style="text-align:left">Juan Pérez Barquero</td>
+                                                <td style="text-align:left">juanperez4567@gmail.com</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left">
+                                                    <input type="radio" name="selectBoceto" class="select-boceto">
+                                                </td>
+                                                <td style="text-align:left">456789017</td>
+                                                <td style="text-align:left">Juan Pérez Barquero</td>
+                                                <td style="text-align:left">juanperez4567@gmail.com</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div>
+                                        <h3>Número de Orden</h3>
+                                        <hr>
+                                    </div>
+                                    <table id="tabla-Orden" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:left">Seleccionar</th>
+                                                <th style="text-align:left">Número de Orden</th>
+                                                <th style="text-align:left">Descripción de la Orden</th>
+                                                <th style="text-align:left">Orden de Compra</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:left">
+                                                    <input type="radio" name="selectBoceto" class="select-boceto">
+                                                </td>
+                                                <td style="text-align:left">001</td>
+                                                <td style="text-align:left">Descripción de la orden</td>
+                                                <td style="text-align:left">Orden de compra (link)</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left">
+                                                    <input type="radio" name="selectBoceto" class="select-boceto">
+                                                </td>
+                                                <td style="text-align:left">002</td>
+                                                <td style="text-align:left">Descripción de la orden</td>
+                                                <td style="text-align:left">Orden de compra (link)</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left">
+                                                    <input type="radio" name="selectBoceto" class="select-boceto">
+                                                </td>
+                                                <td style="text-align:left">003</td>
+                                                <td style="text-align:left">Descripción de la orden</td>
+                                                <td style="text-align:left">Orden de compra (link)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div>
+                                        <h3>Ajuntar comprobante de pago</h3>
+                                        <hr>
+                                    </div>
+                                    <input type="file" id="Comprobante" name="Comprobante" class="form-control form-control-user" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="button" class="botones" onclick="submitForm()">Aceptar</button>
+                    </div>
+                    <br />
+                </div>
+                <div class="card-footer text-center py-3">
+                    <a href="@Url.Action("ConsultarComprobantesDePago", "Contabilidad")" class="inventario-link">Volver a comprobantes de pago</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tabla-Cliente').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#tabla-Orden').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+    });
+
+    function submitForm() {
+        var nombre = document.getElementById('Nombre').value.trim();
+        var NumeroOrden = document.getElementById('NumeroOrden').value.trim();
+        var Comprobante = document.getElementById('Comprobante').files.length > 0;
+
+        var warningAlert = document.getElementById('warningAlert');
+        var successAlert = document.getElementById('successAlert');
+        warningAlert.classList.remove('show');
+        successAlert.classList.remove('show');
+
+        if (nombre === '' || NumeroOrden === '' || !Comprobante) {
+            warningAlert.classList.add('show');
+            return;
+        }
+
+        successAlert.classList.add('show');
+
+        setTimeout(function () {
+            successAlert.classList.remove('show');
+            window.location.href = '@Url.Action("ConsultarComprobantesDePago", "Contabilidad")';
+        }, 2000);
+    }
+</script>
+

@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "Consultar Inventario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/hojaestilos.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Facturas Venta</h1>
+        <p>Aquí puedes ver todas las facturas de venta.</p>
+    </div>
+    <br />
+    <br />
+    <div>
+        <a class="botones" href="@Url.Action("AgregarFacturasVenta", "Contabilidad")"> + Agregar</a>
+        <br />
+        <br />
+    </div>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Lista de facturas</h3>
+        </div>
+        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            <table id="tabla-Inventario" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Número de Factura</th>
+                        <th style="text-align:left">Cliente</th>
+                        <th style="text-align:left">Número de Orden</th>
+                        <th style="text-align:left">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>000923</td>
+                        <td>Juan Pérez Barquero</td>
+                        <td>001</td>
+                        <td style="text-align:center">
+                            <a class="botones" href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Factura</a>
+                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>000924</td>
+                        <td>Juan Pérez Barquero</td>
+                        <td>002</td>
+                        <td style="text-align:center">
+                            <a class="botones" href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Factura</a>
+                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+                        </td>
+                    </tr
+                    <tr>
+                        <td>000925</td>
+                        <td>Juan Pérez Barquero</td>
+                        <td>003</td>
+                        <td style="text-align:center">
+                            <a class="botones" href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Factura</a>
+                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Imagen del producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" class="img-fluid" alt="Producto Ampliado">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var table = new DataTable("#tabla-Inventario", {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0,2] }]
+        });
+
+        //Alerta de eliminación
+        $('.eliminar-producto').on('click', function (e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            Swal.fire({
+                title: '¿Está seguro que deseas eliminar esta factura?',
+                text: "No podrá revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#c1952c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarla',
+                customClass: {
+                    popup: 'my-swal-popup'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Eliminada',
+                        text: 'La factura ha sido eliminada',
+                        icon: 'success',
+                        confirmButtonColor: '#c1952c',
+                        customClass: {
+                            popup: 'my-swal-popup'
+                        }
+                    }).then(() => {
+                    });
+                }
+            });
+        });
+    });
+</script>
