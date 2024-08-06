@@ -28,5 +28,16 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
+
+        public IActionResult ConsultarSolicitudesCotizacionesClientes()
+        {
+            return View();
+        }
+
+        public IActionResult ConsultarSolicitudCotizacionClientes()
+        {
+            return View();
+        }
+
     }
 }

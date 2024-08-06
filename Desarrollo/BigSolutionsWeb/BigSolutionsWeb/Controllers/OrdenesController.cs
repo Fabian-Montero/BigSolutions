@@ -2,27 +2,24 @@
 
 namespace BigSolutionsWeb.Controllers
 {
-    public class BocetoController : Controller
+    public class OrdenesController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpGet]
-        public IActionResult ConsultarProductosBoceto()
+        public IActionResult ConsultarOrdenesCliente()
         {
             return View();
         }
 
-        [HttpGet]
-        public IActionResult ConsultarBocetosCliente()
+        public IActionResult ConsultarOrdenCliente()
         {
             return View();
         }
 
-        [HttpGet]
-        public IActionResult ConsultarBocetosAdmin()
+        public IActionResult CrearOrdenCliente()
         {
             return View();
         }
