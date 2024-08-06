@@ -1,15 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "Mis Bocetos";
+    ViewData["Title"] = "Detalles de la Solicitud";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
-        <h1>Mis Bocetos</h1>
-        <p>Aquí puedes ver todos los bocetos que has generado.</p>
+        <h1>Detalles de la Solicitud</h1>
+        <p>Aquí puedes ver los bocetos asociados a esta solicitud.</p>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Información de la Solicitud</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Número de Solicitud:</strong> 111</p>
+            <p><strong>Estado de la Solicitud:</strong> Pendiente</p>
+            <p><strong>Fecha de Creación:</strong> @DateTime.Now</p>
+            <p><strong>Descripción de la Solicitud:</strong> En esta solicitud se necesitan los productos antes de la fecha de 15 de agosto del 2024</p>
+            <p><strong>Cliente:</strong> Juan Pérez</p>
+        </div>
     </div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de Bocetos</h3>
+            <h3 class="mb-0">Bocetos Asociados</h3>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
             <table id="tabla-Bocetos" class="table table-hover">
@@ -19,6 +31,8 @@
                         <th style="text-align:left">Imagen del Boceto</th>
                         <th style="text-align:left">Producto</th>
                         <th style="text-align:left">Fecha de Generación</th>
+                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Cantidad</th>
                         <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
@@ -28,40 +42,49 @@
                     <tr>
                         <td style="text-align:left">11111</td>
                         <td style="text-align:left">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
                         </td>
                         <td style="text-align:left">Botella</td>
                         <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">Descripción del boceto 1</td>
+                        <td style="text-align:left">50</td>
                         <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">11112</td>
                         <td style="text-align:left">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
                         </td>
                         <td style="text-align:left">Botella</td>
                         <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">Descripción del boceto 2</td>
+                        <td style="text-align:left">30</td>
                         <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">11113</td>
                         <td style="text-align:left">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
                         </td>
                         <td style="text-align:left">Botella</td>
                         <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">Descripción del boceto 3</td>
+                        <td style="text-align:left">20</td>
                         <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
                         </td>
                     </tr>
                     @* } *@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="#" class="botones-secundarios">Generar una cotización con esta solicitud</a>
     </div>
 </div>
 
@@ -101,7 +124,5 @@
             var src = $(this).data('src');
             $('#modalImage').attr('src', src);
         });
-
-
     });
 </script>

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="~/page/css/vertical-layout-light/style.css">
     <link rel="shortcut icon" href="~/page/images/favicon.png" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="~/page/images/imagenbotella.jpeg">
+    <link href="~/css/hojaestilos.css" rel="stylesheet" />
 
 
 </head>
@@ -116,7 +118,7 @@
                         </a>
                         <div class="collapse" id="ordenescliente">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="#">Mis ordenes</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarOrdenesCliente", "Ordenes")">Mis ordenes</a></li>
                             </ul>
                         </div>
                     </li>
@@ -156,6 +158,18 @@
                         <a class="nav-link" href="@Url.Action("ConsultarInventario", "Inventario")">
                             <i class="icon-paper menu-icon"></i>
                             <span class="menu-title">Inventario</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ConsultarBocetosAdmin", "Boceto")">
+                            <i class="icon-paper menu-icon"></i>
+                            <span class="menu-title">Ver bocetos (administrador)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")">
+                            <i class="icon-paper menu-icon"></i>
+                            <span class="menu-title">Solic cotizaciones (administrador)</span>
                         </a>
                     </li>
                     
