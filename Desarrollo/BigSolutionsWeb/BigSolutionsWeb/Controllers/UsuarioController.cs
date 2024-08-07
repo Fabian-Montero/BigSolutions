@@ -7,6 +7,7 @@ namespace BigSolutionsWeb.Controllers
         public IActionResult Index()
         {
             return View();
+
         }
 
         public IActionResult InicioSesion()
@@ -14,6 +15,18 @@ namespace BigSolutionsWeb.Controllers
             return View();
         }
 
+        public IActionResult ConfiguraciondePerfil()
+        {
+            return View();
+        }
+        public IActionResult Recuperar()
+        {
+            return View();
+        }
+        public IActionResult RecuperarContrasenaCodigo()
+        {
+            return View();
+        }
         public IActionResult Registro()
         {
             return View();
@@ -29,7 +42,7 @@ namespace BigSolutionsWeb.Controllers
         }
         public IActionResult ErrorSQL_Usuarios()
         {
-        return View();
+            return View();
         }
         public IActionResult ActualizarGeneral()
         {
