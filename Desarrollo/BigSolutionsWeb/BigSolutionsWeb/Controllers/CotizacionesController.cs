@@ -13,7 +13,23 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
-
+        public IActionResult CotizacionesAdministrador()
+        {
+            return View();
+        }
+        public IActionResult CrearSolicitudCotizacionClienteConListaCliente()
+        {
+            return View();
+        }
+  
+        public IActionResult AgregarBocetoEditar()
+        {
+            return View();
+        }
+        public IActionResult EditarSolicitudCotizacionCliente()
+        {
+            return View();
+        }
         public IActionResult ConsultarSolicitudCotizacionCliente()
         {
             return View();

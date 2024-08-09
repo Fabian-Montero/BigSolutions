@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Crear Solicitud de Cotización";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Editar Solicitud de Cotización</h1>
+        <p>Selecciona los bocetos que deseas Eliminar o Editar una descripción para cada uno. También puedes agregar un nuevo producto</p>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Bocetos Generados</h3>
+        </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Solicitudes de cotización</h3>
+            <a href="@(Url.Action("AgregarBocetoEditar", "Cotizaciones"))" class="botones-secundarios">Agregar Bocetos</a>
+
+        </div>
+        <div class="card-body">
+            <table id="tabla-Bocetos" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Número de Boceto</th>
+                        <th style="text-align:left">Imagen del Boceto</th>
+                        <th style="text-align:left">Producto</th>
+                        <th style="text-align:left">Fecha de Generación</th>
+                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Cantidad</th>
+                        <th style="text-align:left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* @foreach (var boceto in Model)
+                    { *@
+                    <tr>
+                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">
+                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                        </td>
+                        <td style="text-align:left">Botella</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">
+                            <textarea class="form-control boceto-description" rows="2" placeholder="Descripción del boceto"></textarea>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="number" class="form-control" placeholder="Cantidad">
+                        </td>
+                        <td style="text-align:left">
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">11112</td>
+                        <td style="text-align:left">
+                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                        </td>
+                        <td style="text-align:left">Botella</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">
+                            <textarea class="form-control boceto-description" rows="2" placeholder="Descripción del boceto"></textarea>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="number" class="form-control" placeholder="Cantidad">
+                        </td>
+                        <td style="text-align:left">
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">11113</td>
+                        <td style="text-align:left">
+                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
+                        </td>
+                        <td style="text-align:left">Botella</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                        <td style="text-align:left">
+                            <textarea class="form-control boceto-description" rows="2" placeholder="Descripción del boceto"></textarea>
+                        </td>
+                        <td style="text-align:left">
+                            <input type="number" class="form-control" placeholder="Cantidad">
+                        </td>
+                        <td style="text-align:left">
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
+                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
+                        </td>
+                    </tr>
+                    @* } *@
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center mt-4">
+                <button type="button" class="botones" onclick="submitForm()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var table = new DataTable("#tabla-Bocetos", {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0, 2] }]
+        });
+
+        //Alerta de eliminación
+        $('.eliminar-producto').on('click', function (e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            Swal.fire({
+                title: '¿Está seguro que deseas eliminar esta factura?',
+                text: "No podrá revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#c1952c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarla',
+                customClass: {
+                    popup: 'my-swal-popup'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Eliminada',
+                        text: 'La factura ha sido eliminada',
+                        icon: 'success',
+                        confirmButtonColor: '#c1952c',
+                        customClass: {
+                            popup: 'my-swal-popup'
+                        }
+                    }).then(() => {
+                    });
+                }
+            });
+        });
+    });
+</script>
