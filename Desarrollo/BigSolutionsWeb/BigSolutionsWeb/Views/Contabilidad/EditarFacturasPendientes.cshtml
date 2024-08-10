@@ -1,144 +1,134 @@
 ﻿@{
-    ViewData["Title"] = "Agregar Factura Pendiente";
+    ViewData["Title"] = "Editar Factura Pendiente";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <link href="~/css/hojaestilos.css" rel="stylesheet" />
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12">
-            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                <div class="card-header text-center">
-                    <h3 class="font-weight-extra-bold my-4">Registrar Factura Pendiente</h3>
-                    <!-- Alertas-->
-                    <div id="successAlert" class="alert alert-success alert-custom" role="alert">
-                        Factura pendiente agregada exitosamente
-                    </div>
-                    <div id="warningAlert" class="alert alert-warning alert-custom" role="alert">
-                        Por favor, complete todos los campos antes de aceptar
-                    </div>
-                    <!-- Alertas-->
-                </div>
-                <div class="card-body">
-                    <br />
-                    <div class="pl-lg-4 pr-lg-4">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <div>
-                                        <h3>Cliente</h3>
-                                        <hr>
-                                    </div>
-                                    <table id="tabla-Cliente" class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th style="text-align:left">Seleccionar</th>
-                                                <th style="text-align:left">Identificación</th>
-                                                <th style="text-align:left">Nombre</th>
-                                                <th style="text-align:left">Correo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align:left">
-                                                    <input type="radio" name="selectBoceto" class="select-boceto">
-                                                </td>
-                                                <td style="text-align:left">456789015</td>
-                                                <td style="text-align:left">Juan Pérez Barquero</td>
-                                                <td style="text-align:left">juanperez4567@gmail.com</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:left">
-                                                    <input type="radio" name="selectBoceto" class="select-boceto">
-                                                </td>
-                                                <td style="text-align:left">456789016</td>
-                                                <td style="text-align:left">Juan Pérez Barquero</td>
-                                                <td style="text-align:left">juanperez4567@gmail.com</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:left">
-                                                    <input type="radio" name="selectBoceto" class="select-boceto">
-                                                </td>
-                                                <td style="text-align:left">456789017</td>
-                                                <td style="text-align:left">Juan Pérez Barquero</td>
-                                                <td style="text-align:left">juanperez4567@gmail.com</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Editar Factura de Pendiente</h1>
+        <p>Aquí puedes editar una factura de pendiente.</p>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="font-weight-extra-bold my-4">Formulario para registrar factura pendiente</h3>
+                        <!-- Alertas-->
+                        <div id="successAlert" class="alert alert-success alert-custom" role="alert">
+                            Factura pendiente agregada exitosamente
                         </div>
-                        <br />
-                        <br />
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <div>
-                                        <h3>Número de Orden</h3>
-                                        <hr>
-                                    </div>
-                                    <table id="tabla-Orden" class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th style="text-align:left">Seleccionar</th>
-                                                <th style="text-align:left">Número de Orden</th>
-                                                <th style="text-align:left">Descripción de la Orden</th>
-                                                <th style="text-align:left">Orden de Compra</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td style="text-align:left">
-                                                    <input type="radio" name="selectBoceto" class="select-boceto">
-                                                </td>
-                                                <td style="text-align:left">001</td>
-                                                <td style="text-align:left">Descripción de la orden</td>
-                                                <td style="text-align:left">Orden de compra (link)</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:left">
-                                                    <input type="radio" name="selectBoceto" class="select-boceto">
-                                                </td>
-                                                <td style="text-align:left">002</td>
-                                                <td style="text-align:left">Descripción de la orden</td>
-                                                <td style="text-align:left">Orden de compra (link)</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:left">
-                                                    <input type="radio" name="selectBoceto" class="select-boceto">
-                                                </td>
-                                                <td style="text-align:left">003</td>
-                                                <td style="text-align:left">Descripción de la orden</td>
-                                                <td style="text-align:left">Orden de compra (link)</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <div id="warningAlert" class="alert alert-warning alert-custom" role="alert">
+                            Por favor, complete todos los campos antes de aceptar
                         </div>
+                        <!-- Alertas-->
+                    </div>
+                    <div class="card-body">
                         <br />
-                        <br />
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <div>
-                                        <h3>Monto</h3>
-                                        <hr>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div>
+                                            <h3>Seleccione una orden</h3>
+                                            <hr>
+                                        </div>
+                                        <table id="tabla-Orden" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:left">Seleccionar</th>
+                                                    <th style="text-align:left">Número de Orden</th>
+                                                    <th style="text-align:left">Cliente</th>
+                                                    <th style="text-align:left">Descripción de la Orden</th>
+                                                    <th style="text-align:left">Orden de Compra</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="text-align:left">
+                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="001">
+                                                    </td>
+                                                    <td style="text-align:left">001</td>
+                                                    <td style="text-align:left">Juan Pérez Barquero</td>
+                                                    <td style="text-align:left">Descripción de la orden</td>
+                                                    <td style="text-align:left">
+                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left">
+                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="002">
+                                                    </td>
+                                                    <td style="text-align:left">002</td>
+                                                    <td style="text-align:left">Juan Pérez Barquero</td>
+                                                    <td style="text-align:left">Descripción de la orden</td>
+                                                    <td style="text-align:left">
+                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left">
+                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="003">
+                                                    </td>
+                                                    <td style="text-align:left">003</td>
+                                                    <td style="text-align:left">Juan Pérez Barquero</td>
+                                                    <td style="text-align:left">Descripción de la orden</td>
+                                                    <td style="text-align:left">
+                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <input type="number" id="Monto" name="Monto" class="form-control form-control-user" placeholder="₡ 20 000" required>
                                 </div>
                             </div>
+                            <br />
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div>
+                                            <h3>Precio</h3>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="subtotal">Subtotal</label>
+                                        <input type="number" id="subtotal" name="subtotal" class="form-control form-control-user" placeholder="₡ 20 000" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="impuestoIva">Impuesto IVA</label>
+                                        <input type="number" id="impuestoIva" name="impuestoIva" class="form-control form-control-user" placeholder="₡ 20 000" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="total">Total</label>
+                                        <input type="number" id="total" name="total" class="form-control form-control-user" placeholder="₡ 20 000" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            <button type="button" class="botones" onclick="submitForm()">Aceptar</button>
                         </div>
                         <br />
                     </div>
-                    <div class="d-flex justify-content-center mt-4">
-                        <button type="button" class="botones" onclick="submitForm()">Aceptar</button>
+                    <div class="card-footer text-center py-3">
+                        <a href="@Url.Action("ConsultarFacturasPendientes", "Contabilidad")" class="inventario-link">Volver a facturas pendientes</a>
                     </div>
-                    <br />
-                </div>
-                <div class="card-footer text-center py-3">
-                    <a href="@Url.Action("ConsultarFacturasPendientes", "Contabilidad")" class="inventario-link">Volver a facturas pendientes</a>
                 </div>
             </div>
         </div>
@@ -164,16 +154,19 @@
     });
 
     function submitForm() {
-        var nombre = document.getElementById('Nombre').value.trim();
-        var NumeroOrden = document.getElementById('NumeroOrden').value.trim();
-        var Monto = document.getElementById('Monto').value.trim();
+        var seleccionOrden = document.querySelector('input[name="selectBoceto"]:checked');
+        var montoTotal = document.getElementById('montoTotal').value.trim();
+        var subtotal = document.getElementById('subtotal').value.trim();
+        var impuestoIva = document.getElementById('impuestoIva').value.trim();
+        var total = document.getElementById('total').value.trim();
 
         var warningAlert = document.getElementById('warningAlert');
         var successAlert = document.getElementById('successAlert');
+
         warningAlert.classList.remove('show');
         successAlert.classList.remove('show');
 
-        if (nombre === '' || NumeroOrden === '' || !Monto) {
+        if (!seleccionOrden || montoTotal === '' || subtotal === '' || impuestoIva === '' || total === '') {
             warningAlert.classList.add('show');
             return;
         }
