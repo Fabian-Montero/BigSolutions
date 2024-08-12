@@ -5,8 +5,8 @@
 
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
-        <h1>Crear Solicitud de Cotización</h1>
-        <p>Selecciona los bocetos que deseas cotizar y agrega una descripción para cada uno. También puedes agregar una descripción general para la solicitud.</p>
+        <h1>Crear Cotización</h1>
+        <p>Selecciona los bocetos que deseas cotizar y agrega una descripción para cada uno. También puedes agregar una descripción general para la Cotización.</p>
     </div>
 
     <div class="card">
@@ -98,17 +98,16 @@
 
     <div class="card mt-4">
         <div class="card-header">
-            <h3 class="mb-0">Descripción General de la Solicitud</h3>
+            <h3 class="mb-0">Descripción General de la Cotización</h3>
         </div>
         <div class="card-body">
             <div class="form-group">
                 <label for="generalDescription">Descripción General</label>
-                <textarea id="generalDescription" class="form-control" rows="4" placeholder="Descripción general de la solicitud"></textarea>
+                <textarea id="generalDescription" class="form-control" rows="4" placeholder="Descripción general de la Cotización"></textarea>
             </div>
-            <button type="submit" class="botones-secundarios">Enviar Solicitud de Cotización</button>
+            <button type="submit" class="botones-secundarios">Enviar Cotización</button>
         </div>
     </div>
-
     <div class="card mt-4">
         <div class="card-header">
             <h3 class="mb-0">Lista de Clientes</h3>
@@ -118,73 +117,57 @@
             <table id="tabla-Usuarios" class="table table-hover">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" onclick="toggleSelectAll(this)" /></th>
+                        <th></th>
                         <th>Identificación</th>
                         <th>Nombre</th>
                         <th>Correo</th>
                     </tr>
                 </thead>
                 <tbody>
-                   
                     <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
+                        <td><input type="radio" name="selectCliente" /></td>
                         <td>118560019</td>
                         <td>Kevin</td>
                         <td>fabianja0477@gmail.com</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
+                        <td><input type="radio" name="selectCliente" /></td>
                         <td>118560019</td>
                         <td>Fabián</td>
                         <td>fabianja0477@gmail.com</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
+                        <td><input type="radio" name="selectCliente" /></td>
                         <td>118560019</td>
                         <td>Fabián</td>
                         <td>fabianja0477@gmail.com</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
+                        <td><input type="radio" name="selectCliente" /></td>
                         <td>118560019</td>
                         <td>Alonso</td>
                         <td>fabianja0477@gmail.com</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
+                        <td><input type="radio" name="selectCliente" /></td>
                         <td>118560019</td>
                         <td>Wenndy</td>
                         <td>fabianja0477@gmail.com</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
+                        <td><input type="radio" name="selectCliente" /></td>
                         <td>118560019</td>
                         <td>Melissa</td>
                         <td>fabianja0477@gmail.com</td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
-                        <td>118560019</td>
-                        <td>Rodrigo</td>
-                        <td>fabianja0477@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
-                        <td>118560019</td>
-                        <td>Dilan</td>
-                        <td>fabianja0477@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="select-checkbox" /></td>
-                        <td>118560019</td>
-                        <td>Josue</td>
-                        <td>fabianja0477@gmail.com</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")" class="inventario-link">Mis Cotizaciones</a>
+        </div>
     </div>
-</div>
 
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

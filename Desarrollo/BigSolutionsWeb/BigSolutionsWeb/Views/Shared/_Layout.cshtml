@@ -14,9 +14,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="~/page/images/imagenbotella.jpeg">
     <link href="~/css/hojaestilos.css" rel="stylesheet" />
-
-
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
 <body>
     <div class="container-scroller">
 
@@ -38,12 +37,12 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                             <a class="dropdown-item" href="@Url.Action("ConfiguraciondePerfil", "Usuario")">
-                                <i class="ti-settings text-primary"></i>
+                                <i class="fa-solid fa-person"></i>
                                 Perfil
                             </a>
-                            <a class="dropdown-item">
-                                <i class="ti-power-off text-primary"></i>
-                                Salir
+                            <a class="dropdown-item" href="@Url.Action("InicioSesion", "Usuario")">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                Cerrar Sesion
                             </a>
                         </div>
                     </li>

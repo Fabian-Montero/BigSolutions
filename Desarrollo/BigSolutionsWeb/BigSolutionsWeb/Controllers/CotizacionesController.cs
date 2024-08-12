@@ -12,12 +12,15 @@ namespace BigSolutionsWeb.Controllers
         public IActionResult ConsultarSolicitudCotizacionesCliente()
         {
             return View();
+        }public IActionResult ConsultarCotizaciones()
+        {
+            return View();
         }
         public IActionResult CotizacionesAdministrador()
         {
             return View();
         }
-        public IActionResult CrearSolicitudCotizacionClienteConListaCliente()
+        public IActionResult CrearCotizacionClienteConListaCliente()
         {
             return View();
         }
