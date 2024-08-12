@@ -3,6 +3,9 @@
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
 
+<link href="~/css/hojaestilos.css" rel="stylesheet" />
+
+
 <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth px-0">
@@ -13,9 +16,6 @@
                             <img src="~/page/images/bigsolutions-logo.jpg" alt="logo">
                         </div>
                         <h4>Datos necesarios para Recuperar la Contraseña :</h4>
-
-                    
-
                         <form id="RecuperarCOntrasena-form" class="pt-3" novalidate>
                            
                             <div class="form-group">
@@ -24,9 +24,14 @@
                             <div class="text-center mt-4 font-weight-light">
                                 <a href="@Url.Action("RecuperarContrasenaCodigo", "Usuario")" class="btn btn-dark">Enviar Codigo</a>
                             </div>
+                           
                         </form>
                     </div>
+                    <div class="card-footer text-center py-3">
+                        <a href="@Url.Action("InicioSesion", "Usuario")" class="inventario-link">Volver al Inicio de Sesion</a>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
