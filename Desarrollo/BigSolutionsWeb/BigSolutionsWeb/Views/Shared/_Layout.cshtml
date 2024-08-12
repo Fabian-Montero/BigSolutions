@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>BigSolution</title>
+    <title>BigSolutions</title>
     <link rel="stylesheet" href="~/page/vendors/feather/feather.css">
     <link rel="stylesheet" href="~/page/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="~/page/vendors/css/vendor.bundle.base.css">
@@ -132,6 +132,20 @@
                             <i class="icon-paper menu-icon"></i>
                             <span class="menu-title">Solic cotizaciones (administrador)</span>
                         </a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" data-toggle="collapse" href="#ordenes-admin" aria-expanded="false" aria-controls="ordenes-admin">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Órdenes (administrador)</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ordenes-admin">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="@(Url.Action("ConsultarOrdenesClientes", "Ordenes" ))">Órdenes</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@(Url.Action("ConsultarOrdenesPendientesCliente", "Ordenes"))">Pendientes</a></li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
 

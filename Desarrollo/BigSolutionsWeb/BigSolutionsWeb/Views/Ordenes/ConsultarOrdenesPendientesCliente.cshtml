@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Órdenes Pendientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Órdenes Pendientes</h1>
+        <p>Aquí puedes ver todas las órdenes pendientes y gestionar su estado.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Listado de Órdenes Pendientes</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-OrdenesPendientes" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Número de Orden</th>
+                        <th style="text-align:left">Descripción de la Orden</th>
+                        <th style="text-align:left">Cliente</th>
+                        <th style="text-align:left">Material</th>
+                        <th style="text-align:left">Estado Interno</th>
+                        <th style="text-align:left">Fecha de Entrega</th>
+                        <th style="text-align:left">Descripción Interna</th>
+                        <th style="text-align:left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">Descripción breve de la orden 1</td>
+                        <td style="text-align:left">Juan Pérez</td>
+                        <td style="text-align:left">Camisas, botellas</td>
+                        <td style="text-align:left">En Proceso</td>
+                        <td style="text-align:left">@DateTime.Now.AddDays(15).ToString("dd/MM/yyyy")</td>
+                        <td style="text-align:left">Falta ir a comprar los materiales.</td>
+                        <td style="text-align:left">
+                            <a href="@Url.Action("ConsultarOrdenClienteAdmin", "Ordenes", new { id = 11111 })" class="botones">Ver más detalles</a>
+                            <a href="@Url.Action("EditarOrdenPendienteCliente", "Ordenes", new { id = 11111 })" class="botones">Editar</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">11112</td>
+                        <td style="text-align:left">Descripción breve de la orden 2</td>
+                        <td style="text-align:left">María López</td>
+                        <td style="text-align:left">Tazas, gorras</td>
+                        <td style="text-align:left">Pendiente</td>
+                        <td style="text-align:left">@DateTime.Now.AddDays(20).ToString("dd/MM/yyyy")</td>
+                        <td style="text-align:left">Esperando confirmación del cliente.</td>
+                        <td style="text-align:left">
+                            <a href="@Url.Action("ConsultarOrdenClienteAdmin", "Ordenes", new { id = 11112 })" class="botones">Ver más detalles</a>
+                            <a href="@Url.Action("EditarOrdenPendienteCliente", "Ordenes", new { id = 11112 })" class="botones">Editar</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tabla-OrdenesPendientes').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+    });
+</script>
