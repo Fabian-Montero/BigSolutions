@@ -7,14 +7,11 @@ namespace BigSolutionsWeb.Controllers
         public IActionResult Index()
         {
             return View();
-
         }
-
         public IActionResult InicioSesion()
         {
             return View();
         }
-
         public IActionResult ConfiguraciondePerfil()
         {
             return View();
@@ -31,38 +28,25 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
-
         public IActionResult ConsultarUsuariosPrueba()
         {
             return View();
         }
-        public IActionResult SinUsuariosRegistrados()
+        public IActionResult EditarUsuario()
         {
             return View();
         }
-        public IActionResult ErrorSQL_Usuarios()
+        public IActionResult ConsultarClientes()
         {
             return View();
         }
-        public IActionResult ActualizarGeneral()
+        public IActionResult EditarClientes()
         {
             return View();
         }
-        public IActionResult ActualizacionExitosa()
+        public IActionResult OrdenesPorCliente()
         {
             return View();
-        }
-        public IActionResult Actualizacion_Error_InfoIncompleta()
-        {
-            return View();
-        }
-        public IActionResult Actualizacion_ERROR_DatosExistentes()
-        {
-            return View();
-        }
-        public IActionResult EliminacionExitosa()
-        {
-            return View();
-        }
+        }       
     }
 }
