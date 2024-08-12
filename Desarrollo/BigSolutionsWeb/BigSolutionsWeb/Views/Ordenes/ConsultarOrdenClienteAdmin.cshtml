@@ -1,0 +1,223 @@
+﻿@{
+    ViewData["Title"] = "Detalles de la Orden";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Detalles de la Orden</h1>
+        <p>Aquí puedes ver los detalles completos de esta orden.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Información de la Orden</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Número de Orden:</strong> 111</p>
+                    <p><strong>Descripción de la Orden:</strong> Descripción detallada de la orden.</p>
+                    <p><strong>Estado de la Orden:</strong> Pendiente</p>
+                    <p><strong>Cliente: </strong> Juan Pérez</p>
+                    <p><strong>Método de Pago:</strong> Tarjeta de Crédito</p>
+                    <p><strong>Fecha de Creación:</strong> @DateTime.Now</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Archivos de la Orden</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Orden de Compra:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
+                    <p><strong>Cotización:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
+                    <p><strong>Factura Venta:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
+                    <p><strong>Boleta de entrega:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
+                    <p><strong>Solicitud de Cotización:</strong> <a href="@(Url.Action("ConsultarSolicitudCotizacionCliente", "Cotizaciones", new {id = 1111}))">Ver Solicitud</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Facturas Pendientes</h3>
+                </div>
+                <div class="card-body">
+                    <p>Esta orden cuenta con una cuenta por pagar.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Comprobantes de Pago</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Comprobantes" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Archivo</th>
+                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Fecha Añadida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">
+                            <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a>
+                        </td>
+                        <td style="text-align:left">Pago parcial de la orden</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">
+                            <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a>
+                        </td>
+                        <td style="text-align:left">Pago final de la orden</td>
+                        <td style="text-align:left">@DateTime.Now</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Productos de la Orden</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Productos" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Imagen</th>
+                        <th style="text-align:left">Nombre del Producto</th>
+                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">
+                            <img src="~/page/images/imagenbotella.jpeg" class="product-img" style="width: 80px; height: auto; cursor: pointer;" alt="Producto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
+                        </td>
+                        <td style="text-align:left">Producto 1</td>
+                        <td style="text-align:left">Descripción del Producto 1</td>
+                        <td style="text-align:left">
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">
+                            <img src="~/page/images/imagenbotella.jpeg" class="product-img" style="width: 80px; height: auto; cursor: pointer;" alt="Producto 2" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
+                        </td>
+                        <td style="text-align:left">Producto 2</td>
+                        <td style="text-align:left">Descripción del Producto 2</td>
+                        <td style="text-align:left">
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Bocetos de la Orden</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Bocetos" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Imagen del Boceto</th>
+                        <th style="text-align:left">Fecha de Creación</th>
+                        <th style="text-align:left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">
+                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
+                        </td>
+                        <td style="text-align:left">@DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
+                        <td style="text-align:left">
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">
+                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
+                        </td>
+                        <td style="text-align:left">@DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
+                        <td style="text-align:left">
+                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Control Interno</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Material:</strong> Camisas, botellas</p>
+            <p><strong>Fecha de Entrega:</strong> @DateTime.Now.AddDays(30).ToString("dd/MM/yyyy")</p>
+            <p><strong>Estado Interno:</strong> En Proceso</p>
+            <p><strong>Descripción Interna:</strong> Falta ir a comprar los materiales.</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Imagen Ampliada</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" class="img-fluid" alt="Imagen Ampliada">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#tabla-Comprobantes, #tabla-Productos, #tabla-Bocetos').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+
+        $('#tabla-Bocetos').on('click', '.boceto-img', function () {
+            var src = $(this).data('src');
+            $('#modalImage').attr('src', src);
+        });
+
+        $('#tabla-Bocetos').on('click', '.view-image', function () {
+            var src = $(this).data('src');
+            $('#modalImage').attr('src', src);
+        });
+        $('#tabla-Productos').on('click', '.view-image', function () {
+            var src = $(this).data('src');
+            $('#modalImage').attr('src', src);
+        });
+        $('#tabla-Productos').on('click', '.product-img', function () {
+            var src = $(this).data('src');
+            $('#modalImage').attr('src', src);
+        });
+    });
+</script>
