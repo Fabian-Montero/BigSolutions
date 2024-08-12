@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Detalles del Correo Electrónico";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Detalles del Correo Electrónico</h1>
+        <p>Aquí puedes ver los detalles completos del correo seleccionado.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Información del Correo</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Asunto del Correo:</strong> Bienvenida al sistema</p>
+            <p><strong>Descripción:</strong> Este correo se envía a los nuevos usuarios para darles la bienvenida y proporcionarles información importante sobre el uso del sistema.</p>
+            <p><strong>Correo del Remitente:</strong> info@@bigsolutionscr.com</p>
+            <p><strong>Fecha de Creación:</strong> @DateTime.Now</p>
+            <p><strong>Plantilla del Correo:</strong> <a href="@Url.Action("VistaPreviaCorreo", "Marketing")" target="_blank">Ver Correo</a></p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Grupos de Usuarios a los que se envió el correo</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-GruposUsuarios" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Número del Grupo</th>
+                        <th style="text-align:left">Nombre del Grupo</th>
+                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Fecha de Creación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">1</td>
+                        <td style="text-align:left">Administradores</td>
+                        <td style="text-align:left">Grupo de usuarios con acceso completo al sistema.</td>
+                        <td style="text-align:left">@DateTime.Now.AddMonths(-3).ToString("dd/MM/yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">2</td>
+                        <td style="text-align:left">Clientes</td>
+                        <td style="text-align:left">Usuarios que tienen acceso a sus propias órdenes y cotizaciones.</td>
+                        <td style="text-align:left">@DateTime.Now.AddMonths(-6).ToString("dd/MM/yyyy")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarCorreos", "Marketing")" class="inventario-link">Volver a los correos electrónicos</a>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tabla-GruposUsuarios').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+    });
+</script>

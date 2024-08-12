@@ -25,10 +25,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @* @foreach (var solicitud in Model)
-                    { *@
                     <tr>
-                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">111</td>
                         <td style="text-align:left">
                             En esta orden se necesitan los productos antes de la fecha de 15 de agosto del 2024
                         </td>
@@ -37,11 +35,11 @@
                         <td style="text-align:left">Cliente 1</td>
                         <td style="text-align:left">
                             <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { id = 11111 }))" class="botones">Ver detalles</a>
-                            <a href="#" class="botones">Generar una orden</a>
+                            <a href="@Url.Action("CrearOrdenClienteAdmin", "Ordenes")" class="botones">Generar una orden</a>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align:left">11112</td>
+                        <td style="text-align:left">222</td>
                         <td style="text-align:left">
                             En esta orden se necesitan los productos antes de la fecha de 20 de septiembre del 2024
                         </td>
@@ -50,11 +48,11 @@
                         <td style="text-align:left">Cliente 2</td>
                         <td style="text-align:left">
                             <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { id = 11112 }))" class="botones">Ver detalles</a>
-                            <a href="#" class="botones">Generar una orden</a>
+                            <a href="@Url.Action("CrearOrdenClienteAdmin", "Ordenes")" class="botones">Generar una orden</a>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align:left">11113</td>
+                        <td style="text-align:left">333</td>
                         <td style="text-align:left">
                             En esta orden se necesitan los productos antes de la fecha de 10 de octubre del 2024
                         </td>
@@ -63,7 +61,7 @@
                         <td style="text-align:left">Cliente 3</td>
                         <td style="text-align:left">
                             <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { id = 11113 }))" class="botones">Ver detalles</a>
-                            <a href="#" class="botones">Generar una orden</a>
+                            <a href="@Url.Action("CrearOrdenClienteAdmin", "Ordenes")" class="botones">Generar una orden</a>
                         </td>
                     </tr>
                     @* } *@

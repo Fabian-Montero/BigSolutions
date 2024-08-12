@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Consultar Correos Electrónicos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Consultar Correos Electrónicos</h1>
+        <p>Aquí puedes ver todos los correos electrónicos que se han configurado.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Lista de Correos Electrónicos</h3>
+            <a href="@(Url.Action("AgregarCorreo", "Marketing"))" class="botones-secundarios">Agregar Correo</a>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Correos" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Asunto del Correo</th>
+                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Correo del remitente</th>
+                        <th style="text-align:left">Plantilla de Correo</th>
+                        <th style="text-align:left">Fecha Creación</th>
+                        <th style="text-align:left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">Bienvenida al sistema</td>
+                        <td style="text-align:left">Correo de bienvenida para nuevos usuarios</td>
+                        <td style="text-align:left">info@@bigsolutionscr.com</td>
+                        <td style="text-align:left"><a href="@(Url.Action("VistaPreviaCorreo", "Marketing", new { id = 1 }))" target="_blank">Ver Plantilla</a></td>
+                        <td style="text-align:left">
+                            @DateTime.Now
+                        </td>
+                        <td style="text-align:left">
+                            <a href="@(Url.Action("ConsultarCorreo", "Marketing", new { id = 1 }))" class="botones">Ver Detalles</a>
+                            <button type="button" class="eliminar-correo botones">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">Recordatorio de pago</td>
+                        <td style="text-align:left">Correo para recordar el pago de una factura pendiente</td>
+                        <td style="text-align:left">info@@bigsolutionscr.com</td>
+                        <td style="text-align:left"><a href="@(Url.Action("VistaPreviaCorreo", "Marketing", new { id = 1 }))" target="_blank">Ver Plantilla</a></td>
+                        <td style="text-align:left">
+                            @DateTime.Now
+                        </td>
+                        <td style="text-align:left">
+                            <a href="@(Url.Action("ConsultarCorreo", "Marketing", new { id = 2 }))" class="botones">Ver Detalles</a>
+                            <button type="button" class="eliminar-correo botones">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tabla-Correos').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+
+        //Alerta de eliminación
+        $('.eliminar-correo').on('click', function (e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            Swal.fire({
+                title: '¿Está seguro que deseas eliminar este correo electrónico?',
+                text: "No podrá revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#c1952c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                customClass: {
+                    popup: 'my-swal-popup'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Eliminado',
+                        text: 'El correo electrónico ha sido eliminado',
+                        icon: 'success',
+                        confirmButtonColor: '#c1952c',
+                        customClass: {
+                            popup: 'my-swal-popup'
+                        }
+                    }).then(() => {
+                    });
+                }
+            });
+        });
+
+
+
+    });
+</script>

@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Agregar Correo Electrónico";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Agregar Correo Electrónico</h1>
+        <p>Completa los campos para agregar un nuevo correo electrónico.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Formulario de Creación de Correo</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="correoRemitente">Correo del Remitente</label>
+                            <input type="email" id="correoRemitente" name="correoRemitente" class="form-control" placeholder="Correo del remitente" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="asuntoCorreo">Asunto del Correo</label>
+                            <input type="text" id="asuntoCorreo" name="asuntoCorreo" class="form-control" placeholder="Asunto del correo" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="descripcionCorreo">Descripción del Correo</label>
+                            <textarea id="descripcionCorreo" name="descripcionCorreo" class="form-control" rows="3" placeholder="Descripción del correo" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="plantillaCorreo">Plantilla del Correo (archivo .html)</label>
+                    <input type="file" id="plantillaCorreo" name="plantillaCorreo" class="form-control-file" accept=".html" required>
+                    @* <button type="button" id="verPlantilla" class="botones mt-2" style="display: none;">Ver Vista Previa</button> *@
+                    <a class="botones mt-2" style="display: none;" id="verPlantilla"href="@(Url.Action("VistaPreviaCorreo", "Marketing", new { id = 1 }))" target="_blank">Ver Vista Previa</a>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Seleccionar Grupos de Usuarios</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="tabla-GruposUsuarios" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left">Seleccionar</th>
+                                    <th style="text-align:left">Número del Grupo</th>
+                                    <th style="text-align:left">Nombre del Grupo</th>
+                                    <th style="text-align:left">Descripción</th>
+                                    <th style="text-align:left">Fecha de Creación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="checkbox" name="seleccionarGrupo" value="1">
+                                    </td>
+                                    <td style="text-align:left">1</td>
+                                    <td style="text-align:left">Administradores</td>
+                                    <td style="text-align:left">Grupo de usuarios con acceso completo al sistema.</td>
+                                    <td style="text-align:left">@DateTime.Now.AddMonths(-3).ToString("dd/MM/yyyy")</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="checkbox" name="seleccionarGrupo" value="2">
+                                    </td>
+                                    <td style="text-align:left">2</td>
+                                    <td style="text-align:left">Clientes</td>
+                                    <td style="text-align:left">Usuarios que tienen acceso a sus propias órdenes y cotizaciones.</td>
+                                    <td style="text-align:left">@DateTime.Now.AddMonths(-6).ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <button type="submit" class="botones-secundarios">Enviar Correo</button>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarCorreos", "Marketing")" class="inventario-link">Volver a los correos electrónicos</a>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tabla-GruposUsuarios').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+
+        $('#plantillaCorreo').on('change', function () {
+            if ($(this).val()) {
+                $('#verPlantilla').show();
+            } else {
+                $('#verPlantilla').hide();
+            }
+        });
+
+        
+    });
+</script>

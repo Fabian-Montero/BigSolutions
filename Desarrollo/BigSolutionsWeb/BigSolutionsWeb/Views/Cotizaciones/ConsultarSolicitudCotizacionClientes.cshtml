@@ -37,8 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @* @foreach (var boceto in Model)
-                    { *@
+                    
                     <tr>
                         <td style="text-align:left">11111</td>
                         <td style="text-align:left">
@@ -78,13 +77,15 @@
                             <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
                         </td>
                     </tr>
-                    @* } *@
                 </tbody>
             </table>
         </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")" class="inventario-link">Volver a las solicitudes de cotización</a>
+        </div>
     </div>
-    <div class="text-center mt-4">
-        <a href="#" class="botones-secundarios">Generar una cotización con esta solicitud</a>
+    <div class=" mt-4">
+        <a href="@Url.Action("CrearOrdenClienteAdmin", "Ordenes")" class="botones-secundarios">Generar una cotización con esta solicitud</a>
     </div>
 </div>
 
