@@ -14,14 +14,10 @@
     </div>
     <br />
     <br />
-    <div>
-        <a class="botones" href="@Url.Action("AgregarFacturasPendientes", "Contabilidad")"> + Agregar</a>
-        <br />
-        <br />
-    </div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de facturas</h3>
+            <h3 class="mb-0">Lista de facturas pendientes</h3>
+            <a class="botones-secundarios" href="@Url.Action("AgregarFacturasPendientes", "Contabilidad")"> + Agregar</a>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
             <table id="tabla-Inventario" class="table table-hover">
@@ -29,8 +25,11 @@
                     <tr>
                         <th style="text-align:left">Número de Orden</th>
                         <th style="text-align:left">Cliente</th>
-                        <th style="text-align:left">Monto</th>
-                        <th style="text-align:left">Acción</th>
+                        <th style="text-align:left">Subtotal</th>
+                        <th style="text-align:left">Impuesto IVA</th>
+                        <th style="text-align:left">Total</th>
+                        <th style="text-align:left">Fecha</th>
+                        <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +37,9 @@
                         <td>004</td>
                         <td>Juan Pérez Barquero</td>
                         <td>₡ 20 000</td>
+                        <td>₡ 20 000</td>
+                        <td>₡ 20 000</td>
+                        <td style="text-align:left">@DateTime.Now</td>
                         <td style="text-align:center">
                             <a class="botones" href="@Url.Action("EditarFacturasPendientes", "Contabilidad")">Editar</a>
                             <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>

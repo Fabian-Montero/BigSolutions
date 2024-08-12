@@ -14,14 +14,10 @@
     </div>
     <br />
     <br />
-    <div>
-        <a class="botones" href="@Url.Action("AgregarComprobantesDePago", "Contabilidad")"> + Agregar</a>
-        <br />
-        <br />
-    </div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de comprobantes</h3>
+            <h3 class="mb-0">Lista de comprobantes de pago</h3>
+            <a class="botones-secundarios" href="@Url.Action("AgregarComprobantesDePago", "Contabilidad")"> + Agregar</a>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
             <table id="tabla-Inventario" class="table table-hover">
@@ -29,6 +25,7 @@
                     <tr>
                         <th style="text-align:left">Número de Orden</th>
                         <th style="text-align:left">Cliente</th>
+                        <th style="text-align:left">Descripción</th>
                         <th style="text-align:left">Comprobantes</th>
                         <th style="text-align:left">Acción</th>
                     </tr>
@@ -37,6 +34,7 @@
                     <tr>
                         <td>005</td>
                         <td>Juan Pérez Barquero</td>
+                        <td>Descripción 1</td>
                         <td style="text-align:left">
                             <a class="botones" href="@Url.Action("ComprobantesDePago", "Contabilidad")">Ver Comprobantes</a>
                         </td>

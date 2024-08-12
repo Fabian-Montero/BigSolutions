@@ -23,5 +23,44 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
+
+        public IActionResult EditarOrdenCliente()
+        {
+            return View();
+        }
+
+
+        //Ordenes admin
+        public IActionResult ConsultarOrdenesClientes()
+        {
+            return View();
+        }
+        public IActionResult ConsultarOrdenesPendientesClientes()
+        {
+            return View();
+        }
+
+        public IActionResult ConsultarOrdenClienteAdmin()
+        {
+            return View();
+        }
+
+        public IActionResult CrearOrdenClienteAdmin()
+        {
+            return View();
+        }
+
+        public IActionResult EditarOrdenClienteAdmin()
+        {
+            return View();
+        }
+        public IActionResult ConsultarOrdenesPendientesCliente()
+        {
+            return View();
+        }
+        public IActionResult EditarOrdenPendienteCliente()
+        {
+            return View();
+        }
     }
 }

@@ -17,25 +17,27 @@
 </head>
 <body>
     <div class="text-center mb-4">
-        <h1>Usuarios</h1>
-        <p>Aquí puedes ver todos los usuarios actualmente registrados.</p>
+        <h1>Clientes</h1>
+        <p>Aquí puedes ver todos los clientes que hay registrados actualmente.</p>
     </div>
     <div class="card-header">
-        <h3>Lista de usuarios</h3>
+        <h3>Lista de clientes</h3>
     </div>
     <div class="card" style="padding-left: 15px; padding-right: 15px;">
         <table id="tabla-Usuarios" class="table table-hover">
             <thead>
-                <tr>
+                <tr style="text-align: center">
                     <th>Identificación</th>
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Rol</th>
                     <th>Estado</th>
                     <th>Acciones</th>
+                    <th>Ordenes</th>
                 </tr>
             </thead>
             <tbody>
+
                 <tr>
                     <td>118560019</td>
                     <td>Fabián</td>
@@ -44,26 +46,15 @@
                     <td>Activo</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarUsuario" class="botones">Actualizar</a>
+                            <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
                             <div style="margin-left:5px">
                                 <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
                             </div>
                         </div>
                     </td>
-                </tr>
-                <!-- Repite las filas según sea necesario -->
-                <tr>
-                    <td>245600194</td>
-                    <td>Evelyn</td>
-                    <td>Evelyn0477@gmail.com</td>
-                    <td>Colaborador</td>
-                    <td>Activo</td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarUsuario" class="botones">Actualizar</a>
-                            <div style="margin-left:5px">
-                                <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                            </div>
+                        <div style="margin-left:5px">
+                            <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
                         </div>
                     </td>
                 </tr>
@@ -75,40 +66,15 @@
                     <td>Activo</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarUsuario" class="botones">Actualizar</a>
+                            <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
                             <div style="margin-left:5px">
                                 <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
                             </div>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td>579970132</td>
-                    <td>Sara</td>
-                    <td>SaraMena0477@gmail.com</td>
-                    <td>Administrador</td>
-                    <td>Activo</td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarUsuario" class="botones">Actualizar</a>
-                            <div style="margin-left:5px">
-                                <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>656770132</td>
-                    <td>Maria</td>
-                    <td>MariaA0477@gmail.com</td>
-                    <td>Administrador</td>
-                    <td>Activo</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarUsuario" class="botones">Actualizar</a>
-                            <div style="margin-left:5px">
-                                <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                            </div>
+                        <div style="margin-left:5px">
+                            <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
                         </div>
                     </td>
                 </tr>
@@ -120,18 +86,22 @@
                     <td>Activo</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarUsuario" class="botones">Actualizar</a>
+                            <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
                             <div style="margin-left:5px">
                                 <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
                             </div>
                         </div>
                     </td>
+                    <td>
+                        <div style="margin-left:5px">
+                            <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
+                        </div>
+                    </td>
                 </tr>
-
             </tbody>
         </table>
     </div>
-</body>
+   
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -151,7 +121,7 @@
         function confirmarBorrado(event) {
             event.preventDefault();
             Swal.fire({
-                title: '¿Está seguro que deseas eliminar este usuario?',
+                title: '¿Está seguro que deseas eliminar este cliente?',
                 text: "No podrá revertir esto",
                 icon: 'warning',
                 showCancelButton: true,
@@ -165,7 +135,7 @@
                 if (result.isConfirmed) {
                     Swal.fire({
                         title: 'Eliminado',
-                        text: 'El usuario ha sido eliminado',
+                        text: 'El cliente ha sido eliminado',
                         icon: 'success',
                         confirmButtonColor: '#c1952c',
                         customClass: {
@@ -176,3 +146,4 @@
             });
         }
     </script>
+</body>
