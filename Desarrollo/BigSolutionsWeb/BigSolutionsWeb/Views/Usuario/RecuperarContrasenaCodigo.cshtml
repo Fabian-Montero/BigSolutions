@@ -2,6 +2,7 @@
     ViewData["Title"] = "Registro";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
+<link href="~/css/hojaestilos.css" rel="stylesheet" />
 
 <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -32,6 +33,9 @@
                                 <a href="@Url.Action("InicioSesion", "Usuario")" class="btn btn-dark">Actualizar</a>
                             </div>
                         </form>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                        <a href="@Url.Action("InicioSesion", "Usuario")" class="inventario-link">Volver al Inicio de Sesion</a>
                     </div>
                 </div>
             </div>

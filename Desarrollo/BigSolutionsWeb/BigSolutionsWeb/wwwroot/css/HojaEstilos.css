@@ -1,4 +1,16 @@
 ﻿/* Para los botones */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.main-panel {
+    margin-left: 250px; /* Ajusta este valor según el ancho de tu sidebar */
+}
+
 .botones {
     display: inline-block;
     font-weight: 400;
