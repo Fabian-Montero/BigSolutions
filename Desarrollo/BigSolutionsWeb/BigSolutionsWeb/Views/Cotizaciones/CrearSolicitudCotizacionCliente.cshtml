@@ -27,13 +27,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @* @foreach (var boceto in Model)
-                    { *@
                     <tr>
                         <td style="text-align:left">
                             <input type="checkbox" name="selectBoceto" class="select-boceto">
                         </td>
-                        <td style="text-align:left">11111</td>
+                        <td style="text-align:left">111</td>
                         <td style="text-align:left">
                             <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
                         </td>
@@ -53,7 +51,7 @@
                         <td style="text-align:left">
                             <input type="checkbox" name="selectBoceto" class="select-boceto">
                         </td>
-                        <td style="text-align:left">11112</td>
+                        <td style="text-align:left">222</td>
                         <td style="text-align:left">
                             <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
                         </td>
@@ -73,7 +71,7 @@
                         <td style="text-align:left">
                             <input type="checkbox" name="selectBoceto" class="select-boceto">
                         </td>
-                        <td style="text-align:left">11113</td>
+                        <td style="text-align:left">333</td>
                         <td style="text-align:left">
                             <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
                         </td>
@@ -89,10 +87,10 @@
                             <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
                         </td>
                     </tr>
-                    @* } *@
                 </tbody>
             </table>
         </div>
+       
     </div>
 
     <div class="card mt-4">
@@ -105,6 +103,9 @@
                 <textarea id="generalDescription" class="form-control" rows="4" placeholder="Descripción general de la solicitud"></textarea>
             </div>
             <button type="submit" class="botones-secundarios">Enviar Solicitud de Cotización</button>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarSolicitudCotizacionesCliente", "Cotizaciones")" class="inventario-link">Volver a las solicitudes de cotización</a>
         </div>
     </div>
 </div>

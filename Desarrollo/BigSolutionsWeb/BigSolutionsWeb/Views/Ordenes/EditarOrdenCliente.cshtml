@@ -71,14 +71,18 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="comprobantePago">Agregar Nuevo Comprobante de Pago</label>
-                    <input type="file" id="comprobantePago" name="comprobantePago" class="form-control-file">
-                    <small class="form-text text-muted">Este campo no es necesario si su método de pago no se ajusta.</small>
-                </div>
-                <div class="form-group">
-                    <label for="descripcionComprobante">Descripción del Comprobante</label>
-                    <textarea id="descripcionComprobante" name="descripcionComprobante" class="form-control" rows="2" placeholder="Descripción del comprobante"></textarea>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="comprobantePago">Comprobante de Pago</label>
+                            <input type="file" id="comprobantePago" name="comprobantePago" class="form-control-file">
+                            <small class="form-text text-muted">Este campo no es necesario si su método de pago no se ajusta.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcionComprobante">Descripción del Comprobante</label>
+                            <textarea id="descripcionComprobante" name="descripcionComprobante" class="form-control" rows="2" placeholder="Descripción del comprobante"></textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -121,6 +125,9 @@
                 </div>
                 <button type="submit" class="botones-secundarios">Editar Orden</button>
             </form>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ClienteConsultarOrdenes", "Ordenes")" class="inventario-link">Volver a mis órdenes</a>
         </div>
     </div>
 </div>

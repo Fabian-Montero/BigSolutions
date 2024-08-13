@@ -9,7 +9,7 @@ namespace BigSolutionsWeb.Controllers
             return View();
         }
 
-        public IActionResult ConsultarOrdenesCliente()
+        public IActionResult ClienteConsultarOrdenes()
         {
             return View();
         }
@@ -31,7 +31,7 @@ namespace BigSolutionsWeb.Controllers
 
 
         //Ordenes admin
-        public IActionResult ConsultarOrdenesClientes()
+        public IActionResult ConsultarOrdenesClientesAdmin()
         {
             return View();
         }

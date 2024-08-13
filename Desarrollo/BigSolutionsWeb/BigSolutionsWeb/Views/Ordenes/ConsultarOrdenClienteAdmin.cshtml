@@ -18,7 +18,7 @@
                     <p><strong>Descripción de la Orden:</strong> Descripción detallada de la orden.</p>
                     <p><strong>Estado de la Orden:</strong> Pendiente</p>
                     <p><strong>Cliente: </strong> Juan Pérez</p>
-                    <p><strong>Método de Pago:</strong> Tarjeta de Crédito</p>
+                    <p><strong>Método de Pago:</strong> Pago anticipado</p>
                     <p><strong>Fecha de Creación:</strong> @DateTime.Now</p>
                 </div>
             </div>
@@ -169,6 +169,9 @@
             <p><strong>Fecha de Entrega:</strong> @DateTime.Now.AddDays(30).ToString("dd/MM/yyyy")</p>
             <p><strong>Estado Interno:</strong> En Proceso</p>
             <p><strong>Descripción Interna:</strong> Falta ir a comprar los materiales.</p>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver a las órdenes</a>
         </div>
     </div>
 </div>

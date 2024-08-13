@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Vista previa del correo electrónico";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Vista previa del correo electrónico</h1>
+        <p>Aquí puedes ver la vista previa del correo electrónico para asegurarte que se vea bien.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Lista de Correos Electrónicos</h3>
+            <a href="@(Url.Action("AgregarCorreo", "Correos"))" class="botones-secundarios">Agregar Correo</a>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Correos" class="table table-hover">
+                <p>Aqui se veria el correo electrónico</p>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tabla-Correos').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+    });
+</script>

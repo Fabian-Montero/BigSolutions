@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Editar Grupo de Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Editar Grupo de Usuarios</h1>
+        <p>Modifica los campos necesarios para actualizar el grupo de usuarios.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Formulario de Edición de Grupo</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nombreGrupo">Nombre del Grupo</label>
+                            <input type="text" id="nombreGrupo" name="nombreGrupo" class="form-control" value="Administradores" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="descripcionGrupo">Descripción</label>
+                            <textarea id="descripcionGrupo" name="descripcionGrupo" class="form-control" rows="3" required>Grupo con acceso completo al sistema</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Seleccionar Usuarios para el Grupo</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="tabla-UsuariosSeleccion" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left">Seleccionar</th>
+                                    <th style="text-align:left">Identificación</th>
+                                    <th style="text-align:left">Nombre</th>
+                                    <th style="text-align:left">Correo</th>
+                                    <th style="text-align:left">Rol</th>
+                                    <th style="text-align:left">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="checkbox" name="seleccionarUsuario" value="1" checked>
+                                    </td>
+                                    <td style="text-align:left">12345678</td>
+                                    <td style="text-align:left">Juan Pérez</td>
+                                    <td style="text-align:left">juan.perez@ejemplo.com</td>
+                                    <td style="text-align:left">Administrador</td>
+                                    <td style="text-align:left">Activo</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="checkbox" name="seleccionarUsuario" value="2">
+                                    </td>
+                                    <td style="text-align:left">87654321</td>
+                                    <td style="text-align:left">Ana García</td>
+                                    <td style="text-align:left">ana.garcia@ejemplo.com</td>
+                                    <td style="text-align:left">Usuario</td>
+                                    <td style="text-align:left">Inactivo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="botones-secundarios">Guardar Cambios</button>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarGruposUsuarios", "Marketing")" class="inventario-link">Volver a los grupos de usuarios</a>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tabla-UsuariosSeleccion').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            }
+        });
+    });
+</script>
