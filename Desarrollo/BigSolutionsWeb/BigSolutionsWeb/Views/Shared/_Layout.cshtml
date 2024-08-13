@@ -19,9 +19,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-
 </head>
-   
+
 <body>
     <div class="container-scroller">
 
@@ -39,7 +38,7 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="~/page/images/faces/face28.jpg" alt="profile" />
+                            <img src="~/page/images/faces/fotoperfil.png" alt="profile" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                             <a class="dropdown-item" href="@Url.Action("ConfiguraciondePerfil", "Usuario")">
@@ -60,38 +59,16 @@
         </nav>
         <div class="container-fluid page-body-wrapper">
             <!-- side navbar -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <nav class="sidebar sidebar-offcanvas" id="sidebar" style="margin-top: 50px;">
                 <ul class="nav">
-
-
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">NO BORRAR</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic2">
-                            <ul class="nav flex-column sub-menu">
-
-                                <li class="nav-item"> <a class="nav-link" href="#"> 404 </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="#"> 500 </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("InicioSesion", "Usuario")">Inicio de sesión</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Registro", "Usuario")">Registro </a></li>
-
-                            </ul>
-                        </div>
+                        <span class="menu-title" style="margin-left: 15px;"><b>Cliente</b></span>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ConsultarUsuariosPrueba", "Usuario")">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Ejemplo datatable</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
 
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#bocetoscliente" aria-expanded="false" aria-controls="bocetoscliente">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Bocetos (cliente)</span>
+                            <i class="fa-regular fa-images menu-icon"></i>
+                            <span class="menu-title">Bocetos</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="bocetoscliente">
@@ -103,8 +80,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#cotizacionescliente" aria-expanded="false" aria-controls="cotizacionescliente">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Cotizaciones (cliente)</span>
+                            <i class="fa-regular fa-file-lines menu-icon"></i>
+                            <span class="menu-title" style="margin-left: 5px;">Cotizaciones</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="cotizacionescliente">
@@ -114,18 +91,10 @@
                             </ul>
                         </div>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Cotizaciones Administrador</span>
-                        </a>
-                    </li>
-
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#ordenescliente" aria-expanded="false" aria-controls="ordenescliente">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Órdenes (cliente)</span>
+                            <i class="fa-regular fa-clipboard menu-icon"></i>
+                            <span class="menu-title" style="margin-left: 5px;">Órdenes</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ordenescliente">
@@ -134,23 +103,35 @@
                             </ul>
                         </div>
                     </li>
+
+                    <br />
+                    <li class="nav-item">
+                        <span class="menu-title" style="margin-left: 15px;"><b>Administrativo</b></span>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ConsultarBocetosAdmin", "Boceto")">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Ver bocetos (administrador)</span>
+                            <i class="fa-regular fa-images menu-icon"></i>
+                            <span class="menu-title">Ver bocetos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")">
+                            <i class="fa-regular fa-file-lines menu-icon"></i>
+                            <span class="menu-title" style="margin-left: 5px;">Cotizaciones</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Solic cotizaciones (administrador)</span>
+                            <i class="fa-solid fa-file-invoice menu-icon"></i>
+                            <span class="menu-title" style="margin-left: 5px;">Solic cotizaciones</span>
                         </a>
                     </li>
                     <li class="nav-item">
 
                         <a class="nav-link" data-toggle="collapse" href="#ordenes-admin" aria-expanded="false" aria-controls="ordenes-admin">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Órdenes (administrador)</span>
+                            <i class="fa-regular fa-clipboard menu-icon"></i>
+                            <span class="menu-title" style="margin-left: 5px;">Órdenes</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ordenes-admin">
@@ -163,8 +144,8 @@
                     <li class="nav-item">
 
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic-2" aria-expanded="false" aria-controls="ui-basic-2">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Usuarios</span>
+                            <i class="fa-solid fa-users"></i>
+                            <span class="menu-title" style="margin-left: 16px;">Usuarios</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ui-basic-2">
@@ -177,14 +158,14 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ConsultarInventario", "Inventario")">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Inventario</span>
+                            <i class="fa-solid fa-table-list menu-icon"></i>
+                            <span class="menu-title" style="margin-left: 2px;">Inventario</span>
                         </a>
                     </li>
-                  <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#contabilidad" aria-expanded="false" aria-controls="cotizacionescliente">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Contabilidad</span>
+                            <i class="fa-solid fa-file-invoice-dollar menu-icon"></i>
+                            <span class="menu-title" style="margin-left: 5px;">Contabilidad</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="contabilidad">
@@ -195,6 +176,26 @@
                             </ul>
                         </div>
                     </li>
+
+
+                    @*<li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">NO BORRAR</span>
+                    <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic2">
+                    <ul class="nav flex-column sub-menu">
+
+                    <li class="nav-item"> <a class="nav-link" href="#"> 404 </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="#"> 500 </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("InicioSesion", "Usuario")">Inicio de sesión</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Registro", "Usuario")">Registro </a></li>
+
+                    </ul>
+                    </div>
+                    </li>*@
+
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#marketing" aria-expanded="false" aria-controls="marketing">
                             <i class="icon-layout menu-icon"></i>
@@ -208,6 +209,7 @@
                             </ul>
                         </div>
                     </li>
+
                 </ul>
             </nav>
 
@@ -220,11 +222,10 @@
                 <!-- Footer -->
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Big Solutions @DateTime.Now.Year</span>
                     </div>
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span>
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Publicidad - Mercadeo - Comunicación</span>
                     </div>
                 </footer>
             </div>

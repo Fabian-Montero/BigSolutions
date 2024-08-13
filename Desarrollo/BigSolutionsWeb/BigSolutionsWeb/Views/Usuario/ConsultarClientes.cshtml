@@ -20,130 +20,133 @@
         <h1>Clientes</h1>
         <p>Aquí puedes ver todos los clientes que hay registrados actualmente.</p>
     </div>
-    <div class="card-header">
-        <h3>Lista de clientes</h3>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Lista de clientes</h3>
+        </div>
+        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            <table id="tabla-Usuarios" class="table table-hover">
+                <thead>
+                    <tr style="text-align: center">
+                        <th>Identificación</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                        <th>Ordenes</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>118560019</td>
+                        <td>Fabián</td>
+                        <td>fabianja0477@gmail.com</td>
+                        <td>Cliente</td>
+                        <td>Activo</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
+                                <div style="margin-left:5px">
+                                    <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="margin-left:5px">
+                                <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456789011</td>
+                        <td>Mario</td>
+                        <td>Mariolop0477@gmail.com</td>
+                        <td>Cliente</td>
+                        <td>Activo</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
+                                <div style="margin-left:5px">
+                                    <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="margin-left:5px">
+                                <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>678970132</td>
+                        <td>Kevin</td>
+                        <td>KevinML0477@gmail.com</td>
+                        <td>Cliente</td>
+                        <td>Activo</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
+                                <div style="margin-left:5px">
+                                    <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="margin-left:5px">
+                                <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="card" style="padding-left: 15px; padding-right: 15px;">
-        <table id="tabla-Usuarios" class="table table-hover">
-            <thead>
-                <tr style="text-align: center">
-                    <th>Identificación</th>
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                    <th>Ordenes</th>
-                </tr>
-            </thead>
-            <tbody>
+</body>
 
-                <tr>
-                    <td>118560019</td>
-                    <td>Fabián</td>
-                    <td>fabianja0477@gmail.com</td>
-                    <td>Cliente</td>
-                    <td>Activo</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
-                            <div style="margin-left:5px">
-                                <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="margin-left:5px">
-                            <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>456789011</td>
-                    <td>Mario</td>
-                    <td>Mariolop0477@gmail.com</td>
-                    <td>Cliente</td>
-                    <td>Activo</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
-                            <div style="margin-left:5px">
-                                <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="margin-left:5px">
-                            <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>678970132</td>
-                    <td>Kevin</td>
-                    <td>KevinML0477@gmail.com</td>
-                    <td>Cliente</td>
-                    <td>Activo</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
-                            <div style="margin-left:5px">
-                                <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="margin-left:5px">
-                            <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mís ordenes</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-   
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            var table = new DataTable("#tabla-Usuarios", {
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-                },
-                columnDefs: [{ type: 'string', target: [0] }]
-            });
+<script>
+    $(document).ready(function () {
+        var table = new DataTable("#tabla-Usuarios", {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0] }]
         });
+    });
 
-        function confirmarBorrado(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: '¿Está seguro que deseas eliminar este cliente?',
-                text: "No podrá revertir esto",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#c1952c',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo',
-                customClass: {
-                    popup: 'my-swal-popup'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Eliminado',
-                        text: 'El cliente ha sido eliminado',
-                        icon: 'success',
-                        confirmButtonColor: '#c1952c',
-                        customClass: {
-                            popup: 'my-swal-popup'
-                        }
-                    });
-                }
-            });
-        }
-    </script>
+    function confirmarBorrado(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: '¿Está seguro que deseas eliminar este cliente?',
+            text: "No podrá revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#c1952c',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo',
+            customClass: {
+                popup: 'my-swal-popup'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Eliminado',
+                    text: 'El cliente ha sido eliminado',
+                    icon: 'success',
+                    confirmButtonColor: '#c1952c',
+                    customClass: {
+                        popup: 'my-swal-popup'
+                    }
+                });
+            }
+        });
+    }
+</script>
 </body>
