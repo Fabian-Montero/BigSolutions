@@ -14,7 +14,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="~/page/images/imagenbotella.jpeg">
     <link href="~/css/hojaestilos.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 
 <body>
@@ -95,7 +99,7 @@
                         </a>
                         <div class="collapse" id="ordenescliente">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarOrdenesCliente", "Ordenes")">Mis ordenes</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ClienteConsultarOrdenes", "Ordenes")">Mis órdenes</a></li>
                             </ul>
                         </div>
                     </li>
@@ -132,7 +136,7 @@
                         </a>
                         <div class="collapse" id="ordenes-admin">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@(Url.Action("ConsultarOrdenesClientes", "Ordenes" ))">Órdenes</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@(Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes" ))">Órdenes</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="@(Url.Action("ConsultarOrdenesPendientesCliente", "Ordenes"))">Pendientes</a></li>
                             </ul>
                         </div>
@@ -173,6 +177,7 @@
                         </div>
                     </li>
 
+
                     @*<li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
                     <i class="icon-layout menu-icon"></i>
@@ -190,6 +195,21 @@
                     </ul>
                     </div>
                     </li>*@
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#marketing" aria-expanded="false" aria-controls="marketing">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Marketing</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="marketing">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarGruposUsuarios", "Marketing")">Grupos de Usuarios</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ConsultarCorreos", "Marketing")">Correos Electrónicos</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
                 </ul>
             </nav>
 
