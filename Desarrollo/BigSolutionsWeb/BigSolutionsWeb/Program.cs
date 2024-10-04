@@ -1,7 +1,30 @@
+using BigSolutionsWeb.Models;
+using BigSolutionsWeb.Models.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//inyeccion de dependencias
+
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IComunesModel, ComunesModel>();
+builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
+
+
+
+
+
+
+
+
+
+
+
+
 
 var app = builder.Build();
 
@@ -15,7 +38,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
