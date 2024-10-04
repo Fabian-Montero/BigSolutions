@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BigSolutionsWeb.Entidades.Usuario
+@{
     ViewData["Title"] = "Registro";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
@@ -13,40 +14,49 @@
                             <img src="~/page/images/bigsolutions-logo.jpg" alt="logo">
                         </div>
                         <h4>Datos necesarios para Registrarse:</h4>
+                        @* Alertas *@
+                        @if (ViewBag.msj != null)
+                        {
+                            <div id="warningAlert" class="alert alert-warning alert-custom" role="alert" style="text-align: center;">
+                                @ViewBag.msj
+                            </div>
+                        }
+                        @using (Html.BeginForm("Registro", "Usuario"))
+                        {
+                            <div class="pt-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", @type = "text", @required = "required", @id = "NombreCompleto", @placeholder = "Nombre completo" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.NombreEmpresa, new { @class = "form-control", @type = "text", @required = "required", @id = "NombreEmpresa", @placeholder = "Nombre de la empresa" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", @type = "text", @required = "required", @id = "Identificacion", @placeholder = "Identificación" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.NumeroTelefono, new { @class = "form-control", @type = "text", @required = "required", @id = "NumeroTelefono", @placeholder = "Número de teléfono" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @type = "email", @required = "required", @id = "CorreoElectronico", @placeholder = "Correo electrónico" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.DireccionExacta, new { @class = "form-control", @type = "text", @required = "required", @id = "DireccionExacta", @placeholder = "Dirección Exacta" })
+                                </div>
+                                <h6 class="font-weight-light">La Contraseña tiene que tener 1 Mayúscula y 8 Caracteres</h6>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "text", @required = "required", @id = "Contrasenna", @placeholder = "Contraseña" })
+                                    @* <input type="password" class="form-control form-control-lg" id="password" placeholder="Contraseña" pattern="(?=.*[A-Z]).{8,}"> *@
+                                </div>
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">REGISTRARSE</button>
+                                </div>
 
-                        <!-- Contenedor de Alertas -->
-                        <div id="alert-container">
-                            <!-- Las alertas se mostrarán aquí -->
-                        </div>
+                                <div class="text-center mt-4 font-weight-light">
+                                    ¿Ya tienes una cuenta? <a href="@Url.Action("InicioSesion", "Usuario")" class="auth-link text-black">Iniciar sesión</a>
+                                </div>
+                            </div>
+                        }
 
-                        <form id="registration-form" class="pt-3" novalidate>
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="fullName" placeholder="Nombre completo">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="cedula" placeholder="Cédula">
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" class="form-control form-control-lg" id="phoneNumber" placeholder="Número de teléfono">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="email" placeholder="Correo">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="address" placeholder="Dirección exacta">
-                            </div>
-                            <h6 class="font-weight-light">La Contraseña tiene que tener 1 Mayúscula y 8 Caracteres</h6>
-                            <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" id="password" placeholder="Contraseña" pattern="(?=.*[A-Z]).{8,}">
-                            </div>
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">REGISTRARSE</button>
-                            </div>
-
-                            <div class="text-center mt-4 font-weight-light">
-                                ¿Ya tienes una cuenta? <a href="@Url.Action("InicioSesion", "Usuario")" class="auth-link text-black">Iniciar sesión</a>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -55,6 +65,7 @@
 </div>
 
 <script>
+    /*
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('registration-form');
         const alertContainer = document.getElementById('alert-container');
@@ -120,4 +131,5 @@
             alertContainer.appendChild(alertDiv);
         }
     });
+    */
 </script>

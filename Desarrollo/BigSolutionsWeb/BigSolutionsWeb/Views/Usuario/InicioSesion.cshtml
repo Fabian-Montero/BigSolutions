@@ -1,43 +1,49 @@
-﻿@*
-
-*@
+﻿@model BigSolutionsWeb.Entidades.Usuario
 @{
     ViewData["Title"] = "Inicio de sesión";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="content-wrapper d-flex align-items-center auth px-0">
-                <div class="row w-100 mx-0">
-                    <div class="col-lg-4 mx-auto">
-                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                            <div class="brand-logo">
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth px-0">
+            <div class="row w-100 mx-0">
+                <div class="col-lg-4 mx-auto">
+                    <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                        <div class="brand-logo">
                             <img src="~/page/images/bigsolutions-logo.jpg" alt="logo">
+                        </div>
+
+                        <h4>Iniciar Sesión para poder Continuar</h4>
+                        @if (ViewBag.msj != null)
+                        {
+                            <div id="warningAlert" class="alert alert-warning alert-custom" role="alert" style="text-align: center;">
+                                @ViewBag.msj
                             </div>
+                        }
+                        @using (Html.BeginForm("InicioSesion", "Usuario"))
+                        {
                             
-                            <h4>Iniciar Sesión para poder Continuar</h4>
-                            <form class="pt-3">
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Nombre de Usuario">
+                                    @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @type = "email", @required = "required", @id = "CorreoElectronico", @placeholder = "Correo electrónico" })
                                 </div>
 
                                 <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Contraseña">
+                                    @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "text", @required = "required", @id = "Contrasenna", @placeholder = "Contraseña" })
                                 </div>
 
-                                 <div class="mt-3">
-                                <a class="btn btn-block btn-lg font-weight-medium auth-form-btn" href="@Url.Action("ConsultarProductosBoceto","Boceto")" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">Iniciar Sesión</a>
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">INICIAR SESIÓN</button>
+                                    @* <a class="btn btn-block btn-lg font-weight-medium auth-form-btn" href="@Url.Action("ConsultarProductosBoceto","Boceto")" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">Iniciar Sesión</a> *@
                                 </div>
-
+                        }
                                 <div class="my-2 d-flex justify-content-between align-items-center">
                                     <a href="@Url.Action("Recuperar", "Usuario")" class="auth-link text-black">Recuperar Contraseña</a>
                                 </div>
 
                                 <div class="text-center mt-4 font-weight-light">
-                                <a href="@Url.Action("Registro", "Usuario")" class="btn btn-dark">Crear cuenta nueva</a>
+                                    <a href="@Url.Action("Registro", "Usuario")" class="btn btn-dark">Crear cuenta nueva</a>
                                 </div>
-
-                            </form>
+                         
                         </div>
                     </div>
                 </div>
