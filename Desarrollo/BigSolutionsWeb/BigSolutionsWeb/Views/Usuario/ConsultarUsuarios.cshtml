@@ -1,0 +1,142 @@
+﻿@model List<BigSolutionsWeb.Entidades.Usuario>
+@{
+    ViewData["Title"] = "Listado de Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Asegúrate de que el layout sea el correcto
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Listado de Usuarios</title>
+    <link href="~/css/hojaestilos.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/page/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/page/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/page/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center mb-4">
+                            <h1>Listado de Usuarios</h1>
+                            <p>Aquí puedes ver todos los usuarios registrados actualmente.</p>
+                        </div>
+
+                        @* Alertas *@
+                        @if (ViewBag.msj != null)
+                        {
+                            <div id="warningAlert" class="alert alert-warning alert-custom" role="alert" style="text-align: center;">
+                                @ViewBag.msj
+                            </div>
+                        }
+
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">Lista de Usuarios</h3>
+                                <a href="@Url.Action("Registrar", "Usuario")" class="btn btn-primary">Agregar Nuevo Usuario</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="usuariosTable" class="table table-hover">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>Nombre Completo</th>
+                                                <th>Nombre Empresa</th>
+                                                <th>Identificación</th>
+                                                <th>Número Teléfono</th>
+                                                <th>Correo Electrónico</th>
+                                                <th>Rol</th> <!-- Nueva columna para el rol -->
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var usuario in Model)
+                                            {
+                                                <tr>
+                                                    <td>@usuario.NombreCompleto</td>
+                                                    <td>@usuario.NombreEmpresa</td>
+                                                    <td>@usuario.Identificacion</td>
+                                                    <td>@usuario.NumeroTelefono</td>
+                                                    <td>@usuario.CorreoElectronico</td>
+                                                    <td>@usuario.IdRol</td> <!-- Muestra el rol del usuario -->
+                                                    <td>
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                            <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="btn btn-warning btn-sm">Editar</a>
+                                                            <button class="btn btn-danger btn-sm" onclick="return confirmarBorrado(event, @usuario.UsuarioId)">Eliminar</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#usuariosTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+                }
+            });
+        });
+
+        function confirmarBorrado(event, usuarioId) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Está seguro que deseas eliminar este usuario?',
+                text: "No podrás revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#c1952c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                customClass: {
+                    popup: 'my-swal-popup'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí puedes realizar una llamada AJAX para eliminar el usuario
+                    // Por ejemplo:
+                    // $.ajax({
+                    //     url: '/Usuario/Eliminar/' + usuarioId,
+                    //     type: 'POST',
+                    //     success: function () {
+                    //         Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+                    //         // Refresca la tabla o recarga la página
+                    //         location.reload();
+                    //     },
+                    //     error: function () {
+                    //         Swal.fire('Error', 'No se pudo eliminar el usuario', 'error');
+                    //     }
+                    // });
+
+                    Swal.fire({
+                        title: 'Eliminado',
+                        text: 'El usuario ha sido eliminado',
+                        icon: 'success',
+                        confirmButtonColor: '#c1952c',
+                        customClass: {
+                            popup: 'my-swal-popup'
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</body>
