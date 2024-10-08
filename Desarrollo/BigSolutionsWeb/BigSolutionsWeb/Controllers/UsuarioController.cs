@@ -83,10 +83,86 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Salir()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("InicioSesion", "Usuario");
+        }
 
+        [HttpGet]
         public IActionResult ConfiguraciondePerfil()
         {
-            return View();
+            var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
+            var IdUsuario = long.Parse(IdUsuarioString);
+            var respuesta = iUsuarioModel.ConsultarUsuarioPerfil(IdUsuario);
+
+            if (respuesta!.Codigo == 1)
+            {
+                try
+                {
+                    var jsonElement = (JsonElement)respuesta.Contenido!;
+                    var jsonString = jsonElement.GetRawText();
+
+
+                    var usuarios = JsonSerializer.Deserialize<List<Usuario>>(jsonString);
+
+                    if (usuarios != null && usuarios.Count > 0)
+                    {
+                        var usuario = usuarios[0];
+                        return View(usuario);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    ViewBag.MsjPantalla = ex;
+                    return RedirectToAction("Error", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ConfiguraciondePerfil(Usuario entidad)
+        {
+            var idUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
+            var idUsuario = long.Parse(idUsuarioString!);
+            entidad.UsuarioId = idUsuario;
+
+            var resp = iUsuarioModel.ActualizarPerfilUsuario(entidad);
+
+            if (resp.Codigo == 1)
+            {
+                HttpContext.Session.SetString("NOMBRE", entidad.NombreCompleto!);
+                ViewBag.msj = resp.Mensaje;
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult EliminarPerfilUsuario(long UsuarioId)
+        {
+
+            var resp = iUsuarioModel.EliminarPerfilUsuario(UsuarioId);
+
+            if (resp.Codigo == 1)
+            {
+                return RedirectToAction("InicioSesion", "Usuario");
+            }
+            else
+            {
+                ViewBag.MsjPantalla = resp.Mensaje;
+                return RedirectToAction("ConfiguraciondePerfil", "Usuario");
+            }
+
         }
         public IActionResult Recuperar()
         {
