@@ -45,9 +45,9 @@
                                 <i class="fa-solid fa-person"></i>
                                 Perfil
                             </a>
-                            <a class="dropdown-item" href="@Url.Action("InicioSesion", "Usuario")">
+                            <a class="dropdown-item btn-cerrarSesion" href="javascript:void(0);" data-url="@Url.Action("Salir", "Usuario")">
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                Cerrar Sesion
+                                Cerrar Sesión
                             </a>
                         </div>
                     </li>
@@ -232,6 +232,35 @@
         </div>
     </div>
     <script>
+        let timeout;
+
+        function resetTimer() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                showExpirationAlert();
+            }, 10 * 60 * 1000);
+        }
+
+        function showExpirationAlert() {
+            Swal.fire({
+                title: 'Sesión Expirada',
+                text: 'Tu sesión ha expirado. Serás redirigido a la página de inicio de sesión.',
+                icon: 'warning',
+                confirmButtonColor: '#c1952c',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                    popup: 'my-swal-popup'
+                }
+            }).then(() => {
+                window.location.href = '@Url.Action("Salir", "Usuario")';
+            });
+        }
+
+        window.onload = resetTimer;
+        document.onmousemove = resetTimer;
+        document.onkeypress = resetTimer;
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             var collapseElements = document.querySelectorAll('.collapse');
             collapseElements.forEach(function (element) {
@@ -252,6 +281,7 @@
 
     <script src=" https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+    <script src="~/js/jslayout.js"></script>
 
 </body>
 </html>

@@ -88,5 +88,100 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+
+        //Ver perfil de usuario
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConsultarUsuarioPerfil")]
+        public async Task<IActionResult> ConsultarUsuarioPerfil(long idusuario)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@idusuario", idusuario);
+
+                var result = (await context.QueryAsync<Usuario>("ConsultarPerfilUsuario", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+
+                if (result != null && result.Count > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No se ha encontrado la información";
+                    return Ok(resp);
+                }
+            }
+        }
+        //Actualizar perfil de usuario
+        [HttpPut]
+        [Authorize]
+        [Route("ActualizarPerfilUsuario")]
+        public async Task<IActionResult> ActualizarPerfilUsuario(Usuario ent)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var result = await context.ExecuteAsync("ActualizarPerfilUsuario", new
+                {
+                    ent.NombreCompleto,
+                    ent.Identificacion,
+                    ent.CorreoElectronico,
+                    ent.NumeroTelefono,
+                    ent.DireccionExacta,
+                    ent.UsuarioId
+                }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "Error al actualizar el usuario";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+        //Eliminar perfil de usuario
+        [HttpDelete]
+        [Authorize]
+        [Route("EliminarPerfilUsuario")]
+        public async Task<IActionResult> EliminarPerfilUsuario(long UsuarioId)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var result = await context.ExecuteAsync("EliminarPerfilUsuario", new { UsuarioId }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "Eror al eliminar tu perfil";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
     }
 }

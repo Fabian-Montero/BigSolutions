@@ -24,7 +24,13 @@ builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
 
 
 
-
+// Inyección de dependencias para cerrar sesión por inactividad
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10); // Establece el tiempo de inactividad a 10 minutos
+    options.Cookie.HttpOnly = true; // Asegura que la cookie de sesión no sea accesible mediante JavaScript
+    options.Cookie.IsEssential = true; // Asegura que la cookie se envíe incluso si el usuario no ha dado consentimiento
+});
 
 var app = builder.Build();
 

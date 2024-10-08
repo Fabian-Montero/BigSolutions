@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\JSLayout.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\JSLayout.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\JSLayout.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\Usuario\SinUsuariosRegistrados.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
