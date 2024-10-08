@@ -1,7 +1,10 @@
-﻿@{
+﻿@model IEnumerable<BigSolutionsWeb.Entidades.Cliente>
+
+@{
     ViewData["Title"] = "Consultar Usuario Prueba";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,97 +23,87 @@
         <h1>Clientes</h1>
         <p>Aquí puedes ver todos los clientes que hay registrados actualmente.</p>
     </div>
+
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Lista de clientes</h3>
         </div>
-        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            <table id="tabla-Usuarios" class="table table-hover">
-                <thead>
-                    <tr style="text-align: center">
-                        <th>Identificación</th>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                        <th>Ordenes</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">   
 
-                    <tr>
-                        <td>118560019</td>
-                        <td>Fabián</td>
-                        <td>fabianja0477@gmail.com</td>
-                        <td>Cliente</td>
-                        <td>Activo</td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
-                                <div style="margin-left:5px">
-                                    <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="margin-left:5px">
-                                <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mis órdenes</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456789011</td>
-                        <td>Mario</td>
-                        <td>Mariolop0477@gmail.com</td>
-                        <td>Cliente</td>
-                        <td>Activo</td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
-                                <div style="margin-left:5px">
-                                    <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="margin-left:5px">
-                                <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mis órdenes</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>678970132</td>
-                        <td>Kevin</td>
-                        <td>KevinML0477@gmail.com</td>
-                        <td>Cliente</td>
-                        <td>Activo</td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="/Usuario/EditarClientes" class="botones">Actualizar</a>
-                                <div style="margin-left:5px">
-                                    <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="margin-left:5px">
-                                <a href="/Usuario/OrdenesPorCliente" class="botones">Ver mis órdenes</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- Sección que será actualizada dinámicamente -->
+            <div id="clientesTable">
+                <table id="tabla-Usuarios" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Identificacion)</th>
+                            <th>@Html.DisplayNameFor(model => model.NombreCompleto)</th>
+                            <th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
+                            <th>@Html.DisplayNameFor(model => model.Rol)</th>
+                            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                            <th>Acciones</th>
+                            <th>Ordenes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Identificacion)</td>
+                                    <td>
+                                        <a href="@Url.Action("DetallesCliente", "Usuario", new { id = item.Identificacion })">
+                                            @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                        </a>
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.CorreoElectronico)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Rol)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a href="#" class="botones" onclick="FunAux('@Url.Action("Actualizar", "Usuario", new { id = item.Identificacion })')">Actualizar</a>
+                                            <div style="margin-left:5px">
+                                                @* <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button> *@
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a href="#" class="botones" onclick="confirmarBorrado('@Url.Action("EliminarClientes", "Usuario", new { id = item.Identificacion })')">Eliminar</a>
+                                            <div style="margin-left:5px">
+                                                @* <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button> *@
+                                            </div>
+                                        </div>
+                                       
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a href="#" class="botones" onclick="Orden('@Url.Action("OrdenesPorCliente", "Usuario", new { id = item.Identificacion })')">Ver ordenes</a>
+                                            <div style="margin-left:5px">
+                                                @* <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button> *@
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    @if (ViewBag.Aviso != null)
+    {
+        //<div class="alert alert-danger">@ViewBag.Aviso</div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <h2 class="text-center">No hay Clientes para mostrar</h2>
+    }
 </body>
 
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
         var table = new DataTable("#tabla-Usuarios", {
@@ -121,8 +114,46 @@
         });
     });
 
-    function confirmarBorrado(event) {
-        event.preventDefault();
+    $(document).ready(function () {
+        // Detectar cambios en el cuadro de búsqueda
+        $('#searchBox').on('input', function () {
+            var searchTerm = $(this).val(); // Obtener el valor del cuadro de búsqueda
+
+            // Verificar si el cuadro está vacío
+            if (searchTerm.trim() === "") {
+                // Si está vacío, realizar una búsqueda sin parámetros (para obtener todos los clientes)
+                $.ajax({
+                    url: '@Url.Action("BuscarClientes", "Usuario")', // Llama al action
+                    type: 'GET',
+                    data: { ParametroBusqueda: "" }, // Enviar cadena vacía para obtener todos los clientes
+                    success: function (data) {
+                        // Reemplazar el contenido de la tabla con todos los clientes
+                        $('#clientesTable').html($(data).find('#clientesTable').html());
+                    },
+                    error: function () {
+                        alert('Error al cargar la lista completa de clientes');
+                    }
+                });
+            } else {
+                // Si no está vacío, realizar la búsqueda con el término introducido
+                $.ajax({
+                    url: '@Url.Action("BuscarClientes", "Usuario")', // Llama al action con el parámetro de búsqueda
+                    type: 'GET',
+                    data: { ParametroBusqueda: searchTerm }, // Enviar el término de búsqueda como parámetro
+                    success: function (data) {
+                        // Reemplazar el contenido de la tabla con los nuevos datos
+                        $('#clientesTable').html($(data).find('#clientesTable').html());
+                    },
+                    error: function () {
+                        alert('Error al realizar la búsqueda');
+                    }
+                });
+            }
+        });
+    });
+
+    function confirmarBorrado(eliminarUrl) {
+        event.preventDefault(); // Evitar la redirección inmediata
         Swal.fire({
             title: '¿Está seguro que deseas eliminar este cliente?',
             text: "No podrá revertir esto",
@@ -131,11 +162,14 @@
             confirmButtonColor: '#c1952c',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar',
             customClass: {
                 popup: 'my-swal-popup'
             }
         }).then((result) => {
             if (result.isConfirmed) {
+                // Redirigir a la acción de eliminación
+                window.location.href = eliminarUrl;
                 Swal.fire({
                     title: 'Eliminado',
                     text: 'El cliente ha sido eliminado',
@@ -147,5 +181,14 @@
                 });
             }
         });
+    }
+
+    function FunAux(eliminarUrl) { }
+
+    function DetallesCli(Identificacion) {
+        window.location.href = Identificacion;
+    }
+    function Orden(id) {
+        window.location.href = id;
     }
 </script>

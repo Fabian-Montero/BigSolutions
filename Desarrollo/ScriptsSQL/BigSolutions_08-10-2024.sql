@@ -1,12 +1,12 @@
 USE [master]
 GO
-/****** Object:  Database [BigSolutions]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Database [BigSolutions]    Script Date: 10/8/2024 4:24:49 PM ******/
 CREATE DATABASE [BigSolutions]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'BigSolutions', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\BigSolutions.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'BigSolutions', FILENAME = N'C:\SQLData\Data\BigSolutions.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'BigSolutions_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\BigSolutions_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'BigSolutions_log', FILENAME = N'C:\SQLData\Data\BigSolutions_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
 GO
 ALTER DATABASE [BigSolutions] SET COMPATIBILITY_LEVEL = 160
@@ -76,15 +76,13 @@ ALTER DATABASE [BigSolutions] SET DELAYED_DURABILITY = DISABLED
 GO
 ALTER DATABASE [BigSolutions] SET ACCELERATED_DATABASE_RECOVERY = OFF  
 GO
-EXEC sys.sp_db_vardecimal_storage_format N'BigSolutions', N'ON'
-GO
 ALTER DATABASE [BigSolutions] SET QUERY_STORE = ON
 GO
 ALTER DATABASE [BigSolutions] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
 GO
 USE [BigSolutions]
 GO
-/****** Object:  Table [dbo].[Boceto]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Boceto]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -101,7 +99,7 @@ CREATE TABLE [dbo].[Boceto](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Categoria]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Categoria]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -115,7 +113,7 @@ CREATE TABLE [dbo].[Categoria](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Correos_Electronicos]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Correos_Electronicos]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -133,7 +131,7 @@ CREATE TABLE [dbo].[Correos_Electronicos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Correos_Electronicos_Detalle]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Correos_Electronicos_Detalle]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -148,7 +146,7 @@ CREATE TABLE [dbo].[Correos_Electronicos_Detalle](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Grupo_Usuarios]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Grupo_Usuarios]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -164,7 +162,7 @@ CREATE TABLE [dbo].[Grupo_Usuarios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Grupo_Usuarios_Detalle]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Grupo_Usuarios_Detalle]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -179,7 +177,7 @@ CREATE TABLE [dbo].[Grupo_Usuarios_Detalle](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orden]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Orden]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -204,7 +202,7 @@ CREATE TABLE [dbo].[Orden](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orden_Cotizacion]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Orden_Cotizacion]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,7 +223,7 @@ CREATE TABLE [dbo].[Orden_Cotizacion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orden_Detalle_Bocetos]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Orden_Detalle_Bocetos]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -240,7 +238,7 @@ CREATE TABLE [dbo].[Orden_Detalle_Bocetos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orden_Detalle_Comprobantes]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Orden_Detalle_Comprobantes]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -257,7 +255,7 @@ CREATE TABLE [dbo].[Orden_Detalle_Comprobantes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orden_Detalle_Cotizacion]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Orden_Detalle_Cotizacion]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -272,7 +270,7 @@ CREATE TABLE [dbo].[Orden_Detalle_Cotizacion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orden_Detalle_Factura_Pendiente]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Orden_Detalle_Factura_Pendiente]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -290,7 +288,7 @@ CREATE TABLE [dbo].[Orden_Detalle_Factura_Pendiente](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Producto]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Producto]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -309,7 +307,7 @@ CREATE TABLE [dbo].[Producto](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Rol]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Rol]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -323,7 +321,7 @@ CREATE TABLE [dbo].[Rol](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Solicitud_Cotizacion]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Solicitud_Cotizacion]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -340,7 +338,7 @@ CREATE TABLE [dbo].[Solicitud_Cotizacion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Solicitud_Cotizacion_Detalle]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Solicitud_Cotizacion_Detalle]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -357,7 +355,7 @@ CREATE TABLE [dbo].[Solicitud_Cotizacion_Detalle](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Usuario]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Table [dbo].[Usuario]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -395,15 +393,21 @@ SET IDENTITY_INSERT [dbo].[Usuario] ON
 GO
 INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (1, 1, N'118560019', N'Fabian Montero Madrigal', N'fabianja0477@gmai.com', N'84955721', N'Coronado Barrio el carmen', N'123', 1, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (4, 3, N'123', N'aaa', N'aaa@gmail.com', N'aaa', N'aaa', N'aaa', 1, N'aaa', 0, CAST(N'2024-10-02T20:52:57.450' AS DateTime))
+INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (6, 3, N'304890072', N'Wenndy Perez Espinoza', N'wenndy29@hotmail.com', N'25733155', N'Alajuela', N'oHp5kFdO1aBM', 1, N'AA', 0, CAST(N'2024-10-05T10:04:52.333' AS DateTime))
 GO
-INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (5, 3, N'31231223213', N'FDASF', N'fdas@gmail.com', N'123131', N'safdssadf', N'ZwTqxXck2S9u', 1, N'asdfa', 0, CAST(N'2024-10-03T17:35:14.950' AS DateTime))
+INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (19, 3, N'0404456789', N'Gabriela Mora', N'gabriela.mora@example.com', N'88884444', N'Avenida 4, Alajuela', N'G@bri3l@Pass', 1, N'BigData Inc.', 1, CAST(N'2024-11-30T23:59:59.000' AS DateTime))
+GO
+INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (20, 3, N'0505567890', N'Roberto Jiménez', N'roberto.jimenez@example.com', N'88882222', N'Calle 5, Guanacaste', N'R0b3rt0P@ss', 0, N'LogisticTech', 0, NULL)
+GO
+INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (21, 3, N'0606678901', N'Laura Campos', N'laura.campos@example.com', N'88881111', N'Avenida 6, Puntarenas', N'L@ura123!', 1, N'SafeGuard Security', 1, CAST(N'2024-10-31T23:59:59.000' AS DateTime))
+GO
+INSERT [dbo].[Usuario] ([UsuarioId], [IdRol], [Identificacion], [NombreCompleto], [CorreoElectronico], [NumeroTelefono], [DireccionExacta], [Contrasenna], [Estado], [NombreEmpresa], [EsTemporal], [VigenciaTemporal]) VALUES (22, 3, N'0707789012', N'Mario Salazar', N'mario.salazar@example.com', N'88880000', N'Calle 7, Limón', N'M@r10S3cur3', 1, N'AgriSolutions', 0, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Usuario] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Table_1_2]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Index [IX_Table_1_2]    Script Date: 10/8/2024 4:24:49 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Table_1_2] ON [dbo].[Usuario]
 (
 	[CorreoElectronico] ASC
@@ -411,7 +415,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_Table_1_2] ON [dbo].[Usuario]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Usuario]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  Index [IX_Usuario]    Script Date: 10/8/2024 4:24:49 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Usuario] ON [dbo].[Usuario]
 (
 	[Identificacion] ASC
@@ -517,7 +521,7 @@ REFERENCES [dbo].[Rol] ([IdRol])
 GO
 ALTER TABLE [dbo].[Usuario] CHECK CONSTRAINT [FK_Usuario_Rol]
 GO
-/****** Object:  StoredProcedure [dbo].[IniciarSesion]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  StoredProcedure [dbo].[IniciarSesion]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -535,7 +539,7 @@ BEGIN
 	AND		Estado = 1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[RegistrarUsuario]    Script Date: 3/10/2024 21:45:00 ******/
+/****** Object:  StoredProcedure [dbo].[RegistrarUsuario]    Script Date: 10/8/2024 4:24:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -559,6 +563,117 @@ BEGIN
 		INSERT INTO dbo.Usuario(NombreCompleto, Identificacion, CorreoElectronico, NumeroTelefono, DireccionExacta, Contrasenna,NombreEmpresa, IdRol, Estado, EsTemporal, VigenciaTemporal)
 		VALUES(@NombreCompleto, @Identificacion, @CorreoElectronico, @NumeroTelefono, @DireccionExacta, @Contrasenna, @NombreEmpresa, @Rol, @Estado, @Temporal, GETDATE())
 	END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_Detalles_Cliente]    Script Date: 10/8/2024 4:24:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+--Ver detalles de un cliente
+--Código 3 - Listar * From Usuario [formato tabla]
+----------------------------------------------------------------------------------------------------
+CREATE   PROC [dbo].[SP_Detalles_Cliente]
+(
+	@identificacion varchar(100)
+)
+AS
+BEGIN
+    BEGIN TRY
+        -- Validar si hay clientes registrados
+        IF NOT EXISTS (SELECT 1 FROM Usuario)
+        BEGIN
+            SELECT 'no hay clientes' AS MENSAJE
+        END
+        
+        -- Seleccionar los detalles de los clientes
+        SELECT	T0.Identificacion, T0.NombreCompleto, T0.CorreoElectronico, T0.NumeroTelefono  , T0.DireccionExacta, 
+				CASE WHEN T0.Estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS Estado, T0.NombreEmpresa , 
+				CASE WHEN T0.EsTemporal = 1 THEN 'Si' ELSE 'No' END AS EsTemporal , T0.VigenciaTemporal
+          FROM Usuario T0
+		  WHERE T0.Identificacion = @identificacion
+        
+    END TRY
+    BEGIN CATCH
+        -- Manejar cualquier error inesperado
+        SELECT 'error inesperado' AS MENSAJE
+    END CATCH
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_EliminarCliente]    Script Date: 10/8/2024 4:24:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+-- Procedimiento DELETE para tabla Clientes
+----------------------------------------------------------------------------------------------------
+CREATE   PROC [dbo].[SP_EliminarCliente](
+    @ID_Cliente VARCHAR(100) --Recibe la identificacion del cliente 
+)
+AS
+BEGIN
+    BEGIN TRY
+        -- Validar si el cliente existe
+        IF NOT EXISTS (SELECT Identificacion 
+						 FROM Usuario 
+						WHERE Identificacion = @ID_Cliente)
+        BEGIN
+            SELECT 'no existe cliente' AS MENSAJE
+        END
+
+        -- Eliminar el cliente
+        DELETE FROM Usuario
+        WHERE Identificacion = @ID_Cliente;
+
+        SELECT 'cliente eliminado correctamente' AS MENSAJE
+
+    END TRY
+    BEGIN CATCH
+        -- Manejar cualquier error inesperado
+        SELECT 'error inesperado' AS MENSAJE
+    END CATCH
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ListarClientes]    Script Date: 10/8/2024 4:24:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+----------------------------------------------------------------------------------------------------
+-- Procedimientos almacenados : [BigSolutions] 
+-- Programador				  : [Wenndy Perez Espinoza]
+-- Fecha ultima actualización : [10-05-2024]:[11:51 AM]
+----------------------------------------------------------------------------------------------------
+-- Procedimientos READ para tabla Clientes
+----------------------------------------------------------------------------------------------------
+--Listar todos los clientes
+--Código 1 - Listar Nombre, Correo, Rol, Estado
+----------------------------------------------------------------------------------------------------
+CREATE   PROC [dbo].[SP_ListarClientes] AS
+BEGIN
+    BEGIN TRY
+
+ -- Validar si hay clientes registrados
+        IF NOT EXISTS (SELECT 1 FROM dbo.Usuario)
+        BEGIN
+            RETURN 'no hay clientes'
+        END   
+		
+-- Selección de clientes
+        SELECT T0.Identificacion,T0.NombreCompleto, T0.CorreoElectronico, T1.Nombre AS Rol, T0.Estado
+          FROM dbo.Usuario T0
+         INNER JOIN dbo.rol T1 ON T1.IdRol = T0.IdRol
+		 WHERE T1.Nombre = 'Cliente' 
+    END TRY
+    BEGIN CATCH
+
+-- Manejar cualquier error inesperado
+        RETURN 'error inesperado'
+    END CATCH
 END
 GO
 USE [master]

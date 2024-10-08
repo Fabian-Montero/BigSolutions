@@ -49,5 +49,80 @@ namespace BigSolutionsWeb.Models
             }
         }
 
+        public List<Cliente> ListarClientes()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ListarClientes";
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<List<Cliente>>().Result!;
+                }
+                else
+                {
+                    return new List<Cliente>();
+                }
+            }
+        }
+
+        public List<Cliente> BuscarClientes(string parametroBusqueda)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/BuscarCliente?ParametroBusqueda=" + parametroBusqueda;
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<List<Cliente>>().Result!;
+                }
+                else
+                {
+                    return new List<Cliente>();
+                }
+            }
+        }
+
+        public string EliminarClientes(string identificacion)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EliminarCliente?identificacion=" + identificacion;
+
+                var res = httpClient.DeleteAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadAsStringAsync().Result;
+                }
+                else
+                {
+                    return "Error al establecer conexion con el api, Eliminar el cliente ";
+                }
+            }
+        }
+
+        public DetallesCliente DetallesClientes(string identificacion)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/DetallesCliente?identificacion=" + identificacion;
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<DetallesCliente>().Result!;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

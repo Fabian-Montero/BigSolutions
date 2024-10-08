@@ -14,18 +14,6 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IComunesModel, ComunesModel>();
 builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
 
-
-
-
-
-
-
-
-
-
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
