@@ -1,13 +1,18 @@
 ﻿using BigSolutionsWeb.Entidades;
+using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace BigSolutionsWeb.Controllers
 {
     public class UsuarioController(IComunesModel iComunesModel, IUsuarioModel iUsuarioModel) : Controller
     {
+        static string? mensaje;
         public IActionResult Index()
         {
             return View();
@@ -178,15 +183,60 @@ namespace BigSolutionsWeb.Controllers
         }
         public IActionResult ConsultarClientes()
         {
-            return View();
+
+            List<Cliente> ListCliente = new List<Cliente>();
+            
+            ListCliente = iUsuarioModel.ListarClientes();
+
+            ViewBag.Aviso = mensaje;
+            mensaje = null;
+
+            // Retornar la vista con la lista de clientes
+            return View(ListCliente);
         }
+
+        public IActionResult EliminarClientes(string id)
+        {
+            mensaje = iUsuarioModel.EliminarClientes(id);
+           
+            return RedirectToAction("ConsultarClientes");
+        }
+
+        public IActionResult DetallesCLiente(string id)
+        {
+            DetallesCliente detalleCLiente = iUsuarioModel.DetallesClientes(id);
+
+            return View(detalleCLiente);
+        }
+
+        public IActionResult BuscarClientes(string ParametroBusqueda)
+        {
+            List<Cliente> ListCliente = new List<Cliente>();
+
+            //si el campo de busqueda tiene datos cargue la busqueda
+            if (ParametroBusqueda != null)
+            {
+                // Obtener la lista de clientes con el parámetro de búsqueda
+                ListCliente = iUsuarioModel.BuscarClientes(ParametroBusqueda);
+            }
+            else { //Si el campo de busqueda esta vacio, cargue toda la informacion del cliente 
+                 ListCliente = iUsuarioModel.ListarClientes();
+            }
+
+            ViewBag.Aviso = mensaje;
+            mensaje = null;
+
+            // Retornar la vista completa
+            return View("ConsultarClientes", ListCliente);
+        }
+
         public IActionResult EditarClientes()
         {
             return View();
         }
-        public IActionResult OrdenesPorCliente()
+        public IActionResult OrdenesPorCliente(string id)
         {
             return View();
-        }       
+        }   
     }
 }

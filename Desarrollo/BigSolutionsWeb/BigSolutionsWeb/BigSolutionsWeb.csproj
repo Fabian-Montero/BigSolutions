@@ -9,13 +9,12 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\JSLayout.js" />
   </ItemGroup>
-
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\JSLayout.js" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="wwwroot\js\JSLayout.js" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>
