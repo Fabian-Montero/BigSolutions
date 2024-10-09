@@ -63,14 +63,37 @@
                                                     <td>@usuario.CorreoElectronico</td>
                                                     <td>@usuario.NombreRol</td> <!-- Muestra el rol del usuario -->
                                                     <td>
-                                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                        @* <div class="btn-group" role="group" aria-label="Basic example">
                                                             <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones">Editar</a>
                                                             <button class="botones btn-deleteUsu" style="margin-left:5px;"
                                                                     data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
                                                                 Eliminar
                                                             </button>
 
-                                                        </div>
+                                                        </div> *@
+                                                        @{
+                                                            long usuarioLogueadoId = Convert.ToInt64(Context.Session.GetString("IDUSUARIO"));
+                                                        }
+
+                                                        @if (usuario.UsuarioId == usuarioLogueadoId)
+                                                        {
+                                                            <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                                                <a href="#" class="botones">Editar</a>
+                                                                <button class="botones btn-deleteUsu" style="margin-left:5px;" disabled>
+                                                                    Eliminar
+                                                                </button>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones">Editar</a>
+                                                                <button class="botones btn-deleteUsu" style="margin-left:5px;"
+                                                                        data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
+                                                                    Eliminar
+                                                                </button>
+                                                            </div>
+                                                        }
                                                     </td>
                                                 </tr>
                                             }
