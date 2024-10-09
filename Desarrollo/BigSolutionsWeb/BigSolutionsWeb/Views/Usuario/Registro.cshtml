@@ -17,7 +17,7 @@
                         @* Alertas *@
                         @if (ViewBag.msj != null)
                         {
-                            <div id="warningAlert" class="alert alert-warning alert-custom" role="alert" style="text-align: center;">
+                            <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
                                 @ViewBag.msj
                             </div>
                         }
@@ -44,11 +44,10 @@
                                 </div>
                                 <h6 class="font-weight-light">La Contraseña tiene que tener 1 Mayúscula y 8 Caracteres</h6>
                                 <div class="form-group">
-                                    @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "text", @required = "required", @id = "Contrasenna", @placeholder = "Contraseña" })
-                                    @* <input type="password" class="form-control form-control-lg" id="password" placeholder="Contraseña" pattern="(?=.*[A-Z]).{8,}"> *@
+                                    @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "password", @required = "required", @id = "Contrasenna", @placeholder = "Contraseña" })
                                 </div>
                                 <div class="mt-3">
-                                    <button type="submit" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color: #b48a1d; border-color: #b48a1d; color: #fff;">REGISTRARSE</button>
+                                    <button type="submit" class="botones" style="width:100%">REGISTRARSE</button>
                                 </div>
 
                                 <div class="text-center mt-4 font-weight-light">

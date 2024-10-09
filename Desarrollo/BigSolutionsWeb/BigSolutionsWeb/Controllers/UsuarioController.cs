@@ -29,7 +29,8 @@ namespace BigSolutionsWeb.Controllers
 
             //validar contraseña
 
-            if (iComunesModel.ValidarContrasenna(ent.Contrasenna)) {
+            if (iComunesModel.ValidarContrasenna(ent.Contrasenna))
+            {
                 ent.Contrasenna = iComunesModel.Encrypt(ent.Contrasenna!);
 
                 var res = iUsuarioModel.Registro(ent);
@@ -164,15 +165,63 @@ namespace BigSolutionsWeb.Controllers
             }
 
         }
+        [HttpGet]
         public IActionResult Recuperar()
         {
             return View();
         }
-        public IActionResult RecuperarContrasenaCodigo()
+
+        [HttpPost]
+        public IActionResult Recuperar(Usuario ent)
         {
+            var res = iUsuarioModel.Recuperar(ent);
+            if (res.Codigo == 1)
+            {
+                return RedirectToAction("RecuperarContrasenaCodigo", "Usuario", new { correo = ent.CorreoElectronico });
+            }
+            else
+            {
+                ViewBag.msj = "El correo electrónico ingresado no corresponde a ningún usuario registrado";
+                return View();
+            }
+        }
+        [HttpGet]
+        public IActionResult RecuperarContrasenaCodigo(string correo)
+        {
+            ViewBag.Correo = correo;
             return View();
         }
-        
+
+        [HttpPost]
+        public IActionResult RecuperarContrasenaCodigo(Usuario ent)
+        {
+            if (ent.Contrasenna.Equals(ent.ConfirmacionContrasenna))
+            {
+                if (iComunesModel.ValidarContrasenna(ent.Contrasenna))
+                {
+                    //validar el codigo
+                    ent.Codigo = iComunesModel.Encrypt(ent.Codigo);
+                    ent.Contrasenna = iComunesModel.Encrypt(ent.Contrasenna);
+                    ent.ConfirmacionContrasenna = null;
+                    var res = iUsuarioModel.RecuperaContrasennaCodigo(ent);
+                    if (res.Codigo == 1)
+                        return RedirectToAction("InicioSesion", "Usuario");
+                   
+                    ViewBag.msj = res.Mensaje;
+                    return View();  
+                }
+                else {
+                    ViewBag.msj = "La contraseña debe tener mínimo 8 caracteres y una letra mayúscula";
+                    return View();
+                }
+            }
+            else
+            {
+                ViewBag.msj = "Ambas contraseñas deben coincidir";
+                return View();
+            }
+        }
+
         public IActionResult ConsultarUsuariosPrueba()
         {
             return View();
@@ -238,5 +287,6 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }   
+
     }
 }

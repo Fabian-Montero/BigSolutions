@@ -11,5 +11,9 @@ namespace BigSolutionsApi.Modelos
         public string Decrypt(string texto);
 
         public string GenerarToken(long UsuarioId, long IdRol);
+
+        string GenerarCodigo();
+
+        void EnviarCorreo(string destino, string asunto, string contenido);
     }
 }
