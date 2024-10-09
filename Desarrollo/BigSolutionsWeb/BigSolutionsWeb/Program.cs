@@ -13,7 +13,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IComunesModel, ComunesModel>();
 builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
-
+builder.Services.AddScoped<IRolModel, RolModel>();
 
 
 // Inyecci�n de dependencias para cerrar sesi�n por inactividad

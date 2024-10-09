@@ -24,6 +24,10 @@ namespace BigSolutionsWeb.Models.Interfaces
         List<Cliente> BuscarClientes(string parametroBusqueda);
 
         DetallesCliente DetallesClientes(string identificacion);
+        Respuesta Listar();
+        Respuesta ConsultarUsuarioPorId(int id);
+        Respuesta EditarUsuario(Usuario ent);
+        Respuesta EliminarUsuario(long Id);
 
     }
 }

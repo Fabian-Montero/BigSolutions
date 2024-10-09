@@ -3,6 +3,7 @@ using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,7 +11,7 @@ using System.Text.Json;
 
 namespace BigSolutionsWeb.Controllers
 {
-    public class UsuarioController(IComunesModel iComunesModel, IUsuarioModel iUsuarioModel) : Controller
+    public class UsuarioController(IComunesModel iComunesModel, IUsuarioModel iUsuarioModel, IRolModel iRolModel) : Controller
     {
         static string? mensaje;
         public IActionResult Index()
@@ -286,7 +287,104 @@ namespace BigSolutionsWeb.Controllers
         public IActionResult OrdenesPorCliente(string id)
         {
             return View();
-        }   
+        }
+
+        //A
+        [HttpGet]
+        public IActionResult ConsultarUsuarios()
+        {
+            var respuesta = iUsuarioModel.Listar();
+            if (respuesta.Codigo == 1)
+            {
+                var usuarios = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)respuesta.Contenido!);
+                return View(usuarios);
+            }
+            else
+            {
+                return View(new List<Usuario>());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EditarUsuario(int id)
+        {
+            var resp = iUsuarioModel.ConsultarUsuarioPorId(id);
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
+                ConsultarTiposRoles();
+                ConsultarTiposEstados();
+                return View(datos);
+            }
+            return View(new Usuario());
+        }
+
+        [HttpPost]
+        public IActionResult EditarUsuario(Usuario ent)
+        {
+
+            var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
+            var IdUsuario = long.Parse(IdUsuarioString);
+            
+            // Verificar si el usuario está intentando actualizarse a sí mismo
+            if (ent.UsuarioId != IdUsuario)
+            {
+                var resp = iUsuarioModel.EditarUsuario(ent);
+                if (resp.Codigo == 1)
+                    return RedirectToAction("ConsultarUsuarios", "Usuario");
+
+                ViewBag.msj = resp.Mensaje;
+                ConsultarTiposRoles();
+                ConsultarTiposEstados();
+                return View();
+            }
+
+            // Si es a sí mismo lo redirige a la lista de nuevo
+            ViewBag.msj = "No puede editar su propia información desde este apartado";
+            ConsultarTiposRoles();
+            ConsultarTiposEstados();
+            return View();
+        }
+
+        [HttpGet]
+        //[FiltroSesiones]
+        public IActionResult EliminarUsuario(long id)
+        {
+
+            var resp = iUsuarioModel.EliminarUsuario(id);
+            
+            if (resp.Codigo == 1)
+            {
+                return RedirectToAction("ConsultarUsuarios", "Usuario");
+            }
+            else
+            {
+                ViewBag.msj = resp.Mensaje;
+                return RedirectToAction("ConsultarUsuarios", "Usuario");
+            }
+
+        }
+
+        private void ConsultarTiposRoles()
+        {
+            var roles = iRolModel.ConsultarTiposRoles();
+            List<SelectListItem> listaRoles = new List<SelectListItem>();
+            listaRoles = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)roles.Contenido!)!;
+            listaRoles.Insert(0, new SelectListItem { Text = "Seleccione un rol ", Value = "" });
+
+            ViewBag.Roles = listaRoles;
+        }
+
+        private void ConsultarTiposEstados()
+        {
+            List<SelectListItem> listaEstados = new List<SelectListItem>();
+            listaEstados.Add(new SelectListItem { Text = "Seleccione un estado", Value = "" });
+            listaEstados.Add(new SelectListItem { Text = "Activo", Value = true.ToString() });
+            listaEstados.Add(new SelectListItem { Text = "Inactivo", Value = false.ToString() });
+
+            ViewBag.Estados = listaEstados;
+        }
 
     }
 }

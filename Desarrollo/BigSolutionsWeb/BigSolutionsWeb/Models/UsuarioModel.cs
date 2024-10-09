@@ -211,5 +211,83 @@ namespace BigSolutionsWeb.Models
 
             }
         }
+
+        //A
+        public Respuesta Listar()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/Listar";
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                }
+                else
+                {
+                    return new Respuesta();
+                }
+            }
+        }
+
+        public Respuesta ConsultarUsuarioPorId(int UsuarioId)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuarioPorId?UsuarioId=" + UsuarioId;
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                }
+                else
+                {
+                    return new Respuesta();
+                }
+            }
+        }
+
+        public Respuesta EditarUsuario(Usuario ent)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EditarUsuario";
+
+                JsonContent body = JsonContent.Create(ent);
+
+                var res = httpClient.PutAsync(url, body).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                }
+                else
+                {
+                    return new Respuesta();
+                }
+            }
+        }
+
+        public Respuesta EliminarUsuario(long Id)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EliminarUsuario?Id=" + Id;
+                /*string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+
+                var resp = httpClient.DeleteAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
     }
 }

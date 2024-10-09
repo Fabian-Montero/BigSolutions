@@ -14,6 +14,7 @@
         public string? CorreoElectronico { get; set; }
         public object? Rol { get; set; }
         public object? Estado { get; set; }
+        public long UsuarioId { get; set; }
     }
 
 }
