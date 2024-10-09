@@ -49,5 +49,39 @@ namespace BigSolutionsWeb.Models
             }
         }
 
+        public Respuesta Recuperar(Usuario ent) {
+
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/Recuperar";
+
+                JsonContent body = JsonContent.Create(ent);
+
+                var res = httpClient.PostAsync(url, body).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+                
+            }
+        }
+
+        public Respuesta RecuperaContrasennaCodigo(Usuario ent)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/RecuperaContrasennaCodigo";
+
+                JsonContent body = JsonContent.Create(ent);
+
+                var res = httpClient.PutAsync(url, body).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
     }
 }

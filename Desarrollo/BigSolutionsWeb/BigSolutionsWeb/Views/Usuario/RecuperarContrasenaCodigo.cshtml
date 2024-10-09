@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BigSolutionsWeb.Entidades.Usuario
+@{
     ViewData["Title"] = "Registro";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
@@ -14,25 +15,33 @@
                             <img src="~/page/images/bigsolutions-logo.jpg" alt="logo">
                         </div>
                         <h4>Datos necesarios para Recuperar la Contraseña :</h4>
+                        @if (ViewBag.msj != null)
+                        {
+                            <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+                                @ViewBag.msj
+                            </div>
+                        }
+                        @{
+                            var correo = ViewBag.Correo as string;
+                        }
+                        @using (Html.BeginForm("RecuperarContrasenaCodigo", "Usuario"))
+                        {
 
-
-
-                        <form id="RecuperarContrasena-form" class="pt-3" novalidate>
-
-                        
+                            @Html.Hidden("CorreoElectronico", correo)
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="Codigo" placeholder="Codigo">
+                                @Html.TextBoxFor(m => m.Codigo, new { @class = "form-control", @type = "text", @required = "required", @id = "Codigo", @placeholder = "Código" })
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="Contrasena" placeholder="Contrasena Nueva">
+                                @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "password", @required = "required", @id = "Contrasenna", @placeholder = "Nueva contraseña"})
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="Contrasena" placeholder="Verificar la Contrasena Nueva">
+                                @Html.TextBoxFor(m => m.ConfirmacionContrasenna, new { @class = "form-control", @type = "password", @required = "required", @id = "ConfirmacionContrasenna", @placeholder = "Verificar la nueva contraseña"})
                             </div>
                             <div class="text-center mt-4 font-weight-light">
-                                <a href="@Url.Action("InicioSesion", "Usuario")" class="btn btn-dark">Actualizar</a>
+                                <button type="submit" class="botones" style="width:100%">ACTUALIZAR</button>
+                                @* <a href="@Url.Action("InicioSesion", "Usuario")" style class="botones-secundarios">Actualizar</a> *@
                             </div>
-                        </form>
+                        }
                     </div>
                     <div class="card-footer text-center py-3">
                         <a href="@Url.Action("InicioSesion", "Usuario")" class="inventario-link">Volver al Inicio de Sesion</a>

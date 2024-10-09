@@ -17,5 +17,9 @@
         public bool EsTemporal { get; set; }
         public DateTime VigenciaTemporal { get; set; }
 
+        public string? Codigo { get; set; }
+
+        public string? ConfirmacionContrasenna { get; set; }
+
     }
 }

@@ -7,5 +7,8 @@ namespace BigSolutionsWeb.Models.Interfaces
         Respuesta Registro(Usuario ent);
 
         Respuesta InicioSesion(Usuario ent);
+
+        Respuesta Recuperar(Usuario ent);
+        Respuesta RecuperaContrasennaCodigo(Usuario ent);
     }
 }
