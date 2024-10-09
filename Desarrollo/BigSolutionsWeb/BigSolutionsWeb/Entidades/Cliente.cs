@@ -2,6 +2,7 @@
 {
     public class Cliente
     {
+        public long UsuarioId { get; set; }
         public string Identificacion { get; set; }
         public string NombreCompleto { get; set; }
         public string CorreoElectronico { get; set; }

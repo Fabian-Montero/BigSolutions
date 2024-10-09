@@ -61,7 +61,8 @@
                                     <td>@Html.DisplayFor(modelItem => item.Estado)</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a href="#" class="botones" onclick="FunAux('@Url.Action("Actualizar", "Usuario", new { id = item.Identificacion })')">Actualizar</a>
+                                            <a href="@Url.Action("EditarUsuario", "Usuario", new { id = item.UsuarioId })" class="botones">Actualizar</a>
+
                                             <div style="margin-left:5px">
                                                 @* <button class="botones" onclick="confirmarBorrado(event)">Eliminar</button> *@
                                             </div>
