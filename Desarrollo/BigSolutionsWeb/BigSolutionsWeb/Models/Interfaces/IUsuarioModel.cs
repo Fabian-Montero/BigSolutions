@@ -8,7 +8,22 @@ namespace BigSolutionsWeb.Models.Interfaces
 
         Respuesta InicioSesion(Usuario ent);
 
+
         Respuesta Recuperar(Usuario ent);
         Respuesta RecuperaContrasennaCodigo(Usuario ent);
+
+        Respuesta? ConsultarUsuarioPerfil(long idusuario);
+
+        Respuesta ActualizarPerfilUsuario(Usuario ent);
+        Respuesta EliminarPerfilUsuario(long UsuarioId);
+
+        List<Cliente> ListarClientes();
+
+        string EliminarClientes(string identificacion);
+
+        List<Cliente> BuscarClientes(string parametroBusqueda);
+
+        DetallesCliente DetallesClientes(string identificacion);
+
     }
 }
