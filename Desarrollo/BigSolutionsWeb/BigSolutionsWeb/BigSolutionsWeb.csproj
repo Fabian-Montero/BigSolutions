@@ -14,6 +14,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\js\JSLayout.js" />
+    <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
   </ItemGroup>
 
