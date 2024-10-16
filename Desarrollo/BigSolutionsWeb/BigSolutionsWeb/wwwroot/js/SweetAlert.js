@@ -1,4 +1,5 @@
-﻿// SweetAlert para eliminar el perfil de usuario
+﻿// ----> PERFIL USUARIO
+// SweetAlert para eliminar el perfil de usuario
 $(function () {
     $('.btn-EliminarPerfilUsuario').on('click', function (e) {
         e.preventDefault(); // Evita la acción por defecto del enlace
@@ -65,3 +66,68 @@ document.addEventListener('DOMContentLoaded', function () {
 function submitForm() {
     $('#perfilForm').submit();
 }
+
+// ----> INVENTARIO
+// SweetAlert de confirmación de creación de producto en el inventario
+function submitFormInv() {
+    var form = $('#agregarForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        url: $(form).attr('action'),
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Producto agregado',
+                text: 'Tu producto ha sido agregado al inventario con éxito.',
+                confirmButtonColor: '#c1952c',
+                showConfirmButton: false,
+                timer: 1800
+            }).then(() => {
+                window.location.href = '/Inventario/ConsultarInventario';
+            });
+        }
+    });
+}
+
+// SweetAlert de confirmación de edición de producto en el inventario
+
+
+// SweetAlert de eliminar un producto del inventario
+$(function () {
+    $('.botonEliminar').on('click', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var url = $this.attr('href');
+
+        Swal.fire({
+            title: '¿Está seguro de que desea eliminar este producto?',
+            text: "¡Esta acción no se puede deshacer!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#c1952c',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                popup: 'my-swal-popup'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: '¡Eliminado!',
+                    text: 'El producto ha sido eliminado con éxito.',
+                    icon: 'success',
+                    confirmButtonColor: '#c1952c',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    window.location.href = url;
+                });
+            }
+        });
+    });
+});
