@@ -4,8 +4,10 @@ using BigSolutionsWeb.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -365,6 +367,33 @@ namespace BigSolutionsWeb.Controllers
             }
 
         }
+
+        [HttpGet]
+        public IActionResult CambiarContrasenna() 
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CambiarContrasenna(Usuario ent)
+        {
+            ent.Contrasenna = iComunesModel.Encrypt(ent.Contrasenna);
+            ent.NuevaContrasenna = iComunesModel.Encrypt(ent.NuevaContrasenna);
+            ent.ConfirmacionContrasenna = iComunesModel.Encrypt(ent.ConfirmacionContrasenna);
+            var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
+            ent.UsuarioId = long.Parse(IdUsuarioString!);
+            
+            var resp = iUsuarioModel.CambiarContrasenna(ent);
+            if (resp.Codigo == 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else 
+            {
+                ViewBag.msj = resp.Mensaje;
+                return View();
+            }
+        }
+
 
         private void ConsultarTiposRoles()
         {

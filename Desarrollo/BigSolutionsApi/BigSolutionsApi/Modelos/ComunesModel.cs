@@ -5,6 +5,7 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BigSolutionsApi.Modelos
 {
@@ -122,6 +123,12 @@ namespace BigSolutionsApi.Modelos
             client.Credentials = new System.Net.NetworkCredential(cuenta, contrasenna);
             client.EnableSsl = true;
             client.Send(message);
+        }
+
+        public bool ValidarContrasenna(string texto)
+        {
+            string reg = @"^(?=.*[A-Z]).{8,}$";
+            return Regex.IsMatch(texto, reg);
         }
 
 

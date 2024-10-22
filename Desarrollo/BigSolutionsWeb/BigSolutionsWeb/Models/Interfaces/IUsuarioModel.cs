@@ -28,6 +28,7 @@ namespace BigSolutionsWeb.Models.Interfaces
         Respuesta ConsultarUsuarioPorId(int id);
         Respuesta EditarUsuario(Usuario ent);
         Respuesta EliminarUsuario(long Id);
+        Respuesta CambiarContrasenna(Usuario ent);
 
     }
 }

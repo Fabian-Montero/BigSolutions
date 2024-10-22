@@ -15,5 +15,6 @@ namespace BigSolutionsApi.Modelos
         string GenerarCodigo();
 
         void EnviarCorreo(string destino, string asunto, string contenido);
+        bool ValidarContrasenna(string texto);
     }
 }

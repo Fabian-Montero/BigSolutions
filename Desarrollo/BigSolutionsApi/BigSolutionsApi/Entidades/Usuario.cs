@@ -21,5 +21,7 @@
 
         public string? ConfirmacionContrasenna { get; set; }
 
+        public string? NuevaContrasenna { get; set; }
+
     }
 }
