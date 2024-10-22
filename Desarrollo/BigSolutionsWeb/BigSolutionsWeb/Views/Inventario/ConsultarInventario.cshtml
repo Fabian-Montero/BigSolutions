@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<BigSolutionsWeb.Entidades.Producto>
+@{
     ViewData["Title"] = "Consultar Inventario";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,6 +15,12 @@
     </div>
     <br />
     <br />
+    @if (ViewBag.msj != null)
+    {
+        <div id="warningAlert" class="alert alert-warning alert-custom" role="alert" style="text-align: center;">
+            @ViewBag.msj
+        </div>
+    }
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Lista de productos</h3>
@@ -28,166 +35,28 @@
                         <th style="text-align:left">Cantidad</th>
                         <th style="text-align:left">Precio</th>
                         <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Categoría</th>
                         <th style="text-align:left">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="image-centered">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 125px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td>Botella</td>
-                        <td>100 unidades</td>
-                        <td>₡ 2 000</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:center">
-                            <a class="botones" href="@Url.Action("EditarInventario", "Inventario")">Editar</a>
-                            <a class="botones eliminar-producto" href="#" data-id="1">Eliminar</a>
-                        </td>
-                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="image-centered">
+                                <img src="@item.RutaImagen" class="boceto-img producto-img" alt="Producto" style="width: 125px; height: 125px; cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@item.RutaImagen">
+                            </td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Cantidad</td>
+                            <td>@item.Precio</td>
+                            <td>@item.Descripcion</td>
+                            <td>@item.NombreCategoria</td>
+                            <td style="text-align:center">
+                                <a class="botones" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">Editar</a>
+                                <a class="botones botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -211,6 +80,7 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/sweetalert.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -218,7 +88,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
-            columnDefs: [{ type: 'string', target: [0] }]
+            columnDefs: [{ type: 'string', target: [0,2,3]}]
         });
 
         //Para ver imagen del producto
@@ -230,37 +100,6 @@
         $('#tabla-Inventario').on('click', '.view-image', function () {
             var src = $(this).data('src');
             $('#modalImage').attr('src', src);
-        });
-
-        //Alerta de eliminación
-        $('.eliminar-producto').on('click', function (e) {
-            e.preventDefault();
-            var productId = $(this).data('id');
-            Swal.fire({
-                title: '¿Está seguro que deseas eliminar este producto?',
-                text: "No podrá revertir esto",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#c1952c',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo',
-                customClass: {
-                    popup: 'my-swal-popup'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Eliminado',
-                        text: 'El producto ha sido eliminado',
-                        icon: 'success',
-                        confirmButtonColor: '#c1952c',
-                        customClass: {
-                            popup: 'my-swal-popup'
-                        }
-                    }).then(() => {
-                    });
-                }
-            });
         });
     });
 </script>
