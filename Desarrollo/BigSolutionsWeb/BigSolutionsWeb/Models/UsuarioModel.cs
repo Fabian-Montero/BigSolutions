@@ -289,5 +289,26 @@ namespace BigSolutionsWeb.Models
                     return new Respuesta();
             }
         }
+
+        public Respuesta CambiarContrasenna(Usuario ent)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/CambiarContrasenna";
+
+                JsonContent body = JsonContent.Create(ent);
+
+                var res = httpClient.PutAsync(url, body).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                }
+                else
+                {
+                    return new Respuesta();
+                }
+            }
+        }
     }
 }
