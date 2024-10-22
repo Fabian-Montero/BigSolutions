@@ -10,6 +10,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlTypes;
+using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 
 namespace BigSolutionsApi.Controllers
 {
@@ -565,5 +568,85 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+
+        [HttpPut]
+        [Route("CambiarContrasenna")]
+        //[AllowAnonymous]
+        public async Task<IActionResult> CambiarContrasenna(Usuario ent)
+        {
+            /* Validar que la vieja contra sea igual
+             Validar que la nueva contraseña sea igual a la segunda nueva contraseña
+             Validar los estandares de seguridad*/
+
+            Respuesta res = new Respuesta();
+            var HoraActual = DateTime.Now;
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var result = await context.QueryFirstOrDefaultAsync("ValidarContrasennaActual", new
+                {
+                    ent.UsuarioId,
+                    ent.Contrasenna
+                }, commandType: CommandType.StoredProcedure);
+
+                if (result != null)
+                {
+                    if (ent.NuevaContrasenna.Equals(ent.ConfirmacionContrasenna))
+                    {
+                        if (iComunesModel.ValidarContrasenna(ent.NuevaContrasenna))
+                        {
+
+                            var result2 = await context.ExecuteAsync("CambiarContrasenna", new
+                            {
+                                ent.UsuarioId,
+                                ent.NuevaContrasenna
+                            }, commandType: CommandType.StoredProcedure);
+                            if (result2 > 0)
+                            {
+                                res.Codigo = 1;
+                                res.Mensaje = "";
+                                res.Contenido = result2;
+                                return Ok(res);
+                            }
+                            else
+                            {
+                                res.Codigo = 0;
+                                res.Mensaje = "Eror al actualizar la nueva contraseña";
+                                res.Contenido = false;
+                                return Ok(res);
+                            }
+
+                        }
+                        else
+                        {
+                            res.Codigo = 0;
+                            res.Mensaje = "La contraseña debe tener mínimo 8 caracteres y una letra mayúscula";
+                            res.Contenido = false;
+                            return Ok(res);
+                        }
+
+                    }
+                    else
+                    {
+                        res.Codigo = 0;
+                        res.Mensaje = "La nueva contraseña y su confirmación no coinciden";
+                        res.Contenido = false;
+                        return Ok(res);
+                    }
+
+                }
+                else
+                {
+                    res.Codigo = 0;
+                    res.Mensaje = "La contraseña ingresada no corresponde a su contraseña actual";
+                    res.Contenido = false;
+                    return Ok(res);
+                }
+            }
+        }
+
+
+
+
+
     }
 }
