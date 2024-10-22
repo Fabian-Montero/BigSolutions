@@ -7,6 +7,7 @@
 <link href="~/css/hojaestilos.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
@@ -52,8 +53,12 @@
                             <td>@item.Descripcion</td>
                             <td>@item.NombreCategoria</td>
                             <td style="text-align:center">
-                                <a class="botones" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">Editar</a>
-                                <a class="botones botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">Eliminar</a>
+                                <a class="botones" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
+                                    <i class="fas fa-pencil-alt"></i> Editar
+                                </a>
+                                <a class="botones-eliminar botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </a>
                             </td>
                         </tr>
                     }
