@@ -11,6 +11,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlTypes;
+using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -574,9 +575,9 @@ namespace BigSolutionsApi.Controllers
         //[AllowAnonymous]
         public async Task<IActionResult> CambiarContrasenna(Usuario ent)
         {
-           /* Validar que la vieja contra sea igual
-            Validar que la nueva contraseña sea igual a la segunda nueva contraseña
-            Validar los estandares de seguridad*/
+            /* Validar que la vieja contra sea igual
+             Validar que la nueva contraseña sea igual a la segunda nueva contraseña
+             Validar los estandares de seguridad*/
 
             Respuesta res = new Respuesta();
             var HoraActual = DateTime.Now;
@@ -594,7 +595,7 @@ namespace BigSolutionsApi.Controllers
                     {
                         if (iComunesModel.ValidarContrasenna(ent.NuevaContrasenna))
                         {
-                            
+
                             var result2 = await context.ExecuteAsync("CambiarContrasenna", new
                             {
                                 ent.UsuarioId,
@@ -607,23 +608,23 @@ namespace BigSolutionsApi.Controllers
                                 res.Contenido = result2;
                                 return Ok(res);
                             }
-                            else 
+                            else
                             {
                                 res.Codigo = 0;
                                 res.Mensaje = "Eror al actualizar la nueva contraseña";
                                 res.Contenido = false;
                                 return Ok(res);
                             }
-                            
+
                         }
-                        else 
+                        else
                         {
                             res.Codigo = 0;
                             res.Mensaje = "La contraseña debe tener mínimo 8 caracteres y una letra mayúscula";
                             res.Contenido = false;
                             return Ok(res);
                         }
-                        
+
                     }
                     else
                     {
@@ -632,7 +633,7 @@ namespace BigSolutionsApi.Controllers
                         res.Contenido = false;
                         return Ok(res);
                     }
-                    
+
                 }
                 else
                 {
@@ -643,5 +644,10 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+
+
+
+
+
     }
 }

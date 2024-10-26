@@ -30,5 +30,6 @@ namespace BigSolutionsWeb.Models.Interfaces
         Respuesta EliminarUsuario(long Id);
         Respuesta CambiarContrasenna(Usuario ent);
 
+
     }
 }

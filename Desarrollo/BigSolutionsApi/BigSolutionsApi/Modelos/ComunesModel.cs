@@ -131,6 +131,5 @@ namespace BigSolutionsApi.Modelos
             return Regex.IsMatch(texto, reg);
         }
 
-
     }
 }

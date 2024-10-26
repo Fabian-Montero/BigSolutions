@@ -368,8 +368,9 @@ namespace BigSolutionsWeb.Controllers
 
         }
 
+
         [HttpGet]
-        public IActionResult CambiarContrasenna() 
+        public IActionResult CambiarContrasenna()
         {
             return View();
         }
@@ -381,19 +382,18 @@ namespace BigSolutionsWeb.Controllers
             ent.ConfirmacionContrasenna = iComunesModel.Encrypt(ent.ConfirmacionContrasenna);
             var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
             ent.UsuarioId = long.Parse(IdUsuarioString!);
-            
+
             var resp = iUsuarioModel.CambiarContrasenna(ent);
             if (resp.Codigo == 1)
             {
                 return RedirectToAction("Index", "Home");
             }
-            else 
+            else
             {
                 ViewBag.msj = resp.Mensaje;
                 return View();
             }
         }
-
 
         private void ConsultarTiposRoles()
         {

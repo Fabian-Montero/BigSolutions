@@ -78,19 +78,19 @@
                                                         @if (usuario.UsuarioId == usuarioLogueadoId)
                                                         {
                                                             <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                                                <a href="#" class="botones">Editar</a>
-                                                                <button class="botones btn-deleteUsu" style="margin-left:5px;" disabled>
-                                                                    Eliminar
+                                                                <a href="#" class="botones"> <i class="fas fa-pencil-alt"></i> Editar</a>
+                                                                <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;" disabled>
+                                                                    <i class="fas fa-trash-alt"></i>Eliminar
                                                                 </button>
                                                             </div>
                                                         }
                                                         else
                                                         {
                                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                                                <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones">Editar</a>
-                                                                <button class="botones btn-deleteUsu" style="margin-left:5px;"
+                                                                <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones"><i class="fas fa-pencil-alt"></i> Editar</a>
+                                                                <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;"
                                                                         data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
-                                                                    Eliminar
+                                                                    <i class="fas fa-trash-alt"></i>Eliminar
                                                                 </button>
                                                             </div>
                                                         }
