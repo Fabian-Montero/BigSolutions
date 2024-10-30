@@ -109,6 +109,9 @@
                         <label for="LogoDescription" class="font-weight-bold">Descripción del Logo</label>
                         <textarea id="LogoDescription" name="LogoDescription" class="form-control" rows="4" placeholder="Describe el logo que deseas en este producto..." required></textarea>
                     </div>
+                    <p style="font-size: 0.9em; color: gray; margin-top: 10px;">
+                        Nota: Este boceto es generado automáticamente mediante inteligencia artificial. Los resultados pueden variar entre diferentes bocetos y podrían no coincidir completamente con el producto final. Usa el boceto como una aproximación visual de cómo se vería tu diseño. Para obtener los mejores resultados, proporciona una descripción detallada del logo (como colores, estilo visual - realista, minimalista, dibujo, etc.), sin incluir descripciones del producto en sí.
+                    </p>
                     <input type="hidden" id="UserId" name="UserId" value="@User.FindFirst("UserId")?.Value" />
                     <input type="hidden" id="ProductId" name="ProductId" />
                     <input type="hidden" id="ProductPrompt" name="ProductPrompt" />
@@ -158,16 +161,33 @@
 
             $('#productModalLabel').text(productName);
             $('#modalProductImage').attr('src', productImageUrl);
+            $('#modalProductTitle').text(productName);
             $('#modalProductDescription').text(productDescription);
             $('#ProductId').val(productId);
             $('#ProductPrompt').val(productPrompt);
         });
     });
 
-
     function submitSketchForm() {
+        var logoDescription = $('#LogoDescription').val().trim();
+
+        // Validar que el campo LogoDescription no esté vacío
+        if (logoDescription === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campo requerido',
+                text: 'Por favor, ingresa la descripción del logo antes de generar el boceto.',
+                confirmButtonColor: '#c1952c'
+            });
+            return; // Detener el envío del formulario
+        }
+
         var form = $('#sketchForm')[0];
         var formData = new FormData(form);
+        var generateButton = $('.modal-footer .botones:contains("Generar Boceto")');
+
+        // Desactivar el botón y mostrar estado de carga
+        generateButton.prop('disabled', true).text('Generando...');
 
         $.ajax({
             url: $(form).attr('action'),
@@ -176,17 +196,30 @@
             contentType: false,
             processData: false,
             success: function (response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Boceto generado',
-                    text: response.message || 'El boceto se ha generado con éxito.',
-                    confirmButtonColor: '#c1952c',
-                    showConfirmButton: false,
-                    timer: 1800
-                }).then(() => {
-                    // Redirigir o refrescar la página después de generar el boceto
-                    window.location.href = '/Boceto/ConsultarProductosBoceto';
-                });
+                if (response.success) {
+                    // Si la respuesta es exitosa, muestra la alerta de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Boceto generado',
+                        text: response.message || 'El boceto se ha generado con éxito.',
+                        confirmButtonColor: '#c1952c',
+                        showConfirmButton: false,
+                        timer: 1800
+                    }).then(() => {
+                        // Redirigir o refrescar la página después de generar el boceto
+                        window.location.href = '/Boceto/ConsultarProductosBoceto';
+                    });
+                } else {
+                    // Si la respuesta no es exitosa, muestra la alerta de error con el mensaje de respuesta
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message || 'Hubo un problema al generar el boceto.',
+                        confirmButtonColor: '#c1952c'
+                    });
+                    // Reactivar el botón
+                    generateButton.prop('disabled', false).text('Generar Boceto');
+                }
             },
             error: function (xhr, status, error) {
                 // Manejar errores en caso de que falle la petición
@@ -197,6 +230,8 @@
                     text: 'Hubo un problema al generar el boceto. Inténtalo de nuevo más tarde.',
                     confirmButtonColor: '#c1952c'
                 });
+                // Reactivar el botón
+                generateButton.prop('disabled', false).text('Generar Boceto');
             }
         });
     }

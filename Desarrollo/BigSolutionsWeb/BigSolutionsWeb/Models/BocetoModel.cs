@@ -48,5 +48,35 @@ namespace BigSolutionsWeb.Models
                     return new Respuesta();
             }
         }
+
+        public Respuesta ConsultarBocetosCliente(int IdUsuario)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Boceto/ConsultarBocetosCliente?IdUsuario=" + IdUsuario;
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+        public Respuesta ConsultarBocetosAdmin()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Boceto/ConsultarBocetosAdmin";
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
     }
 }

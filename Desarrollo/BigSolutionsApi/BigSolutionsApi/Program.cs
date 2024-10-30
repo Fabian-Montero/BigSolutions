@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddScoped<IComunesModel, ComunesModel>();
+builder.Services.AddScoped<IFirebaseModel, FirebaseModel>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
