@@ -23,7 +23,7 @@
                             @ViewBag.msj
                         </div>
                     }
-                    @using (Html.BeginForm("EditarInventario", "Inventario", FormMethod.Post, new { enctype = "multipart/form-data"}))
+                    @using (Html.BeginForm("EditarInventario", "Inventario", FormMethod.Post, new { enctype = "multipart/form-data", id = "editarForm" }))
                     {
                         @Html.HiddenFor(m => m.IdProducto)
                         @Html.HiddenFor(m => m.RutaImagen)
@@ -96,3 +96,34 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/sweetalert.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('editarForm');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            $.ajax({
+                url: form.action,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Producto editado',
+                        text: 'Tu producto ha sido editado con éxito.',
+                        confirmButtonColor: '#c1952c',
+                        showConfirmButton: false,
+                        timer: 1800
+                    }).then(() => {
+                        window.location.href = '/Inventario/ConsultarInventario';
+                    });
+                }
+            });
+        });
+    });
+</script>

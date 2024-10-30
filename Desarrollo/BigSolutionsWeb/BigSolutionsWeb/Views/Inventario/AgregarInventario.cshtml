@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center mt-4">
-                                <button type="button" class="botones" onclick="submitFormInv()">Aceptar</button>
+                                <button type="submit" class="botones" onclick="submitFormInv()">Aceptar</button>
                             </div>
                             <br />
                         </div>
@@ -95,3 +95,34 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/sweetalert.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('agregarForm');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            $.ajax({
+                url: form.action,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Producto agregado',
+                        text: 'Tu producto ha sido agregado al inventario con éxito.',
+                        confirmButtonColor: '#c1952c',
+                        showConfirmButton: false,
+                        timer: 1800
+                    }).then(() => {
+                        window.location.href = '/Inventario/ConsultarInventario';
+                    });
+                }
+            });
+        });
+    });
+</script>

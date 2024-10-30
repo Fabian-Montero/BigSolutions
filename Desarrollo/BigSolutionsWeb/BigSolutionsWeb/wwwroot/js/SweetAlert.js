@@ -69,30 +69,7 @@ function submitForm() {
 
 // ----> INVENTARIO
 // SweetAlert de confirmación de creación de producto en el inventario
-function submitFormInv() {
-    var form = $('#agregarForm')[0];
-    var formData = new FormData(form);
 
-    $.ajax({
-        url: $(form).attr('action'),
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Producto agregado',
-                text: 'Tu producto ha sido agregado al inventario con éxito.',
-                confirmButtonColor: '#c1952c',
-                showConfirmButton: false,
-                timer: 1800
-            }).then(() => {
-                window.location.href = '/Inventario/ConsultarInventario';
-            });
-        }
-    });
-}
 
 // SweetAlert de confirmación de edición de producto en el inventario
 
