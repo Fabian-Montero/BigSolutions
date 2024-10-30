@@ -1,283 +1,203 @@
-﻿@{
-    ViewData["Title"] = "Consultar Productos boceto";
+﻿@model IEnumerable<BigSolutionsWeb.Entidades.Producto>
+
+@{
+    ViewData["Title"] = "Consultar Productos Boceto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (ViewBag.msj != null)
-{
-    <div class="alert alert-primary" role="alert" style="width: 365px; height: 80px;">
-        @ViewBag.msj
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Generar Boceto</h1>
+        <p>En esta página, puedes seleccionar un producto de nuestro catálogo y generar un boceto con tu logo. Usa la barra de búsqueda para encontrar rápidamente el producto que deseas.</p>
     </div>
-}
-<body>
-
-    <div class="container-fluid" style="margin-top: 50px;">
-        <div class="text-center mb-4">
-            <h1>Generar Boceto</h1>
-            <p>En esta página, puedes seleccionar un producto de nuestro catálogo y generar un boceto con tu logo. Usa la barra de búsqueda para encontrar rápidamente el producto que deseas.</p>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+            @ViewBag.ErrorMessage
         </div>
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="mb-0">Lista de productos</h3>
+    }
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Lista de productos</h3>
+            <div class="form-inline">
+                @Html.TextBox("Busqueda", ViewBag.Busqueda as string, new { @class = "form-control", @placeholder = "Buscar producto...", @id = "productSearch" })
+                <button class="botones ml-2" onclick="performSearch()">Buscar</button>
+            </div>
+        </div>
+
+        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="form-inline">
-                    <input type="text" id="productSearch" class="form-control" placeholder="Buscar producto...">
+                    <label for="showEntries">Mostrar </label>
+                    <select id="showEntries" class="form-control mx-2" onchange="updatePageSize(this.value)">
+                        <option value="5" selected="@(ViewBag.TamannoPagina == 5)">5</option>
+                        <option value="10" selected="@(ViewBag.TamannoPagina == 10)">10</option>
+                        <option value="25" selected="@(ViewBag.TamannoPagina == 25)">25</option>
+                    </select>
+                    <label> entradas</label>
                 </div>
+                <div id="datatable_info">Mostrando página @ViewBag.NumPagina de @ViewBag.TotalPaginas - Total de productos: @ViewBag.TotalProductos</div>
             </div>
-            <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="form-inline">
-                        <label for="showEntries">Mostrar </label>
-                        <select id="showEntries" class="form-control mx-2">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                            <option>50</option>
-                        </select>
-                        <label> entradas</label>
-                    </div>
-                    <div id="datatable_info">Mostrando 1 a 10 de 50 entradas</div>
-                </div>
-                <div class="row" id="product-container">
-                    @* @foreach (var item in Model)
-                    { *@
 
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
+            <div class="row" id="product-container">
+                @foreach (var producto in Model)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                        <div class="card h-100" style="background-color: #f8f9fa;">
+                            <img src="@producto.RutaImagen" class="card-img-top" alt="@producto.Nombre" style="height: 200px; object-fit: cover;">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">@producto.Nombre</h5>
+                                <p class="card-text">@producto.Descripcion</p>
+                                <button class="botones select-product" data-toggle="modal"
+                                        data-target="#productModal"
+                                        data-nombre="@producto.Nombre"
+                                        data-descripcion="@producto.Descripcion"
+                                        data-image-url="@producto.RutaImagen"
+                                        data-id="@producto.IdProducto"
+                                        data-prompt="@producto.Prompt">
+                                    Seleccionar
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4" data-name="Botella" data-description="Botella de plástico" data-image-url="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        <div class="card" style="background-color: #f8f9fa;">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="card-img-top" alt="Botella">
-                            <div class="card-body">
-                                <h5 class="card-title">Botella</h5>
-                                <p class="card-text">
-                                    Todos los datos del producto
-                                </p>
-                                <div class="text-center">
-                                    <button class="botones select-product botones" data-toggle="modal" data-target="#productModal">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    @* } *@
-                </div>
+                }
             </div>
-        </div>
 
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <div id="datatable_info">Mostrando 1 a 10 de 50 entradas</div>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center" id="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Primero</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Último</a></li>
+            <nav aria-label="Page navigation example" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.NumPagina == 1 ? "disabled" : "")">
+                        <a class="page-link" href="javascript:updatePage(1)">Primero</a>
+                    </li>
+                    <li class="page-item @(ViewBag.NumPagina == 1 ? "disabled" : "")">
+                        <a class="page-link" href="javascript:updatePage(@ViewBag.NumPagina - 1)">Anterior</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.NumPagina ? "active" : "")">
+                            <a class="page-link" href="javascript:updatePage(@i)">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.NumPagina == ViewBag.TotalPaginas ? "disabled" : "")">
+                        <a class="page-link" href="javascript:updatePage(@ViewBag.NumPagina + 1)">Siguiente</a>
+                    </li>
+                    <li class="page-item @(ViewBag.NumPagina == ViewBag.TotalPaginas ? "disabled" : "")">
+                        <a class="page-link" href="javascript:updatePage(@ViewBag.TotalPaginas)">Último</a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </div>
+</div>
 
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Detalles del Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="sketchForm" action="/Boceto/GenerateSketch" method="post">
+                <div class="modal-body text-center">
+                    <img id="modalProductImage" src="" class="img-fluid mb-3" alt="Imagen del producto" style="max-height: 250px;">
 
-    <!-- Modal -->
-    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="productModalLabel">Detalles del Producto</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none">
-                        Error al crear el boceto
+                    <h4 class="font-weight-bold" id="modalProductTitle">Nombre del Producto</h4>
+                    <p id="modalProductDescription" class="text-muted">Descripción detallada del producto seleccionado.</p>
+
+                    <div class="form-group">
+                        <label for="LogoDescription" class="font-weight-bold">Descripción del Logo</label>
+                        <textarea id="LogoDescription" name="LogoDescription" class="form-control" rows="4" placeholder="Describe el logo que deseas en este producto..." required></textarea>
                     </div>
-                    <div id="successAlert" class="alert alert-success" role="alert" style="display:none">
-                        Boceto creado exitosamente. <a href="#" id="viewSketchLink" class="alert-link" style="font-size: inherit;">Puedes ver tu boceto aquí</a>
-                    </div>
-                    <img id="modalProductImage" src="" class="img-fluid" alt="Producto">
-                    <p id="modalProductDescription">Descripción completa del producto.</p>
-                    <form>
-                        <div class="form-group">
-                            <label for="logoUpload">Adjuntar Logo</label>
-                            <input type="file" class="form-control-file" id="logoUpload">
-                        </div>
-                    </form>
+                    <input type="hidden" id="UserId" name="UserId" value="@User.FindFirst("UserId")?.Value" />
+                    <input type="hidden" id="ProductId" name="ProductId" />
+                    <input type="hidden" id="ProductPrompt" name="ProductPrompt" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="botones-secundarios" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="botones" id="generateSketch">Generar Boceto</button>
+                    <button type="button" class="botones" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="botones" onclick="submitSketchForm()">Generar Boceto</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-
-
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center" id="pagination">
-        </ul>
-    </nav>
-
-
-</body>
+</div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script>
+    // Realizar la búsqueda
+    function performSearch() {
+        const searchQuery = $('#productSearch').val();
+        const pageSize = $('#showEntries').val();
+        const url = `@Url.Action("ConsultarProductosBoceto", "Boceto")?Busqueda=${searchQuery}&NumPagina=1&TamannoPagina=${pageSize}`;
+        window.location.href = url;
+    }
+
+    // Actualizar el tamaño de página
+    function updatePageSize(pageSize) {
+        const searchQuery = $('#productSearch').val();
+        const url = `@Url.Action("ConsultarProductosBoceto", "Boceto")?Busqueda=${searchQuery}&NumPagina=1&TamannoPagina=${pageSize}`;
+        window.location.href = url;
+    }
+
+    // Cambiar de página
+    function updatePage(pageNumber) {
+        const searchQuery = $('#productSearch').val();
+        const pageSize = $('#showEntries').val();
+        const url = `@Url.Action("ConsultarProductosBoceto", "Boceto")?Busqueda=${searchQuery}&NumPagina=${pageNumber}&TamannoPagina=${pageSize}`;
+        window.location.href = url;
+    }
+
     $(document).ready(function () {
+        // Pasar los datos del producto al modal
         $('.select-product').on('click', function () {
-            var card = $(this).closest('.col-lg-2, .col-md-3, .col-sm-4, .col-6');
-            var productName = card.data('name');
-            var productDescription = card.data('description');
-            var productImageUrl = card.data('image-url');
+            var productName = $(this).data('nombre');
+            var productDescription = $(this).data('descripcion');
+            var productImageUrl = $(this).data('image-url');
+            var productId = $(this).data('id');
+            var productPrompt = $(this).data('prompt');
 
             $('#productModalLabel').text(productName);
             $('#modalProductImage').attr('src', productImageUrl);
             $('#modalProductDescription').text(productDescription);
-        });
-
-
-        $('#generateSketch').on('click', function () {
-
-            $('#errorAlert').show();
-            $('#successAlert').show();
-
+            $('#ProductId').val(productId);
+            $('#ProductPrompt').val(productPrompt);
         });
     });
 
-    /*
-    $('#generateSketch').on('click', function () {
 
-        var hasError = false; Si se quiere que salgo el error esto tiene que estar en true, en false para que muestre el mensaje de confirmación
-        if (hasError) {
-            $('#errorAlert').show();
-            $('#successAlert').hide();
-        } else {
-            $('#errorAlert').hide();
-            $('#successAlert').show();
-        }
-    });
-    */
+    function submitSketchForm() {
+        var form = $('#sketchForm')[0];
+        var formData = new FormData(form);
 
+        $.ajax({
+            url: $(form).attr('action'),
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Boceto generado',
+                    text: response.message || 'El boceto se ha generado con éxito.',
+                    confirmButtonColor: '#c1952c',
+                    showConfirmButton: false,
+                    timer: 1800
+                }).then(() => {
+                    // Redirigir o refrescar la página después de generar el boceto
+                    window.location.href = '/Boceto/ConsultarProductosBoceto';
+                });
+            },
+            error: function (xhr, status, error) {
+                // Manejar errores en caso de que falle la petición
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema al generar el boceto. Inténtalo de nuevo más tarde.',
+                    confirmButtonColor: '#c1952c'
+                });
+            }
+        });
+    }
 </script>

@@ -17,6 +17,7 @@ builder.Services.AddScoped<IRolModel, RolModel>();
 builder.Services.AddScoped<IFirebaseModel, FirebaseModel>();
 builder.Services.AddScoped<IProductoModel, ProductoModel>();
 builder.Services.AddScoped<ICategoriaModel, CategoriaModel>();
+builder.Services.AddScoped<IBocetoModel, BocetoModel>();
 
 
 // Inyecci�n de dependencias para cerrar sesi�n por inactividad

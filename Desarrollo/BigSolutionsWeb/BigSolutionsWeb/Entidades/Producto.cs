@@ -11,5 +11,7 @@
         public float Precio { get; set; }
         public string? RutaImagen { get; set; }
         public string? NombreCategoria { get; set; }
+        public int TotalProductos { get; set; }
+        public string? Prompt { get; set; }
     }
 }
