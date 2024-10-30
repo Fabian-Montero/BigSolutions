@@ -18,6 +18,12 @@ namespace BigSolutionsApi.DTOs
 
             [JsonPropertyName("url")]
             public string Url { get; set; }
+
+            [JsonPropertyName("b64_json")]
+            public string b64_json { get; set; }
+
+
+            
         }
     }
 }

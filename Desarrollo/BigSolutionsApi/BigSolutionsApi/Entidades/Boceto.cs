@@ -8,5 +8,9 @@
         public DateTime FechaCreacion { get; set; }
         public string? RutaImagen { get; set; }
         public string? PromptUsado { get; set; }
+
+        public string? PromptOriginal { get; set; }
+        public string NombreProducto { get; set; }
+        public string NombreUsuario { get; set; }
     }
 }

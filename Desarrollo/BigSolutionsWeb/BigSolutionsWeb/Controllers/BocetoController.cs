@@ -2,6 +2,7 @@
 using BigSolutionsWeb.Entidades;
 using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
+using Humanizer.Localisation.TimeToClockNotation;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Eventing.Reader;
 using System.Text.Json;
@@ -43,11 +44,6 @@ namespace BigSolutionsWeb.Controllers
         public async Task<IActionResult> GenerateSketch([FromForm] GenerateSketchDTO ent)
         {
 
-            /*var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
-            var IdUsuario = long.Parse(IdUsuarioString);*/
-
-
-
             var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
             ent.UserId = int.Parse(IdUsuarioString!);
 
@@ -61,27 +57,40 @@ namespace BigSolutionsWeb.Controllers
             {
                 return Json(new { success = false, message = "Datos inválidos" });
             }
-            /*if (ModelState.IsValid)
-            {
-                // Lógica para generar el boceto
-                
-            }
-            else
-            {
-                
-            }*/
         }
 
         [HttpGet]
         public IActionResult ConsultarBocetosCliente()
         {
-            return View();
+            var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
+            int UsuarioId = int.Parse(IdUsuarioString!);
+
+            var resp = iBocetoModel.ConsultarBocetosCliente(UsuarioId);
+            if (resp.Codigo == 1)
+            {
+                var bocetos = JsonSerializer.Deserialize<List<Boceto>>((JsonElement)resp.Contenido!);
+                return View(bocetos);
+            }
+            else
+            {
+                return View(new List<Boceto>());
+            }
         }
 
         [HttpGet]
         public IActionResult ConsultarBocetosAdmin()
         {
-            return View();
+
+            var resp = iBocetoModel.ConsultarBocetosAdmin();
+            if (resp.Codigo == 1)
+            {
+                var bocetos = JsonSerializer.Deserialize<List<Boceto>>((JsonElement)resp.Contenido!);
+                return View(bocetos);
+            }
+            else
+            {
+                return View(new List<Boceto>());
+            }
         }
     }
 }

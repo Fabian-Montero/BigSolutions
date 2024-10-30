@@ -8,15 +8,19 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
 using BigSolutionsApi.DTOs;
+using Firebase.Auth;
+using Firebase.Storage;
+using BigSolutionsApi.Modelos;
 
 namespace BigSolutionsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BocetoController(IConfiguration iConfiguration) : ControllerBase
+    public class BocetoController(IConfiguration iConfiguration, IFirebaseModel iFirebaseModel) : ControllerBase
     {
-        [HttpGet]
+
         //[Authorize]
+        [HttpGet]
         [Route("ConsultarProductosCliente")]
         public async Task<IActionResult> ConsultarProductosCliente(string? Busqueda, int NumPagina = 1, int TamannoPagina = 10)
         {
@@ -50,26 +54,21 @@ namespace BigSolutionsApi.Controllers
         public async Task<IActionResult> GenerarBoceto(GenerateSketchDTO ent)
         {
             Respuesta resp = new Respuesta();
+            string prompt = $"{ent.ProductPrompt}. Create a realistic, high-quality image of the described product, ensuring the appearance matches precisely. In the center of the product, incorporate a logo based on the following description: '{ent.LogoDescription}'. Position the logo so it’s clearly centered, covering approximately 30% of the product’s front surface to be noticeable and visually appealing, without obscuring or altering the original product design. The logo should blend naturally with the product’s texture, as if printed or embedded directly on it. Avoid any raised or three-dimensional effects for a seamless integration. Use a white, clean background with soft, uniform lighting that enhances the product’s features without introducing extra shadows. Highlight the product and logo clearly, preserving all specified design details.";
 
-            // Prompt dinámico
-            string prompt = $"{ent.ProductPrompt}. Create an image of the described product, ensuring that the design remains exactly as specified in the description. In the center of the product, incorporate a logo based on the following description: '{ent.LogoDescription}'. The logo should be clearly centered and occupy a prominent space on the product’s surface, covering approximately 30% of its front area to make it visible and aesthetically pleasing, but without overwhelming or distracting from the original design of the product. The logo must blend smoothly with the product's texture, as if it is printed or embedded directly onto it, avoiding any three-dimensional or raised effects. It is important that the logo maintains a flat appearance and naturally conforms to the surface of the product, respecting its described style and finish. The background of the image should be white and uncluttered, with no strong shadows or distracting elements, allowing the product and logo to stand out clearly in the composition. The lighting should be soft and even, highlighting both the product and the logo without altering the specified design details.";
-
-
-            // Configuración de los parámetros para la petición a OpenAI
             var openAiApiKey = iConfiguration.GetSection("OpenAI:ApiKey").Value;
             var requestBody = new
             {
                 model = "dall-e-3",
                 prompt = prompt,
                 n = 1,
-                size = "1024x1024"
+                size = "1024x1024",
+                response_format = "b64_json"
             };
 
-            // Petición HTTP a OpenAI
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", openAiApiKey);
-
                 var jsonBody = JsonSerializer.Serialize(requestBody);
                 var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
@@ -77,45 +76,57 @@ namespace BigSolutionsApi.Controllers
 
                 if (openAiResponse.IsSuccessStatusCode)
                 {
-                    // Manejo de la respuesta de OpenAI
                     var responseContent = await openAiResponse.Content.ReadAsStringAsync();
-
-                    // Deserialización de la respuesta de OpenAI
                     var openAiResult = JsonSerializer.Deserialize<RespuestaOpenAI>(responseContent);
 
                     if (openAiResult != null && openAiResult.Data != null && openAiResult.Data.Count > 0)
                     {
-                        string imageUrl = openAiResult.Data[0].Url;
+                        string base64Image = openAiResult.Data[0].b64_json;
                         string revisedPrompt = openAiResult.Data[0].RevisedPrompt;
 
-                        // Guardar el boceto en la base de datos si se obtuvo una URL de imagen
-                        if (!string.IsNullOrEmpty(imageUrl))
+                        using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
                         {
-                            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+                            var parameters = new DynamicParameters(new
                             {
-                                var nuevoBoceto = new Boceto
+                                IdProducto = ent.ProductId,
+                                IdUsuario = ent.UserId,
+                                FechaCreacion = DateTime.UtcNow,
+                                PromptUsado = revisedPrompt,
+                                PromptOriginal = prompt
+                            });
+                            parameters.Add("IdBoceto", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                            await context.ExecuteAsync("GenerarBoceto", parameters, commandType: CommandType.StoredProcedure);
+                            int idBoceto = parameters.Get<int>("IdBoceto");
+
+                            // Subir la imagen a Firebase y actualiza la ruta del boceto
+                            var firebaseUrl = await iFirebaseModel.GuardarImagenBase64EnFirebase("bocetos", idBoceto, base64Image);
+
+                            if (!string.IsNullOrEmpty(firebaseUrl))
+                            {
+                                var result = await context.ExecuteAsync("ActualizarRutaImagenBoceto",
+                                    new { IdBoceto = idBoceto, RutaImagen = firebaseUrl },
+                                    commandType: CommandType.StoredProcedure);
+
+                                if (result > 0)
                                 {
-                                    IdProducto = ent.ProductId,
-                                    IdUsuario = ent.UserId,
-                                    FechaCreacion = DateTime.UtcNow,
-                                    RutaImagen = imageUrl,
-                                    PromptUsado = revisedPrompt ?? prompt // Usa el prompt revisado si está disponible
-                                };
-
-                                var query = "INSERT INTO Bocetos (IdProducto, IdUsuario, FechaCreacion, RutaImagen, PromptUsado) VALUES (@IdProducto, @IdUsuario, @FechaCreacion, @RutaImagen, @PromptUsado)";
-                                await context.ExecuteAsync(query, nuevoBoceto);
-
-                                resp.Codigo = 1;
-                                resp.Mensaje = "Boceto generado y guardado exitosamente.";
-                                resp.Contenido = nuevoBoceto;
+                                    resp.Codigo = 1;
+                                    resp.Mensaje = "Boceto generado y guardado exitosamente.";
+                                    resp.Contenido = "";
+                                }
+                                else
+                                {
+                                    resp.Codigo = 0;
+                                    resp.Mensaje = "Error al actualizar la ruta de la imagen en la base de datos.";
+                                }
                                 return Ok(resp);
                             }
-                        }
-                        else
-                        {
-                            resp.Codigo = 0;
-                            resp.Mensaje = "Error al generar la imagen. No se recibió URL de la imagen.";
-                            return Ok(resp);
+                            else
+                            {
+                                resp.Codigo = 0;
+                                resp.Mensaje = "Error al guardar la imagen en Firebase.";
+                                return Ok(resp);
+                            }
                         }
                     }
                     else
@@ -135,5 +146,61 @@ namespace BigSolutionsApi.Controllers
         }
 
 
+        [HttpGet]
+        [Route("ConsultarBocetosCliente")]
+        public async Task<IActionResult> ConsultarBocetosCliente(int IdUsuario)
+        {
+            Respuesta res = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+
+                var result = await context.QueryAsync<Boceto>("ConsultarBocetosCliente", new { IdUsuario }, commandType: CommandType.StoredProcedure);
+
+                if (result.Count() > 0)
+                {
+                    res.Codigo = 1;
+                    res.Mensaje = "";
+                    res.Contenido = result;
+                    return Ok(res);
+                }
+                else
+                {
+                    res.Codigo = 0;
+                    res.Mensaje = "No se encontraron bocetos registrados.";
+                    res.Contenido = false;
+                    return Ok(res);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("ConsultarBocetosAdmin")]
+        public async Task<IActionResult> ConsultarBocetosAdmin()
+        {
+            Respuesta res = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+
+                var result = await context.QueryAsync<Boceto>("ConsultarBocetosAdmin", commandType: CommandType.StoredProcedure);
+
+                if (result.Count() > 0)
+                {
+                    res.Codigo = 1;
+                    res.Mensaje = "";
+                    res.Contenido = result;
+                    return Ok(res);
+                }
+                else
+                {
+                    res.Codigo = 0;
+                    res.Mensaje = "No se encontraron bocetos registrados.";
+                    res.Contenido = false;
+                    return Ok(res);
+                }
+            }
+        }
     }
 }
+
