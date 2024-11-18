@@ -1,5 +1,6 @@
 ﻿using BigSolutionsApi.Entidades;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,7 +14,7 @@ namespace BigSolutionsApi.Controllers
     public class RolesController(IConfiguration iConfiguration) : ControllerBase
     {
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("ConsultarTiposRoles")]
         public async Task<IActionResult> ConsultarTiposRoles()
         {

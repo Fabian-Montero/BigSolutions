@@ -13,6 +13,8 @@ namespace BigSolutionsWeb.Controllers
 {
     public class InventarioController(IProductoModel iProductoModel, ICategoriaModel iCategoriaModel, IFirebaseModel iFirebaseModel) : Controller
     {
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpGet]
         public IActionResult ConsultarInventario()
         {
@@ -29,12 +31,16 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpGet]
         public IActionResult AgregarInventario()
         {
             ConsultarTiposCategorias();
             return View();
         }
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpPost]
         public async Task<IActionResult> AgregarInventario(Producto ent, [FromForm] IFormFile ImagenProducto)
         {
@@ -70,6 +76,8 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpGet]
         public IActionResult EditarInventario(int id)
         {
@@ -88,6 +96,8 @@ namespace BigSolutionsWeb.Controllers
                 return View();
             }
         }
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpPost]
         public async Task<IActionResult> EditarInventario(Producto ent, [FromForm] IFormFile ImagenProducto)
         {
@@ -122,6 +132,8 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpGet]
         public IActionResult EliminarInventario(int id)
         {

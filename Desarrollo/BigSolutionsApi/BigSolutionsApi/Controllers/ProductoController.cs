@@ -15,7 +15,7 @@ namespace BigSolutionsApi.Controllers
     public class ProductoController(IConfiguration iConfiguration) : ControllerBase
     {
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [Route("AgregarProducto")]
         public async Task<IActionResult> AgregarProducto(Producto ent)
         {
@@ -50,7 +50,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("ConsultarProductos")]
         public async Task<IActionResult> ConsultarProductos()
         {
@@ -78,7 +78,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("ConsultarProducto")]
         public async Task<IActionResult> ConsultarProducto(int IdProducto)
         {
@@ -106,7 +106,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpPut]
-        //[Authorize]
+        [Authorize]
         [Route("ActualizarProducto")]
         public async Task<IActionResult> ActualizarProducto(Producto ent)
         {
@@ -143,7 +143,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpPut]
-        //[Authorize]
+        [Authorize]
         [Route("ActualizarRutaImagen")]
         public async Task<IActionResult> ActualizarRutaImagen(Producto ent)
         {
@@ -171,7 +171,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpDelete]
-        //[Authorize]
+        [Authorize]
         [Route("EliminarProducto")]
         public async Task<IActionResult> EliminarProducto(int IdProducto)
         {

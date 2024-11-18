@@ -16,6 +16,7 @@ namespace BigSolutionsWeb.Controllers
             return View();
         }
 
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarProductosBoceto(string? Busqueda, int NumPagina = 1, int TamannoPagina = 5)
         {
@@ -40,6 +41,7 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
         [HttpPost]
         public async Task<IActionResult> GenerateSketch([FromForm] GenerateSketchDTO ent)
         {
@@ -59,6 +61,7 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarBocetosCliente()
         {
@@ -77,6 +80,8 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpGet]
         public IActionResult ConsultarBocetosAdmin()
         {
