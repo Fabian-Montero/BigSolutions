@@ -11,6 +11,7 @@ using BigSolutionsApi.DTOs;
 using Firebase.Auth;
 using Firebase.Storage;
 using BigSolutionsApi.Modelos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BigSolutionsApi.Controllers
 {
@@ -19,7 +20,7 @@ namespace BigSolutionsApi.Controllers
     public class BocetoController(IConfiguration iConfiguration, IFirebaseModel iFirebaseModel) : ControllerBase
     {
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("ConsultarProductosCliente")]
         public async Task<IActionResult> ConsultarProductosCliente(string? Busqueda, int NumPagina = 1, int TamannoPagina = 10)
@@ -50,6 +51,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("GenerarBoceto")]
         public async Task<IActionResult> GenerarBoceto(GenerateSketchDTO ent)
         {
@@ -147,6 +149,7 @@ namespace BigSolutionsApi.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [Route("ConsultarBocetosCliente")]
         public async Task<IActionResult> ConsultarBocetosCliente(int IdUsuario)
         {
@@ -175,6 +178,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("ConsultarBocetosAdmin")]
         public async Task<IActionResult> ConsultarBocetosAdmin()
         {

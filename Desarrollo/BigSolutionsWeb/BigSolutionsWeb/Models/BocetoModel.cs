@@ -13,11 +13,11 @@ namespace BigSolutionsWeb.Models
         {
             string url = $"{iConfiguration.GetSection("Llaves:UrlApi").Value}Boceto/ConsultarProductosCliente?Busqueda={busqueda}&NumPagina={numPagina}&TamannoPagina={tamannoPagina}";
 
-            /*string token = iAccesor.HttpContext!.Session.GetString("TOKEN")?.ToString();
+            string token = iAccesor.HttpContext!.Session.GetString("TOKEN")?.ToString();
             if (!string.IsNullOrEmpty(token))
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }*/
+            }
 
             var resp = httpClient.GetAsync(url).Result;
             if (resp.IsSuccessStatusCode)
@@ -35,9 +35,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Boceto/GenerarBoceto";
-                /*string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 JsonContent body = JsonContent.Create(ent);
                 var resp = await httpClient.PostAsync(url, body);
@@ -54,6 +54,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Boceto/ConsultarBocetosCliente?IdUsuario=" + IdUsuario;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -69,6 +72,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Boceto/ConsultarBocetosAdmin";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 

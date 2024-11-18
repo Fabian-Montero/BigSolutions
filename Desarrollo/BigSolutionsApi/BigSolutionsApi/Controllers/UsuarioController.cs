@@ -184,6 +184,7 @@ namespace BigSolutionsApi.Controllers
 
         //Ver perfil de usuario
         [HttpGet]
+        [Authorize]
         [AllowAnonymous]
         [Route("ConsultarUsuarioPerfil")]
         public async Task<IActionResult> ConsultarUsuarioPerfil(long idusuario)
@@ -214,7 +215,7 @@ namespace BigSolutionsApi.Controllers
         }
         //Actualizar perfil de usuario
         [HttpPut]
-        //[Authorize]
+        [Authorize]
         [Route("ActualizarPerfilUsuario")]
         public async Task<IActionResult> ActualizarPerfilUsuario(Usuario ent)
         {
@@ -250,7 +251,7 @@ namespace BigSolutionsApi.Controllers
         }
         //Eliminar perfil de usuario
         [HttpDelete]
-        //[Authorize]
+        [Authorize]
         [Route("EliminarPerfilUsuario")]
         public async Task<IActionResult> EliminarPerfilUsuario(long UsuarioId)
         {
@@ -278,6 +279,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("ListarClientes")]
         public async Task<IActionResult> ListarClientes()
         {
@@ -337,6 +339,7 @@ namespace BigSolutionsApi.Controllers
         //}
 
         [HttpDelete]
+        [Authorize]
         [Route("EliminarCliente")]
         public async Task<IActionResult> EliminarCliente(string identificacion)
         {
@@ -360,6 +363,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("BuscarCliente")]
         public async Task<IActionResult> BuscarCliente(string ParametroBusqueda)
         {
@@ -402,6 +406,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("DetallesCliente")]
         public async Task<IActionResult> DetallesClienteCliente(string identificacion)
         {
@@ -447,6 +452,7 @@ namespace BigSolutionsApi.Controllers
 
         //A
         [HttpGet]
+        [Authorize]
         [Route("Listar")]
 
         public async Task<IActionResult> ObtenerUsuarios()
@@ -476,6 +482,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("ConsultarUsuarioPorId")]
         public async Task<IActionResult> ConsultarUsuarioPorId(int UsuarioId)
         {
@@ -502,7 +509,7 @@ namespace BigSolutionsApi.Controllers
             }
         }
         [HttpPut]
-        //[Authorize]
+        [Authorize]
         [Route("EditarUsuario")]
         public async Task<IActionResult> EditarUsuario(Usuario ent)
         {
@@ -543,7 +550,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpDelete]
-        //[Authorize]
+        [Authorize]
         [Route("EliminarUsuario")]
         public async Task<IActionResult> EliminarUsuario(long Id)
         {
@@ -571,6 +578,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("CambiarContrasenna")]
         //[AllowAnonymous]
         public async Task<IActionResult> CambiarContrasenna(Usuario ent)

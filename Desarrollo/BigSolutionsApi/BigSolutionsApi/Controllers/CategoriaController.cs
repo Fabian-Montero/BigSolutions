@@ -15,7 +15,7 @@ namespace BigSolutionsApi.Controllers
     public class CategoriaController(IConfiguration iConfiguration) : ControllerBase
     {
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("ConsultarTiposCategorias")]
         public async Task<IActionResult> ConsultarTiposCategorias()
         {

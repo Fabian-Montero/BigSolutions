@@ -33,9 +33,9 @@ namespace BigSolutionsWeb.Models
             {
 
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/AgregarProducto";
-                /*string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 JsonContent body = JsonContent.Create(ent);
 
@@ -79,9 +79,9 @@ namespace BigSolutionsWeb.Models
             {
 
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarProducto?IdProducto=" + IdProducto;
-                //string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var resp = httpClient.GetAsync(url).Result;
 
@@ -99,9 +99,9 @@ namespace BigSolutionsWeb.Models
             {
 
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ActualizarProducto";
-                //string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 JsonContent body = JsonContent.Create(ent);
 

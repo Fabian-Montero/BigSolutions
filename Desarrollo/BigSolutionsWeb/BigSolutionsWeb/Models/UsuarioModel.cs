@@ -90,6 +90,10 @@ namespace BigSolutionsWeb.Models
         public Respuesta? ConsultarUsuarioPerfil(long idusuario)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuarioPerfil?idusuario=" + idusuario;
+            string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             var res = httpClient.GetAsync(url).Result;
 
             if (res.IsSuccessStatusCode)
@@ -139,6 +143,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ListarClientes";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -158,6 +165,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/BuscarCliente?ParametroBusqueda=" + parametroBusqueda;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -177,6 +187,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EliminarCliente?identificacion=" + identificacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.DeleteAsync(url).Result;
 
@@ -196,6 +209,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/DetallesCliente?identificacion=" + identificacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -218,6 +234,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/Listar";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -237,6 +256,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuarioPorId?UsuarioId=" + UsuarioId;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -256,6 +278,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EditarUsuario";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 JsonContent body = JsonContent.Create(ent);
 
@@ -277,9 +302,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EliminarUsuario?Id=" + Id;
-                /*string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var resp = httpClient.DeleteAsync(url).Result;
 
@@ -295,6 +320,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/CambiarContrasenna";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 JsonContent body = JsonContent.Create(ent);
 

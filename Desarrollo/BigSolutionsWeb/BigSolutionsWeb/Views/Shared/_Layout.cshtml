@@ -18,7 +18,6 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 </head>
 
 <body>
@@ -64,125 +63,133 @@
         <div class="container-fluid page-body-wrapper">
             <!-- side navbar -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar" style="margin-top: 50px;">
+                @{
+                    long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+                }
                 <ul class="nav">
-                    <li class="nav-item">
-                        <span class="menu-title" style="margin-left: 15px;"><b>Cliente</b></span>
-                    </li>
+                    @if (rol == 3)
+                    {
+                        <li class="nav-item">
+                            <span class="menu-title" style="margin-left: 15px;"><b>Cliente</b></span>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#bocetoscliente" aria-expanded="false" aria-controls="bocetoscliente">
-                            <i class="fa-regular fa-images menu-icon"></i>
-                            <span class="menu-title">Bocetos</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="bocetoscliente">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarProductosBoceto", "Boceto")">Generar boceto</a></li>
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarBocetosCliente", "Boceto")">Mis bocetos</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#cotizacionescliente" aria-expanded="false" aria-controls="cotizacionescliente">
-                            <i class="fa-regular fa-file-lines menu-icon"></i>
-                            <span class="menu-title" style="margin-left: 5px;">Cotizaciones</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="cotizacionescliente">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarSolicitudCotizacionesCliente", "Cotizaciones")">Solicitudes de cotización</a></li>
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarCotizacionesCliente", "Cotizaciones")">Mis cotizaciones</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ordenescliente" aria-expanded="false" aria-controls="ordenescliente">
-                            <i class="fa-regular fa-clipboard menu-icon"></i>
-                            <span class="menu-title" style="margin-left: 5px;">Órdenes</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ordenescliente">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ClienteConsultarOrdenes", "Ordenes")">Mis órdenes</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#bocetoscliente" aria-expanded="false" aria-controls="bocetoscliente">
+                                <i class="fa-regular fa-images menu-icon"></i>
+                                <span class="menu-title">Bocetos</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="bocetoscliente">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarProductosBoceto", "Boceto")">Generar boceto</a></li>
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarBocetosCliente", "Boceto")">Mis bocetos</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#cotizacionescliente" aria-expanded="false" aria-controls="cotizacionescliente">
+                                <i class="fa-regular fa-file-lines menu-icon"></i>
+                                <span class="menu-title" style="margin-left: 5px;">Cotizaciones</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="cotizacionescliente">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarSolicitudCotizacionesCliente", "Cotizaciones")">Solicitudes de cotización</a></li>
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarCotizacionesCliente", "Cotizaciones")">Mis cotizaciones</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#ordenescliente" aria-expanded="false" aria-controls="ordenescliente">
+                                <i class="fa-regular fa-clipboard menu-icon"></i>
+                                <span class="menu-title" style="margin-left: 5px;">Órdenes</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ordenescliente">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ClienteConsultarOrdenes", "Ordenes")">Mis órdenes</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    }
 
-                    <br />
-                    <li class="nav-item">
-                        <span class="menu-title" style="margin-left: 15px;"><b>Administrativo</b></span>
-                    </li>
+                    else
+                    {
+                        <br />
+                        <li class="nav-item">
+                            <span class="menu-title" style="margin-left: 15px;"><b>Administrativo</b></span>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ConsultarBocetosAdmin", "Boceto")">
-                            <i class="fa-regular fa-images menu-icon"></i>
-                            <span class="menu-title">Ver bocetos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")">
-                            <i class="fa-regular fa-file-lines menu-icon"></i>
-                            <span class="menu-title" style="margin-left: 5px;">Cotizaciones</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-wrap" style="width: 180px;" href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")">
-                            <i class="fa-solid fa-file-invoice menu-icon"></i>
-                            <span class="menu-title" style="margin-left: 5px;">Solicitudes de cotizaciones</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ConsultarBocetosAdmin", "Boceto")">
+                                <i class="fa-regular fa-images menu-icon"></i>
+                                <span class="menu-title">Ver bocetos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")">
+                                <i class="fa-regular fa-file-lines menu-icon"></i>
+                                <span class="menu-title" style="margin-left: 5px;">Cotizaciones</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-wrap" style="width: 180px;" href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")">
+                                <i class="fa-solid fa-file-invoice menu-icon"></i>
+                                <span class="menu-title" style="margin-left: 5px;">Solicitudes de cotizaciones</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
 
-                        <a class="nav-link" data-toggle="collapse" href="#ordenes-admin" aria-expanded="false" aria-controls="ordenes-admin">
-                            <i class="fa-regular fa-clipboard menu-icon"></i>
-                            <span class="menu-title" style="margin-left: 5px;">Órdenes</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ordenes-admin">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@(Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes" ))">Órdenes</a></li>
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@(Url.Action("ConsultarOrdenesPendientesCliente", "Ordenes"))">Pendientes</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#ordenes-admin" aria-expanded="false" aria-controls="ordenes-admin">
+                                <i class="fa-regular fa-clipboard menu-icon"></i>
+                                <span class="menu-title" style="margin-left: 5px;">Órdenes</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ordenes-admin">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@(Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes" ))">Órdenes</a></li>
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@(Url.Action("ConsultarOrdenesPendientesCliente", "Ordenes"))">Pendientes</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
 
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic-2" aria-expanded="false" aria-controls="ui-basic-2">
-                            <i class="fa-solid fa-users"></i>
-                            <span class="menu-title" style="margin-left: 16px;">Usuarios</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic-2">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@(Url.Action("ConsultarUsuarios", "Usuario"))">Usuarios</a></li>
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="/Usuario/ConsultarClientes">Clientes</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                            <a class="nav-link" data-toggle="collapse" href="#ui-basic-2" aria-expanded="false" aria-controls="ui-basic-2">
+                                <i class="fa-solid fa-users"></i>
+                                <span class="menu-title" style="margin-left: 16px;">Usuarios</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic-2">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@(Url.Action("ConsultarUsuarios", "Usuario"))">Usuarios</a></li>
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="/Usuario/ConsultarClientes">Clientes</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ConsultarInventario", "Inventario")">
-                            <i class="fa-solid fa-table-list menu-icon"></i>
-                            <span class="menu-title" style="margin-left: 2px;">Inventario</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#contabilidad" aria-expanded="false" aria-controls="cotizacionescliente">
-                            <i class="fa-solid fa-file-invoice-dollar menu-icon"></i>
-                            <span class="menu-title" style="margin-left: 5px;">Contabilidad</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="contabilidad">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarFacturasVenta", "Contabilidad")">Facturas venta</a></li>
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarFacturasPendientes", "Contabilidad")">Facturas pendientes</a></li>
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 100px;" href="@Url.Action("ConsultarComprobantesDePago", "Contabilidad")">Comprobantes de pago</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ConsultarInventario", "Inventario")">
+                                <i class="fa-solid fa-table-list menu-icon"></i>
+                                <span class="menu-title" style="margin-left: 2px;">Inventario</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#contabilidad" aria-expanded="false" aria-controls="cotizacionescliente">
+                                <i class="fa-solid fa-file-invoice-dollar menu-icon"></i>
+                                <span class="menu-title" style="margin-left: 5px;">Contabilidad</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="contabilidad">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarFacturasVenta", "Contabilidad")">Facturas venta</a></li>
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarFacturasPendientes", "Contabilidad")">Facturas pendientes</a></li>
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 100px;" href="@Url.Action("ConsultarComprobantesDePago", "Contabilidad")">Comprobantes de pago</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
 
-                    @*<li class="nav-item">
+                        @*<li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
                     <i class="icon-layout menu-icon"></i>
                     <span class="menu-title">NO BORRAR</span>
@@ -200,19 +207,20 @@
                     </div>
                     </li>*@
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#marketing" aria-expanded="false" aria-controls="marketing">
-                            <i class="fa-regular fa-envelope menu-icon"></i>
-                            <span class="menu-title">Marketing</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="marketing">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarGruposUsuarios", "Marketing")">Grupos de Usuarios</a></li>
-                                <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarCorreos", "Marketing")">Correos Electrónicos</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#marketing" aria-expanded="false" aria-controls="marketing">
+                                <i class="fa-regular fa-envelope menu-icon"></i>
+                                <span class="menu-title">Marketing</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="marketing">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarGruposUsuarios", "Marketing")">Grupos de Usuarios</a></li>
+                                    <li class="nav-item"> <a class="nav-link text-wrap" style="width: 150px;" href="@Url.Action("ConsultarCorreos", "Marketing")">Correos Electrónicos</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    }
 
                 </ul>
             </nav>

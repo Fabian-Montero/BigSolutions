@@ -1,5 +1,6 @@
 ﻿using BigSolutionsWeb.Entidades;
 using BigSolutionsWeb.Models.Interfaces;
+using System.Net.Http.Headers;
 
 namespace BigSolutionsWeb.Models
 {
@@ -10,9 +11,9 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Roles/ConsultarTiposRoles";
-                // string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-                // httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var resp = httpClient.GetAsync(url).Result;
 
