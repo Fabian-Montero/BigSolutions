@@ -34,8 +34,8 @@
                         <th style="text-align:left">Imagen</th>
                         <th style="text-align:left">Nombre</th>
                         <th style="text-align:left">Cantidad</th>
-                        <th style="text-align:left">Precio</th>
-                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Precio Colones</th>
+                        <th style="text-align:left">Precio Dólares</th>
                         <th style="text-align:left">Categoría</th>
                         <th style="text-align:left">Acción</th>
                     </tr>
@@ -49,8 +49,8 @@
                             </td>
                             <td>@item.Nombre</td>
                             <td>@item.Cantidad</td>
-                            <td>@item.Precio</td>
-                            <td>@item.Descripcion</td>
+                            <td>@item.PrecioUnitarioColones</td>
+                            <td>@item.PrecioUnitarioDolares</td>
                             <td>@item.NombreCategoria</td>
                             <td style="text-align:center">
                                 <a class="botones" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
