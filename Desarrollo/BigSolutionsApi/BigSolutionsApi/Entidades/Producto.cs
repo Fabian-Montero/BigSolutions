@@ -11,7 +11,9 @@ namespace BigSolutionsApi.Entidades
         public string? Nombre { get; set; }
         public string? Descripcion { get; set; }
         public int Cantidad { get; set; }
-        public float Precio { get; set; }
+        public decimal PrecioUnitarioColones { get; set; }
+        public decimal PrecioUnitarioDolares { get; set; }
+        public decimal PorcentajeVenta { get; set; }
         public string? RutaImagen { get; set; }
         public string? NombreCategoria { get; set; }
 

@@ -18,6 +18,7 @@ builder.Services.AddScoped<IFirebaseModel, FirebaseModel>();
 builder.Services.AddScoped<IProductoModel, ProductoModel>();
 builder.Services.AddScoped<ICategoriaModel, CategoriaModel>();
 builder.Services.AddScoped<IBocetoModel, BocetoModel>();
+builder.Services.AddScoped<ICotizacionesModel, CotizacionesModel>();
 
 
 // Inyecci�n de dependencias para cerrar sesi�n por inactividad

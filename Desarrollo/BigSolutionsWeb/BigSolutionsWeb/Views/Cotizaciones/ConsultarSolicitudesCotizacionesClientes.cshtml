@@ -1,7 +1,10 @@
-﻿@{
+﻿@model List<BigSolutionsWeb.Entidades.SolicitudCotizacion>
+
+@{
     ViewData["Title"] = "Solicitudes de Cotización";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
         <h1>Solicitudes de Cotización</h1>
@@ -21,50 +24,26 @@
                         <th style="text-align:left">Fecha de Generación</th>
                         <th style="text-align:left">Estado</th>
                         <th style="text-align:left">Cliente</th>
+                        <th style="text-align:left">Moneda</th> <!-- Nueva columna -->
                         <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align:left">111</td>
-                        <td style="text-align:left">
-                            Entregar el 15 de agosto del 2024
-                        </td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Pendiente</td>
-                        <td style="text-align:left">Cliente 1</td>
-                        <td style="text-align:left">
-                            <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { id = 11111 }))" class="botones">Ver detalles</a>
-                            <a href="@Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones")" class="botones">Generar una cotización</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">222</td>
-                        <td style="text-align:left">
-                            Entregar el 20 de septiembre del 2024
-                        </td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Pendiente</td>
-                        <td style="text-align:left">Cliente 2</td>
-                        <td style="text-align:left">
-                            <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { id = 11112 }))" class="botones">Ver detalles</a>
-                            <a href="@Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones")" class="botones">Generar una cotización</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">333</td>
-                        <td style="text-align:left">
-                            Entregar el 10 de octubre del 2024
-                        </td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Completado</td>
-                        <td style="text-align:left">Cliente 3</td>
-                        <td style="text-align:left">
-                            <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { id = 11113 }))" class="botones">Ver detalles</a>
-                            <a href="@Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones")" class="botones">Generar una cotización</a>
-                        </td>
-                    </tr>
-                    @* } *@
+                    @foreach (var solicitud in Model)
+                    {
+                        <tr>
+                            <td style="text-align:left">@solicitud.IdSolicitudCotizacion</td>
+                            <td style="text-align:left">@solicitud.Descripcion</td>
+                            <td style="text-align:left">@solicitud.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td style="text-align:left">@solicitud.Estado</td>
+                            <td style="text-align:left">@solicitud.NombreCliente</td>
+                            <td style="text-align:left">@solicitud.Moneda</td> <!-- Mostrar Moneda -->
+                            <td style="text-align:left">
+                                <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
+                                <a href="@Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones")" class="botones">Generar una cotización</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -72,7 +51,6 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 
 <script>
     $(document).ready(function () {

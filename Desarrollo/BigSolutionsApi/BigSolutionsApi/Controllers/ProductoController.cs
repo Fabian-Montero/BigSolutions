@@ -29,7 +29,9 @@ namespace BigSolutionsApi.Controllers
                     ent.Nombre,
                     ent.Descripcion,
                     ent.Cantidad,
-                    ent.Precio
+                    ent.PrecioUnitarioColones,
+                    ent.PrecioUnitarioDolares,
+                    ent.Prompt
                 }, commandType: CommandType.StoredProcedure);
 
                 if (result != null)
@@ -121,7 +123,10 @@ namespace BigSolutionsApi.Controllers
                     ent.Nombre,
                     ent.Descripcion,
                     ent.Cantidad,
-                    ent.Precio,
+                    ent.PrecioUnitarioColones,
+                    ent.PrecioUnitarioDolares,
+                    ent.PorcentajeVenta,
+                    ent.Prompt,
                     ent.RutaImagen
                 }, commandType: CommandType.StoredProcedure);
 

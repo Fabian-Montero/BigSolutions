@@ -1,18 +1,20 @@
-﻿@{
+﻿@model List<BigSolutionsWeb.Entidades.SolicitudCotizacion>
+
+@{
     ViewData["Title"] = "Mis solicitudes de cotizaciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
         <h1>Mis Solicitudes de Cotizaciones</h1>
-        <p>Aquí puedes ver todos las solicitudes de cotizaciones que ha generado.</p>
+        <p>Aquí puedes ver todas las solicitudes de cotización que ha generado.</p>
     </div>
 
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Solicitudes de cotización</h3>
             <a href="@(Url.Action("CrearSolicitudCotizacionCliente", "Cotizaciones"))" class="botones-secundarios">Generar Solicitud de Cotización</a>
-        
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
             <table id="tabla-Bocetos" class="table table-hover">
@@ -22,56 +24,38 @@
                         <th style="text-align:left">Descripción de la solicitud</th>
                         <th style="text-align:left">Fecha de Generación</th>
                         <th style="text-align:left">Estado</th>
+                        <th style="text-align:left">Moneda</th>
                         <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align:left">111</td>
-                        <td style="text-align:left">
-                            En esta orden se necesitan los productos antes de la fecha de 15 de agosto del 2024
-                        </td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Pendiente</td>
-                        <td style="text-align:left">
-                            <a href="@(Url.Action("ConsultarSolicitudCotizacionCliente", "Cotizaciones", new { id = 11113 }))" class="botones">Ver detalles de la solicitud</a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">222</td>
-                        <td style="text-align:left">
-                            En esta orden se necesitan los productos antes de la fecha de 15 de agosto del 2024
-                        </td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">En proceso</td>
-                        <td style="text-align:left">
-                            <a href="@(Url.Action("ConsultarSolicitudCotizacionCliente", "Cotizaciones", new { id = 11113 }))" class="botones">Ver detalles de la solicitud</a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">333</td>
-                        <td style="text-align:left">
-                            En esta orden se necesitan los productos antes de la fecha de 15 de agosto del 2024
-                        </td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Pendiente</td>
-                        <td style="text-align:left">
-                            <a href="@(Url.Action("ConsultarSolicitudCotizacionCliente", "Cotizaciones", new { id = 11113 }))" class="botones">Ver detalles de la solicitud</a>
-                        </td>
-                        
-                    </tr>
+                    @foreach (var solicitud in Model)
+                    {
+                        <tr>
+                            <td style="text-align:left">@solicitud.IdSolicitudCotizacion</td>
+                            <td style="text-align:left">@solicitud.Descripcion</td>
+                            <td style="text-align:left">@solicitud.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td style="text-align:left">@solicitud.Estado</td>
+                            <td style="text-align:left">@solicitud.Moneda</td>
+                            <td style="text-align:left">
+                                <a href="@(Url.Action("ConsultarSolicitudCotizacionCliente", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles de la solicitud</a>
+                            </td>
+                        </tr>
+                    }
+                    @* Esta parte no va pero es un mensaje de error En caso de que la lista esté vacía, se muestra un mensaje *@
+                    @* @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="5" style="text-align:center">No hay solicitudes de cotización disponibles</td>
+                        </tr>
+                    } *@
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 
 <script>
     $(document).ready(function () {
