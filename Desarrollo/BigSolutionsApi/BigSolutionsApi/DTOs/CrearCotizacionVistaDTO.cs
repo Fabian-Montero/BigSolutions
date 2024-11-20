@@ -9,9 +9,9 @@ namespace BigSolutionsApi.DTOs
         public string DescripcionCotizacion { get; set; } = string.Empty;
         public List<BocetoCotizacionDTO> Bocetos { get; set; }
 
-        public decimal Total { get; set; } // Total sin impuestos
-        public decimal TotalImpuestos { get; set; } // Total con impuestos
+        public decimal Total { get; set; }
+        public decimal TotalImpuestos { get; set; }
 
-        public decimal SubTotal { get; set; } // Total con impuestos
+        public decimal SubTotal { get; set; }
     }
 }

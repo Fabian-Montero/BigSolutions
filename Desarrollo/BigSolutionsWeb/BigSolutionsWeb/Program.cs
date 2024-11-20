@@ -1,5 +1,7 @@
 using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
+using Rotativa.AspNetCore;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,16 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Asegura que la cookie se env�e incluso si el usuario no ha dado consentimiento
 });
 
+/*builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+});*/
+
+
+//Rotativa 
+
+RotativaConfiguration.Setup(builder.Environment.ContentRootPath, wkhtmltopdfRelativePath: "Rotativa/Windows");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,5 +61,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Usuario}/{action=InicioSesion}/{id?}");
+
+
+
 
 app.Run();

@@ -16,5 +16,4 @@
         public object? Estado { get; set; }
         public long UsuarioId { get; set; }
     }
-
 }

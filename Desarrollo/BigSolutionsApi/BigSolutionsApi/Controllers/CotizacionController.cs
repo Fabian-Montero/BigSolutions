@@ -312,8 +312,8 @@ namespace BigSolutionsApi.Controllers
                         //En esta parte se asumen que solo hay dos monedas
                         var moneda = (Moneda)solicitudCotizacion.Moneda;
 
-                        decimal subtotal = bocetos.Sum(b =>(moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad);
-                        decimal totalImpuestos = bocetos.Sum(b =>(b.PorcentajeVenta / 100) * (moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad);
+                        decimal subtotal = bocetos.Sum(b => (moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad);
+                        decimal totalImpuestos = bocetos.Sum(b => (b.PorcentajeVenta / 100) * (moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad);
                         decimal total = subtotal + totalImpuestos;
 
                         // Construir la respuesta
@@ -342,6 +342,115 @@ namespace BigSolutionsApi.Controllers
                 }
             }
 
+        }
+
+
+        [HttpPost]
+        [Route("CrearCotizacion")]
+        public async Task<IActionResult> CrearCotizacion(CrearCotizacionVistaDTO cotizacion)
+        {
+            Respuesta resp = new Respuesta();
+
+            // Validación inicial
+            if (cotizacion == null || cotizacion.Usuario == null || cotizacion.Bocetos == null || !cotizacion.Bocetos.Any())
+            {
+                resp.Codigo = 0;
+                resp.Mensaje = "La información de la cotización es inválida.";
+                return BadRequest(resp);
+            }
+
+            using (var connection = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                await connection.OpenAsync();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // Insertar en la tabla Cotizacion y obtener el IdCotizacion
+                        var idCotizacion = await connection.ExecuteScalarAsync<long>(
+                            "CrearCotizacion",
+                            new
+                            {
+                                IdUsuario = cotizacion.Usuario.UsuarioId,
+                                IdSolicitudCotizacion = cotizacion.SolicitudCotizacion.IdSolicitudCotizacion,
+                                RutaCotizacion = "",
+                                SubTotal = cotizacion.SubTotal,
+                                Impuesto = cotizacion.TotalImpuestos,
+                                Total = cotizacion.Total,
+                                FechaCreacion = DateTime.Now,
+                                Estado = 1,
+                                Descripcion = cotizacion.DescripcionCotizacion
+                            },
+                            commandType: CommandType.StoredProcedure,
+                            transaction: transaction
+                        );
+
+                        // Insertar cada boceto en la tabla Cotizacion_Detalle
+                        foreach (var boceto in cotizacion.Bocetos)
+                        {
+                            await connection.ExecuteAsync(
+                                "CrearCotizacionDetalle",
+                                new
+                                {
+                                    IdCotizacion = idCotizacion,
+                                    IdBoceto = boceto.IdBoceto,
+                                    Cantidad = boceto.Cantidad,
+                                    PrecioUnitarioColones = boceto.PrecioUnitarioColones,
+                                    PrecioUnitarioDolares = boceto.PrecioUnitarioDolares
+                                },
+                                commandType: CommandType.StoredProcedure,
+                                transaction: transaction
+                            );
+                        }
+
+                        // Confirmar la transacción
+                        transaction.Commit();
+
+                        resp.Codigo = 1;
+                        resp.Mensaje = "Cotización creada exitosamente.";
+                        resp.Contenido = idCotizacion;
+                        return Ok(resp);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Rollback en caso de error
+                        transaction.Rollback();
+
+                        resp.Codigo = 0;
+                        resp.Mensaje = $"Error al crear la cotización: {ex.Message}";
+                        return StatusCode(500, resp);
+                    }
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("ActualizarRutaCotizacion")]
+        public async Task<IActionResult> ActualizarRutaCotizacion(long idCotizacion, string downloadURL)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var result = await context.ExecuteAsync("ActualizarRutaCotizacion", new { idCotizacion, downloadURL }, commandType: CommandType.StoredProcedure);
+
+                if (result != null)
+                {
+
+                    resp.Codigo = 1;
+                    resp.Mensaje = "";
+                    resp.Contenido = "";
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "Error al actualizar la ruta del archivo de Cotización";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
         }
     }
 }

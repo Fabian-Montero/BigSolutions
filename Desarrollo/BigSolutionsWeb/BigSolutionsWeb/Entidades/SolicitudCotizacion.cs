@@ -1,4 +1,5 @@
 ﻿using BigSolutionsWeb.Enums;
+using Humanizer.Localisation.TimeToClockNotation;
 
 namespace BigSolutionsWeb.Entidades
 {
@@ -8,7 +9,8 @@ namespace BigSolutionsWeb.Entidades
         public int IdUsuario { get; set; }
         public string Descripcion { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public string Estado { get; set; }
+        /*public string Estado { get; set; }*/
+        public int Estado { get; set; }
         public string? NombreCliente { get; set; }
         public Moneda? Moneda { get; set; }
     }
