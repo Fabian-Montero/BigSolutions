@@ -9,6 +9,7 @@ using System.Text.Json;
 
 namespace BigSolutionsWeb.Controllers
 {
+    [AutorizacionFiltro]
     public class BocetoController(IBocetoModel iBocetoModel) : Controller
     {
         public IActionResult Index()

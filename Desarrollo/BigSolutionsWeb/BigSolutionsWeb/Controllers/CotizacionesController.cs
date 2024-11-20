@@ -12,6 +12,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BigSolutionsWeb.Controllers
 {
+
     public class CotizacionesController(ICotizacionesModel iCotizacionesModel, IFirebaseModel iFirebaseModel) : Controller
     {
         public IActionResult Index()
