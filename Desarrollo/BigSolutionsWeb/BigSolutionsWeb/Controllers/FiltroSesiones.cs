@@ -35,4 +35,25 @@ namespace BigSolutionsWeb.Controllers
             base.OnActionExecuting(context);
         }
     }
+    public class AutorizacionFiltro : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var sessionId = context.HttpContext.Session.GetString("IDUSUARIO");
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                // Si no hay sesión activa, redirigir al inicio de sesión
+                context.Result = new RedirectToActionResult("InicioSesion", "Usuario", null);
+            }
+            else
+            {
+                // Si el usuario está autenticado, asegurarse de que no se almacene en caché la página
+                context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                context.HttpContext.Response.Headers["Pragma"] = "no-cache";
+                context.HttpContext.Response.Headers["Expires"] = "0";
+            }
+
+            base.OnActionExecuting(context);
+        }
+    }
 }

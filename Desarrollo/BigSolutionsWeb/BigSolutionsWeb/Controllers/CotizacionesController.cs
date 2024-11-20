@@ -7,6 +7,7 @@ using System.Text.Json;
 
 namespace BigSolutionsWeb.Controllers
 {
+    [AutorizacionFiltro]
     public class CotizacionesController(ICotizacionesModel iCotizacionesModel) : Controller
     {
         public IActionResult Index()
