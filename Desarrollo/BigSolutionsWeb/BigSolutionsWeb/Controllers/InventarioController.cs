@@ -11,6 +11,7 @@ using System.Configuration;
 
 namespace BigSolutionsWeb.Controllers
 {
+    [AutorizacionFiltro]
     public class InventarioController(IProductoModel iProductoModel, ICategoriaModel iCategoriaModel, IFirebaseModel iFirebaseModel) : Controller
     {
         [FiltroSesiones]
