@@ -3,6 +3,7 @@ using BigSolutionsWeb.Entidades;
 using BigSolutionsWeb.Models.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace BigSolutionsWeb.Models
 {
@@ -103,5 +104,71 @@ namespace BigSolutionsWeb.Models
                     return new Respuesta();
             }
         }
+
+        //Cotizaciones
+
+        public Respuesta CrearCotizacionVista(long IdSolicitudCotizacion)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/CrearCotizacionVista?IdSolicitudCotizacion=" + IdSolicitudCotizacion;
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+        public Respuesta CrearCotizacion(CrearCotizacionVistaDTO cotizacion)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/CrearCotizacion";
+
+                JsonContent body = JsonContent.Create(cotizacion);
+
+                var res = httpClient.PostAsync(url, body).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                }
+                else
+                {
+                    // Registrar detalles del error
+                    var errorContent = res.Content.ReadAsStringAsync().Result;
+                    Console.WriteLine($"Error Content: {errorContent}");
+                    return new Respuesta { Codigo = 0, Mensaje = "Error en la solicitud: " + errorContent };
+                }
+            }
+        }
+
+        public Respuesta ActualizarRutaCotizacion(long idCotizacion, string downloadURL)
+        {
+            using (httpClient = new HttpClient())
+            {
+
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value
+                    + "Cotizacion/ActualizarRutaCotizacion?idCotizacion="
+                    + idCotizacion
+                    + "&downloadURL=" + Uri.EscapeDataString(downloadURL);
+                /*string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                }
+                else
+                    return new Respuesta();
+            }
+        }
+
     }
 }

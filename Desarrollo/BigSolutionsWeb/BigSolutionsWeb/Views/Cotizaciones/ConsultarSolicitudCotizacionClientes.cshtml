@@ -71,7 +71,7 @@
     </div>
 
     <div class="mt-4">
-        <a href="@Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new { id = Model.IdSolicitudCotizacion })" class="botones-secundarios">Generar una cotización con esta solicitud</a>
+        <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = Model.IdSolicitudCotizacion}))" class="botones-secundarios">Generar una cotización con esta solicitud</a>
     </div>
 </div>
 
