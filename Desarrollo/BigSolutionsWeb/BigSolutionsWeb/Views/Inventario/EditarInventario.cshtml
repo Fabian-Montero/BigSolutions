@@ -33,14 +33,12 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-email">Nombre del producto</label>
-                                            @* <input type="text" id="NombreProducto" name="NombreProducto" class="form-control form-control-user" placeholder="Ingrese el nombre" required> *@
                                             @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del producto", @required = "required" })
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-last-name">Cantidad</label>
-                                            @* <input type="number" id="Cantidad" name="Cantidad" class="form-control form-control-user" placeholder="Ingrese la cantidad" required> *@
                                             @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", @placeholder = "Ingrese la cantidad", @required = "required", @type = "number" })
                                         </div>
                                     </div>
@@ -49,21 +47,18 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Precio en Colones</label>
-                                            @* <input type="number" id="Precio" name="Precio" class="form-control form-control-user" placeholder="Ingrese el precio" required> *@
                                             @Html.TextBoxFor(m => m.PrecioUnitarioColones, new { @class = "form-control", @placeholder = "Ingrese el precio en colones", @required = "required", @type = "number" })
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Precio en Dólares</label>
-                                            @* <input type="number" id="Precio" name="Precio" class="form-control form-control-user" placeholder="Ingrese el precio" required> *@
                                             @Html.TextBoxFor(m => m.PrecioUnitarioDolares, new { @class = "form-control", @placeholder = "Ingrese el precio en dólares", @required = "required", @type = "number" })
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Porcentaje de Venta</label>
-                                            @* <input type="number" id="Precio" name="Precio" class="form-control form-control-user" placeholder="Ingrese el precio" required> *@
                                             @Html.TextBoxFor(m => m.PorcentajeVenta, new { @class = "form-control", @placeholder = "Ingrese el porcentaje de venta", @required = "required", @type = "decimal" })
                                         </div>
                                     </div>
@@ -74,7 +69,6 @@
                                         <div class="form-group">
                                             <div class="form-group">
                                                 <label for="descripcionInventario">Descripción</label>
-                                                @* <textarea id="descripcionInventario" name="descripcionInventario" class="form-control" rows="3" placeholder="Ingrese una descripción" required></textarea> *@
                                                 @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Ingrese la descripción", @required = "required" })
                                             </div>
                                         </div>
@@ -83,7 +77,6 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="descripcionInventario">Prompt del producto</label>
-                                            @* <textarea id="descripcionInventario" name="descripcionInventario" class="form-control" rows="3" placeholder="Ingrese una descripción" required></textarea> *@
                                             @Html.TextAreaFor(m => m.Prompt, new { @class = "form-control", @placeholder = "Prompt del producto", @required = "required" })
                                         </div>
                                     </div>
@@ -92,14 +85,22 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="tipoCategoria">Categoría</label>
-                                            @Html.DropDownListFor(m => m.IdCategoria, ViewBag.TiposCategorias as List<SelectListItem>, new { @class = "form-control", @required = "required" })
+                                            <label class="form-control-label" for="input-last-name">Imagen</label>
+                                            <input type="file" id="ImagenProducto" name="ImagenProducto" class="form-control form-control-user" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-last-name">Imagen</label>
-                                            <input type="file" id="ImagenProducto" name="ImagenProducto" class="form-control form-control-user" required />
+                                            <label for="tipoCategoria">Categoría</label>
+                                            @Html.DropDownListFor(m => m.IdCategoria, ViewBag.TiposCategorias as List<SelectListItem>, new { @class = "form-control", @required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="imagen-actual">Imagen Actual</label>
+                                            <img class="form-control" src="@ViewBag.RutaImagen" style="width: 250px; height: 250px; ">
                                         </div>
                                     </div>
                                 </div>
