@@ -86,7 +86,7 @@ namespace BigSolutionsWeb.Controllers
                 return View();
             }
         }
-
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [HttpGet]
         public IActionResult Salir()
@@ -95,6 +95,7 @@ namespace BigSolutionsWeb.Controllers
             return RedirectToAction("InicioSesion", "Usuario");
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [HttpGet]
         public IActionResult ConfiguraciondePerfil()
@@ -135,6 +136,7 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [HttpPost]
         public IActionResult ConfiguraciondePerfil(Usuario entidad)
@@ -154,6 +156,7 @@ namespace BigSolutionsWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [HttpGet]
         public IActionResult EliminarPerfilUsuario(long UsuarioId)
@@ -241,6 +244,7 @@ namespace BigSolutionsWeb.Controllers
         //    return View();
         //}
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         public IActionResult ConsultarClientes()
@@ -257,6 +261,7 @@ namespace BigSolutionsWeb.Controllers
             return View(ListCliente);
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         public IActionResult EliminarClientes(string id)
@@ -266,6 +271,7 @@ namespace BigSolutionsWeb.Controllers
             return RedirectToAction("ConsultarClientes");
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         public IActionResult DetallesCLiente(string id)
@@ -275,6 +281,7 @@ namespace BigSolutionsWeb.Controllers
             return View(detalleCLiente);
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         public IActionResult BuscarClientes(string ParametroBusqueda)
@@ -298,6 +305,7 @@ namespace BigSolutionsWeb.Controllers
             return View("ConsultarClientes", ListCliente);
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         public IActionResult EditarClientes()
@@ -305,6 +313,7 @@ namespace BigSolutionsWeb.Controllers
             return View();
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         public IActionResult OrdenesPorCliente(string id)
@@ -313,6 +322,7 @@ namespace BigSolutionsWeb.Controllers
         }
 
         //A
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         [HttpGet]
@@ -330,6 +340,7 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         [HttpGet]
@@ -347,6 +358,7 @@ namespace BigSolutionsWeb.Controllers
             return View(new Usuario());
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         [HttpPost]
@@ -376,6 +388,7 @@ namespace BigSolutionsWeb.Controllers
             return View();
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [FiltroAdmin]
         [HttpGet]
@@ -396,12 +409,15 @@ namespace BigSolutionsWeb.Controllers
 
         }
 
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [HttpGet]
         public IActionResult CambiarContrasenna()
         {
             return View();
         }
+
+        [AutorizacionFiltro]
         [FiltroSesiones]
         [HttpPost]
         public IActionResult CambiarContrasenna(Usuario ent)
