@@ -55,16 +55,6 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
-        public IActionResult ConsultarCotizaciones()
-        {
-            return View();
-        }
-        public IActionResult CotizacionesAdministrador()
-        {
-            return View();
-        }
-        
-  
         public IActionResult AgregarBocetoEditar()
         {
             return View();
@@ -253,8 +243,9 @@ namespace BigSolutionsWeb.Controllers
                 return Json(new { success = false, message = "Error al actualizar la ruta del archivo en la base de datos.", details = ex.Message });
             }
 
-            // Devolver el PDF generado
-            return pdf;
+            // Devuelve la URL del PDF como respuesta
+            return Json(new { success = true, pdfUrl = downloadURL });
+
         }
 
         [HttpGet]
@@ -262,5 +253,44 @@ namespace BigSolutionsWeb.Controllers
         {
             return View(datos);
         }
+
+        [HttpGet]
+        public IActionResult ConsultarCotizaciones()
+        {
+
+            var IdUsuarioString = HttpContext.Session.GetString("IDUSUARIO");
+            int UsuarioId = int.Parse(IdUsuarioString!);
+            var resp = iCotizacionesModel.ConsultarCotizacionesCliente(UsuarioId);
+
+            if (resp.Codigo == 1)
+            {
+
+                var datos = JsonSerializer.Deserialize<List<Cotizacion>>((JsonElement)resp.Contenido!);
+                return View(datos);
+            }
+            else
+            {
+                //Mensaje de error
+                return View(new List<Cotizacion>());
+            }
+        }
+        public IActionResult CotizacionesAdministrador()
+        {
+            
+            var resp = iCotizacionesModel.ConsultarCotizacionesAdmin();
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<List<Cotizacion>>((JsonElement)resp.Contenido!);
+                return View(datos);
+            }
+            else
+            {
+                //Mensaje de error
+                return View(new List<SolicitudCotizacion>());
+            }
+        }
+
+
     }
 }

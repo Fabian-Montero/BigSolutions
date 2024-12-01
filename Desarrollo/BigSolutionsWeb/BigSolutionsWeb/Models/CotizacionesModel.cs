@@ -170,5 +170,36 @@ namespace BigSolutionsWeb.Models
             }
         }
 
+        public Respuesta ConsultarCotizacionesAdmin()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarCotizacionesAdmin";
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+        //Cotizaciones Cliente
+
+        public Respuesta ConsultarCotizacionesCliente(long IdUsuario)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarCotizacionesUsuario?IdUsuario=" + IdUsuario;
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
     }
 }

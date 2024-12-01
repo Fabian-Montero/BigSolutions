@@ -104,121 +104,99 @@
 
 <script>
     $(document).ready(function () {
-        // Recalcular los totales
-        function recalculateTotals() {
-            let subtotal = 0;
-            let totalImpuestos = 0;
-
-            // Iterar sobre cada fila de la tabla para calcular los valores
+        const table = $('#tabla-Bocetos').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            destroy: true
+        });
+        let selectedBocetos = [];
+        // Guardar los datos actuales al cambiar de página
+        function saveCurrentPageSelections() {
             $('#tabla-Bocetos tbody tr').each(function () {
-                const cantidad = parseFloat($(this).find('.boceto-cantidad').val()) || 0;
-                const precio = parseFloat($(this).find('.precio').val()) || 0;
-
-                // Subtotal por ítem
-                const itemSubtotal = cantidad * precio;
-                subtotal += itemSubtotal;
-
-                // Impuestos por ítem (13%)
-                totalImpuestos += itemSubtotal * 0.13;
-            });
-
-            // Calcular el total
-            const total = subtotal + totalImpuestos;
-
-            // Actualizar los valores en la vista
-            $('#subtotal').text(subtotal.toFixed(2));
-            $('#totalImpuestos').text(totalImpuestos.toFixed(2));
-            $('#total').text(total.toFixed(2));
-        }
-
-        // Crear el objeto DTO para la cotización
-        function buildCotizacionObject() {
-            const usuario = {
-                NombreCompleto: $('#nombreCliente').text(),
-                NumeroTelefono: $('#telefonoCliente').text(),
-                CorreoElectronico: $('#correoCliente').text()
-            };
-
-            const solicitudCotizacion = {
-                IdSolicitudCotizacion: parseInt($('#idSolicitudCotizacion').val()),
-                Descripcion: $('#descripcionSolicitud').text(),
-                Moneda: parseInt($('#moneda').val())
-            };
-
-            const bocetos = [];
-            $('#tabla-Bocetos tbody tr').each(function () {
-                const idBoceto = parseInt($(this).find('td').eq(1).text());
-                const cantidad = parseFloat($(this).find('.boceto-cantidad').val()) || 0;
-                const precio = parseFloat($(this).find('.precio').val()) || 0;
-
-                if (cantidad > 0) {
-                    bocetos.push({
-                        IdBoceto: idBoceto,
-                        Cantidad: cantidad,
-                        PrecioUnitarioColones: precio,
-                        PrecioUnitarioDolares: precio
-                    });
+                const row = $(this);
+                const idBoceto = parseInt(row.find('td').eq(1).text());
+                const descripcion = row.find('.boceto-description').val();
+                const cantidad = row.find('.boceto-cantidad').val();
+                const isChecked = row.find('.select-boceto').is(':checked');
+                const existingBoceto = selectedBocetos.find(b => b.IdBoceto === idBoceto);
+                if (isChecked) {
+                    if (existingBoceto) {
+                        existingBoceto.DescripcionUsuario = descripcion || '';
+                        existingBoceto.Cantidad = parseInt(cantidad) || 0;
+                    } else {
+                        selectedBocetos.push({
+                            IdBoceto: idBoceto,
+                            DescripcionUsuario: descripcion || '',
+                            Cantidad: parseInt(cantidad) || 0
+                        });
+                    }
+                } else if (existingBoceto) {
+                    selectedBocetos = selectedBocetos.filter(b => b.IdBoceto !== idBoceto);
                 }
             });
-
-            const subtotal = parseFloat($('#subtotal').text()) || 0;
-            const totalImpuestos = parseFloat($('#totalImpuestos').text()) || 0;
-            const total = parseFloat($('#total').text()) || 0;
-
-            return {
-                Usuario: usuario,
-                SolicitudCotizacion: solicitudCotizacion,
-                DescripcionCotizacion: $('#generalDescription').val(),
-                Bocetos: bocetos,
-                SubTotal: subtotal,
-                TotalImpuestos: totalImpuestos,
-                Total: total
-            };
         }
-
+        // Restaurar selección y datos de los bocetos seleccionados
+        function restoreSelections() {
+            $('#tabla-Bocetos tbody tr').each(function () {
+                const row = $(this);
+                const idBoceto = parseInt(row.find('td').eq(1).text());
+                const selected = selectedBocetos.find(b => b.IdBoceto === idBoceto);
+                if (selected) {
+                    row.find('.select-boceto').prop('checked', true);
+                    row.find('.boceto-description').val(selected.DescripcionUsuario);
+                    row.find('.boceto-cantidad').val(selected.Cantidad);
+                } else {
+                    row.find('.select-boceto').prop('checked', false);
+                    row.find('.boceto-description').val('');
+                    row.find('.boceto-cantidad').val('');
+                }
+            });
+        }
+        // Evento: Guardar datos antes de redibujar la tabla
+        table.on('draw', function () {
+            saveCurrentPageSelections();
+            restoreSelections();
+        });
+        // Evento: Guardar cambios en tiempo real
+        $(document).on('change', '.select-boceto, .boceto-description, .boceto-cantidad', function () {
+            saveCurrentPageSelections();
+        });
+        // Enviar datos al servidor
+        $('#enviarSolicitud').on('click', function () {
+            const descripcionGeneral = $('#generalDescription').val();
+            const moneda = $('#moneda').val();
+            if (!selectedBocetos.length) {
+                Swal.fire('Atención', 'Selecciona al menos un boceto', 'warning');
+                return;
+            }
+            $.ajax({
+                url: '/Cotizaciones/CrearSolicitudCotizacionCliente',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    DescripcionGeneral: descripcionGeneral,
+                    Moneda: parseInt(moneda),
+                    BocetosSeleccionados: selectedBocetos
+                }),
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Solicitud Creada',
+                        text: 'La solicitud de cotización se creó exitosamente.',
+                        timer: 1800
+                    }).then(() => window.location.href = '/Cotizaciones/ConsultarSolicitudCotizacionesCliente');
+                },
+                error: function () {
+                    Swal.fire('Error', 'Hubo un problema al enviar la solicitud.', 'error');
+                }
+            });
+        });
         // Manejar la visualización de imágenes
         $('#tabla-Bocetos').on('click', '.boceto-img, .view-image', function () {
             const src = $(this).data('src');
             $('#modalImage').attr('src', src);
-            $('#imageModal').modal('show');
         });
-
-        // Enviar la solicitud de cotización al servidor
-        $('#enviarSolicitud').on('click', function () {
-            const cotizacion = buildCotizacionObject();
-
-            if (cotizacion.Bocetos.length === 0) {
-                Swal.fire('Atención', 'Selecciona al menos un boceto con cantidad válida.', 'warning');
-                return;
-            }
-
-            $.ajax({
-                url: '/Cotizaciones/CrearCotizacionClienteConListaCliente',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(cotizacion),
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Cotización generada',
-                        text: response.message
-                    }).then(() => {
-                        window.location.href = '/Cotizaciones/ConsultarSolicitudCotizacionesCliente';
-                    });
-                },
-                error: function () {
-                    Swal.fire('Error', 'Hubo un problema al generar la cotización.', 'error');
-                }
-            });
-        });
-
-        // Evento: Recalcular totales al cambiar cantidad o precio
-        $(document).on('input', '.boceto-cantidad, .precio', function () {
-            recalculateTotals();
-        });
-
-        // Inicializar los cálculos al cargar la página
-        recalculateTotals();
     });
 </script>
 

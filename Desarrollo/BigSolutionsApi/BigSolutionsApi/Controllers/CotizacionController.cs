@@ -358,7 +358,7 @@ namespace BigSolutionsApi.Controllers
                 resp.Mensaje = "La información de la cotización es inválida.";
                 return BadRequest(resp);
             }
-
+            
             using (var connection = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 await connection.OpenAsync();
@@ -452,6 +452,66 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
-    }
+
+        [HttpGet]
+        [Route("ConsultarCotizacionesAdmin")]
+        public async Task<IActionResult> ConsultarCotizacionesAdmin()
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var result = await context.QueryAsync<Cotizacion>("ConsultarCotizacionesAdmin", commandType: CommandType.StoredProcedure);
+
+
+                if (result.Count() > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay cotizaciones registradas en este momento";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
+
+
+        //Cotizaciones usuario
+        [HttpGet]
+            [Route("ConsultarCotizacionesUsuario")]
+            public async Task<IActionResult> ConsultarCotizacionesUsuario(int IdUsuario)
+            {
+                Respuesta resp = new Respuesta();
+
+                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+                {
+                    var result = await context.QueryAsync<Cotizacion>("ConsultarCotizacionesUsuario", new { IdUsuario }, commandType: CommandType.StoredProcedure);
+
+                    
+                    if (result.Count() > 0)
+                    {
+                       
+                        resp.Codigo = 1;
+                        resp.Mensaje = "";
+                        resp.Contenido = result;
+                        return Ok(resp);
+                    }
+                    else
+                    {
+                        resp.Codigo = 0;
+                        resp.Mensaje = "No hay cotizaciones registradas en este momento";
+                        resp.Contenido = false;
+                        return Ok(resp);
+                    }
+                }
+            }
+        }
 }
 
