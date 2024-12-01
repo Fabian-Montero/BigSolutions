@@ -1,140 +1,65 @@
-﻿@{
+﻿@model List<BigSolutionsWeb.Entidades.Cotizacion>
+
+@{
     ViewData["Title"] = "Detalles de la Cotización";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="~/css/hojaestilos.css" rel="stylesheet" />
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
         <h1>Detalles de la Cotización</h1>
-        <p>Aquí puedes ver los bocetos asociados a esta Cotización.</p>
+        <p>Aquí puedes ver las cotizaciones disponibles.</p>
     </div>
-    <div class="card mb-4">
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3>Información de la Cotización</h3>
-            </div>
-            <div class="card-body">
-                <p><strong>Número de Orden:</strong> 111</p>
-                <p><strong>Estado de la Orden:</strong> Pendiente</p>
-                <p><strong>Fecha de Creación:</strong> @DateTime.Now</p>
-                <p><strong>Descripción de la Orden:</strong> En esta orden se necesitan los productos antes de la fecha de 15 de agosto del 2024</p>
-                <hr>
-                <p><strong>Subtotal:</strong> ₡105,000</p>
-                <p><strong>IVA (13%):</strong> ₡13,650</p>
-                <p><strong>Descuento:</strong> ₡10,000</p>
-                <hr>
-                <p><strong>Total:</strong> ₡108,650</p>
-            </div>
-        </div>
-        <div class="card-footer text-center py-3">
-            <a href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")" class="inventario-link">Volver a Mis cotizaciones</a>
-        </div>
-    </div>
+
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Bocetos Asociados</h3>
+            <h3 class="mb-0">Cotizaciones Asociadas</h3>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            <table id="tabla-Bocetos" class="table table-hover">
+            <table id="tabla-Cotizaciones" class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="text-align:left">Número de Boceto</th>
-                        <th style="text-align:left">Imagen del Boceto</th>
-                        <th style="text-align:left">Producto</th>
-                        <th style="text-align:left">Fecha de Generación</th>
+                        <th style="text-align:left">ID Cotización</th>
                         <th style="text-align:left">Descripción</th>
-                        <th style="text-align:left">Cantidad</th>
-                        <th style="text-align:left">Precio Unitario (₡)</th>
+                        <th style="text-align:left">Fecha de Creación</th>
                         <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align:left">11111</td>
-                        <td style="text-align:left">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td style="text-align:left">Botella</td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Descripción del boceto 1</td>
-                        <td style="text-align:left">50</td>
-                        <td style="text-align:left">₡1,000</td>
-                        <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">11112</td>
-                        <td style="text-align:left">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td style="text-align:left">Botella</td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Descripción del boceto 2</td>
-                        <td style="text-align:left">30</td>
-                        <td style="text-align:left">₡1,200</td>
-                        <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">11113</td>
-                        <td style="text-align:left">
-                            <img src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">
-                        </td>
-                        <td style="text-align:left">Botella</td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:left">Descripción del boceto 3</td>
-                        <td style="text-align:left">20</td>
-                        <td style="text-align:left">₡1,500</td>
-                        <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="https://images.vexels.com/content/259089/preview/water-semi-flat-bottle-71a67b.png">Ver Imagen</button>
-                        </td>
-                    </tr>
+                    @foreach (var cotizacion in Model)
+                    {
+                        <tr>
+                            <td style="text-align:left">@cotizacion.IdCotizacion</td>
+                            <td style="text-align:left">@cotizacion.Descripcion</td>
+                            <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td style="text-align:left">
+                                <!-- Botón Ver Cotización -->
+                                <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+                                <!-- Botón Generar Orden -->
+                                <button class="botones" onclick="generarOrden(@cotizacion.IdCotizacion)">Generar Orden</button>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-        </div>
-    </div>
-
-</div>
-
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
-            </div>
         </div>
     </div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 
 <script>
+    // Función para generar una orden con la cotización seleccionada
+    function generarOrden(idCotizacion) {
+        // Lógica para llamar a la API o redirigir al controlador correspondiente
+        window.location.href = `/Ordenes/GenerarOrden?idCotizacion=${idCotizacion}`;
+    }
+
     $(document).ready(function () {
-        var table = $('#tabla-Bocetos').DataTable({
+        $('#tabla-Cotizaciones').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             }
-        });
-
-        $('#tabla-Bocetos').on('click', '.boceto-img', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
-
-        $('#tabla-Bocetos').on('click', '.view-image', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
         });
     });
 </script>

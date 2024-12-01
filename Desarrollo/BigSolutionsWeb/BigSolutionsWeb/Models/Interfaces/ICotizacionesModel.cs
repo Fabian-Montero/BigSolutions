@@ -14,5 +14,8 @@ namespace BigSolutionsWeb.Models.Interfaces
         Respuesta CrearCotizacionVista(long IdSolicitudCotizacion);
         Respuesta CrearCotizacion(CrearCotizacionVistaDTO cotizacion);
         Respuesta ActualizarRutaCotizacion(long idCotizacion, string downloadURL);
+        Respuesta ConsultarCotizacionesAdmin();
+        Respuesta ConsultarCotizacionesCliente(long IdUsuario);
+
     }
 }

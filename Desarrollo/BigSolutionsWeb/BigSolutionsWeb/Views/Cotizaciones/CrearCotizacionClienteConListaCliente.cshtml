@@ -178,6 +178,13 @@
             recalculateTotals();
         });
 
+        // Evento para abrir el modal al hacer clic en la imagen o el botón "Ver Imagen"
+        $(document).on('click', '.view-image, .boceto-img', function () {
+            const imageUrl = $(this).data('src') || $(this).attr('src'); // Obtén la URL de la imagen
+            $('#modalImage').attr('src', imageUrl); // Actualiza la imagen del modal
+            $('#imageModal').modal('show'); // Muestra el modal
+        });
+
         function buildCotizacionObject() {
             const usuario = {
                 UsuarioId: parseInt($('#usuarioId').val()),
@@ -196,7 +203,7 @@
             $('#tabla-Bocetos tbody tr').each(function () {
                 const idBoceto = parseInt($(this).data('id'));
                 const cantidad = parseInt($(this).find('.cantidad').val()) || 0;
-                const precio = parseFloat($(this).find('.precio').val()) || 0;
+                const precio = parseFloat($(this).find('.precio').val().replace(/[^0-9.-]+/g, '')) || 0; // Elimina símbolos de moneda
                 const nombreProducto = $(this).find('.nombre-producto').text().trim();
                 const fechaGeneracion = $(this).find('.fecha-generacion').text().trim();
                 const rutaImagen = $(this).find('img').attr('src');
@@ -213,6 +220,11 @@
                     });
                 }
             });
+
+            // Limpiar totales antes de enviar al backend
+            const subtotal = parseFloat($('#subtotal').text().replace(/[^0-9.-]+/g, ''));
+            const totalImpuestos = parseFloat($('#totalImpuestos').text().replace(/[^0-9.-]+/g, ''));
+            const total = parseFloat($('#total').text().replace(/[^0-9.-]+/g, ''));
 
             return {
                 Usuario: usuario,
@@ -238,19 +250,29 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(cotizacion),
-                xhrFields: {
-                    responseType: 'blob'
-                },
-                success: function (blob) {
-                    const url = window.URL.createObjectURL(blob);
-                    window.open(url, '_blank');
+                success: function (response) {
+                    // Abrir el PDF en una nueva pestaña
+                    const pdfUrl = response.pdfUrl; // Asegúrate de que esta URL sea correcta
+                    const newTab = window.open(pdfUrl, '_blank');
+
+                    if (!newTab) {
+                        // Si el navegador bloquea la pestaña, muestra un mensaje al usuario
+                        Swal.fire('Atención', 'Permite ventanas emergentes para ver el PDF.', 'warning');
+                    } else {
+                        // Esperar un tiempo breve para asegurarse de que la pestaña se abra
+                        setTimeout(() => {
+                            // Redirigir a la vista de cotizaciones
+                            window.location.href = '/Cotizaciones/CotizacionesAdministrador'; // Cambia esta URL según tu ruta
+                        }, 500); // Espera 0.5 segundos antes de redirigir
+                    }
                 },
                 error: function () {
-                    Swal.fire('Error', 'Hubo un problema al generar el PDF.', 'error');
+                    Swal.fire('Error', 'Hubo un problema al generar la cotización.', 'error');
                 }
             });
         });
 
         recalculateTotals();
     });
+
 </script>
