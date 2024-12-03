@@ -1,4 +1,6 @@
-﻿namespace BigSolutionsWeb.Entidades
+﻿using BigSolutionsWeb.Enums;
+
+namespace BigSolutionsWeb.Entidades
 {
     public class Cotizacion
     {
@@ -15,5 +17,6 @@
         public int Estado { get; set; }
         public string? Descripcion { get; set; }
         public string? NombreCompleto { get; set; }
+        public Moneda? Moneda { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BigSolutionsWeb.Controllers
 {
-
+    [AutorizacionFiltro]
     public class CotizacionesController(ICotizacionesModel iCotizacionesModel, IFirebaseModel iFirebaseModel) : Controller
     {
         public IActionResult Index()
@@ -20,6 +20,8 @@ namespace BigSolutionsWeb.Controllers
             return View();
         }
 
+        
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarSolicitudCotizacionesCliente()
         {
@@ -35,11 +37,12 @@ namespace BigSolutionsWeb.Controllers
             }
             else 
             {
-                //Mensaje de error
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new List<SolicitudCotizacion>());
             }
 
         }
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarSolicitudCotizacionCliente(long IdSolicitudCotizacion)
         {
@@ -51,7 +54,7 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
-                //Mensaje de error
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new SolicitudCotizacionDetalleDTO());
             }
         }
@@ -64,8 +67,8 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
-        
 
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult CrearSolicitudCotizacionCliente()
         {
@@ -81,11 +84,11 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
-                //Mensaje de error
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new CrearSolicitudCotizacionVistaDTO());
             }
         }
-
+        [FiltroSesiones]
         [HttpPost]
         public IActionResult CrearSolicitudCotizacionCliente([FromBody] CrearSolicitudCotizacionDTO SolicitudCotizacion)
         {
@@ -115,6 +118,9 @@ namespace BigSolutionsWeb.Controllers
 
 
         //Admin
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
         public IActionResult ConsultarSolicitudesCotizacionesClientes()
         {
             var resp = iCotizacionesModel.ConsultarSolicitudesCotizacionesAdmin();
@@ -126,11 +132,14 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
-                //Mensaje de error
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new List<SolicitudCotizacion>());
             }
         }
 
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
         public IActionResult ConsultarSolicitudCotizacionClientes(long IdSolicitudCotizacion)
         {
             var resp = iCotizacionesModel.ConsultarDetalleSolicitudCotizacionAdmin(IdSolicitudCotizacion);
@@ -141,13 +150,16 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
-                //Mensaje de error
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new SolicitudCotizacionDetalleDTO());
             }
         }
 
         //Cotizaciones
 
+        
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpGet]
         public IActionResult CrearCotizacionClienteConListaCliente(long IdSolicitudCotizacion)
         {
@@ -159,8 +171,8 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
-                //Mensaje de error
-                return View(new SolicitudCotizacionDetalleDTO());
+                ViewBag.MsjPantalla = resp.Mensaje;
+                return View(new CrearCotizacionVistaDTO());
             }
         }
         //Crear el pdf 
@@ -168,6 +180,8 @@ namespace BigSolutionsWeb.Controllers
         //Crear la cotizacion en la base de datos
         //Si todo sale bien, por medio de transacciones, se descarga el pdf
 
+        [FiltroSesiones]
+        [FiltroAdmin]
         [HttpPost]
         public async Task<IActionResult> GenerarCotizacion([FromBody] CrearCotizacionVistaDTO datos)
         {
@@ -255,6 +269,7 @@ namespace BigSolutionsWeb.Controllers
             return View(datos);
         }
 
+        [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarCotizaciones()
         {
@@ -271,10 +286,13 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
-                //Mensaje de error
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new List<Cotizacion>());
             }
         }
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
         public IActionResult CotizacionesAdministrador()
         {
             
@@ -287,11 +305,29 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
-                //Mensaje de error
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new List<SolicitudCotizacion>());
             }
         }
 
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
+        public IActionResult ConsultarDetalleCotizacion(long IdCotizacion)
+        {
+            var resp = iCotizacionesModel.ObtenerDetalleCotizacion(IdCotizacion);
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<ConsultarCotizacionDTO>((JsonElement)resp.Contenido!);
+                return View(datos);
+            }
+            else
+            {
+                ViewBag.MsjPantalla = resp.Mensaje;
+                return View(null);
+            }
+        }
 
     }
 }

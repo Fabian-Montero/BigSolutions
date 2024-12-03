@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 
 namespace BigSolutionsWeb.Models
 {
-    public class CotizacionesModel(HttpClient httpClient, IConfiguration iConfiguration)  : ICotizacionesModel
+    public class CotizacionesModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iAccesor)  : ICotizacionesModel
     {
         
 
@@ -16,6 +16,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/CrearSolicitudCotizacionVista?IdUsuario=" + IdUsuario;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -31,6 +33,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/CrearSolicitudCotizacion";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 JsonContent body = JsonContent.Create(SolicitudCotizacion);
 
@@ -48,6 +52,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarSolicitudesCotizacionesCliente?IdUsuario=" + IdUsuario;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -63,6 +69,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarDetalleSolicitudCotizacionCliente?IdSolicitudCotizacion=" + IdSolicitudCotizacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -80,6 +88,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarSolicitudesCotizacionesAdmin";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -95,6 +105,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarDetalleSolicitudCotizacionAdmin?IdSolicitudCotizacion=" + IdSolicitudCotizacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -112,6 +124,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/CrearCotizacionVista?IdSolicitudCotizacion=" + IdSolicitudCotizacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -127,6 +141,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/CrearCotizacion";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 JsonContent body = JsonContent.Create(cotizacion);
 
@@ -155,9 +171,8 @@ namespace BigSolutionsWeb.Models
                     + "Cotizacion/ActualizarRutaCotizacion?idCotizacion="
                     + idCotizacion
                     + "&downloadURL=" + Uri.EscapeDataString(downloadURL);
-                /*string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
-
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var resp = httpClient.GetAsync(url).Result;
 
@@ -175,6 +190,25 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarCotizacionesAdmin";
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+        public Respuesta ObtenerDetalleCotizacion(long IdCotizacion)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ObtenerDetalleCotizacion?IdCotizacion=" + IdCotizacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
@@ -192,6 +226,8 @@ namespace BigSolutionsWeb.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/ConsultarCotizacionesUsuario?IdUsuario=" + IdUsuario;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var res = httpClient.GetAsync(url).Result;
 
