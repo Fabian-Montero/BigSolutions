@@ -47,9 +47,11 @@
                             
                             <td style="text-align:left">@cotizacion.NombreCompleto</td>
                             <td style="text-align:left">
+
                                 <a href="@(Url.Action("ConsultarDetalleCotizacion", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))" class="botones">Ver detalles</a>
-                                <a href="@(Url.Action("EditarSolicitudCotizacionCliente", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))" class="botones">Editar</a>
-                                <a class="botones eliminar-producto" href="#" data-id="@cotizacion.IdCotizacion">Eliminar</a>
+                                <a href="@(Url.Action("EditarSolicitudCotizacionCliente", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))" class="botones"><i class="fas fa-pencil-alt"></i>Editar</a>
+                                <a class="botones-eliminar eliminar-producto" href="#" data-id="@cotizacion.IdSolicitudCotizacion"><i class="fas fa-trash-alt"></i>&nbsp;Eliminar</a>
+
                             </td>
                         </tr>
                     }

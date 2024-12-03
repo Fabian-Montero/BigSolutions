@@ -1,3 +1,4 @@
+using BigSolutionsWeb.Controllers;
 using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
 using Rotativa.AspNetCore;
@@ -23,12 +24,22 @@ builder.Services.AddScoped<IBocetoModel, BocetoModel>();
 builder.Services.AddScoped<ICotizacionesModel, CotizacionesModel>();
 
 
-// Inyecci�n de dependencias para cerrar sesi�n por inactividad
+// Inyección de dependencias para cerrar sesión por inactividad
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(10); // Establece el tiempo de inactividad a 10 minutos
-    options.Cookie.HttpOnly = true; // Asegura que la cookie de sesi�n no sea accesible mediante JavaScript
-    options.Cookie.IsEssential = true; // Asegura que la cookie se env�e incluso si el usuario no ha dado consentimiento
+    options.Cookie.HttpOnly = true; // Asegura que la cookie de sesión no sea accesible mediante JavaScript
+    options.Cookie.IsEssential = true; // Asegura que la cookie se envíe incluso si el usuario no ha dado consentimiento
+});
+
+// Configura los servicios para los controladores y las vistas en la aplicación, para que así no pueda retroceder al de Inicio Sesión
+builder.Services.AddControllersWithViews(options =>
+{
+    // Agrega el filtro global NoVolverAlLoginFiltro a todas las acciones
+    // Este filtro se ejecutará antes de que se ejecute cualquier acción en los controladores
+    // y garantiza que el usuario no pueda regresar a la página de inicio de sesión
+    // si ya tiene una sesión activa (es decir, si tiene un "TOKEN" en la sesión)
+    options.Filters.Add<NoVolverAlLoginFiltro>();
 });
 
 /*builder.Services.AddControllers().AddJsonOptions(options =>

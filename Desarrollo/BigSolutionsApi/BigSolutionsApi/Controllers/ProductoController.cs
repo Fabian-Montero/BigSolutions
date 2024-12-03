@@ -25,7 +25,7 @@ namespace BigSolutionsApi.Controllers
             {
                 var result = await context.QueryFirstOrDefaultAsync<Producto>("AgregarProducto", new
                 {
-                    ent.IdCategoria,
+                    ent.CategoriaId,
                     ent.Nombre,
                     ent.Descripcion,
                     ent.Cantidad,
@@ -119,7 +119,7 @@ namespace BigSolutionsApi.Controllers
                 var result = await context.ExecuteAsync("ActualizarProducto", new
                 {
                     ent.IdProducto,
-                    ent.IdCategoria,
+                    ent.CategoriaId,
                     ent.Nombre,
                     ent.Descripcion,
                     ent.Cantidad,
