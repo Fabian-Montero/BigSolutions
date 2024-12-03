@@ -77,6 +77,7 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new List<Boceto>());
             }
         }
@@ -95,6 +96,7 @@ namespace BigSolutionsWeb.Controllers
             }
             else
             {
+                ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new List<Boceto>());
             }
         }

@@ -2,6 +2,7 @@
 using BigSolutionsApi.Entidades;
 using BigSolutionsApi.Enums;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
@@ -15,6 +16,7 @@ namespace BigSolutionsApi.Controllers
     public class CotizacionController(IConfiguration iConfiguration) : ControllerBase
     {
         //Cliente
+        [Authorize]
         [HttpGet]
         [Route("CrearSolicitudCotizacionVista")]
         public async Task<IActionResult> CrearSolicitudCotizacionVista(int IdUsuario)
@@ -47,6 +49,7 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+        [Authorize]
         [HttpPost]
         [Route("CrearSolicitudCotizacion")]
         public async Task<IActionResult> CrearSolicitudCotizacion(CrearSolicitudCotizacionDTO SolicitudCotizacion)
@@ -114,6 +117,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("ConsultarSolicitudesCotizacionesCliente")]
         public async Task<IActionResult> ConsultarSolicitudesCotizacionesCliente(int IdUsuario)
         {
@@ -126,14 +130,6 @@ namespace BigSolutionsApi.Controllers
                     new { IdUsuario },
                     commandType: CommandType.StoredProcedure
                 );
-
-                // Convertir el campo Moneda de int a enum
-                /*foreach (var solicitud in result)
-                {
-                    solicitud.Moneda = solicitud.Moneda.HasValue
-                        ? (Moneda?)solicitud.Moneda.Value
-                        : null;
-                }*/
 
                 if (result.Any())
                 {
@@ -153,6 +149,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("ConsultarDetalleSolicitudCotizacionCliente")]
         public async Task<IActionResult> ConsultarDetalleSolicitudCotizacionCliente(long IdSolicitudCotizacion)
         {
@@ -197,7 +194,7 @@ namespace BigSolutionsApi.Controllers
         }
 
         //Admin
-
+        [Authorize]
         [HttpGet]
         [Route("ConsultarSolicitudesCotizacionesAdmin")]
         public async Task<IActionResult> ConsultarSolicitudesCotizacionesAdmin()
@@ -226,6 +223,7 @@ namespace BigSolutionsApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("ConsultarDetalleSolicitudCotizacionAdmin")]
         public async Task<IActionResult> ConsultarDetalleSolicitudCotizacionAdmin(long IdSolicitudCotizacion)
@@ -272,6 +270,7 @@ namespace BigSolutionsApi.Controllers
 
         //Cotizaciones admin
 
+        [Authorize]
         [HttpGet]
         [Route("CrearCotizacionVista")]
         public async Task<IActionResult> CrearCotizacionVista(long IdSolicitudCotizacion)
@@ -312,9 +311,18 @@ namespace BigSolutionsApi.Controllers
                         //En esta parte se asumen que solo hay dos monedas
                         var moneda = (Moneda)solicitudCotizacion.Moneda;
 
-                        decimal subtotal = bocetos.Sum(b => (moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad);
-                        decimal totalImpuestos = bocetos.Sum(b => (b.PorcentajeVenta / 100) * (moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad);
+                        decimal subtotal = Math.Round(
+                            bocetos.Sum(b => (moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad),
+                            2);
+                        decimal totalImpuestos = Math.Round(
+                            bocetos.Sum(b => (b.PorcentajeVenta / 100) * (moneda == Moneda.Colones ? b.PrecioUnitarioColones : b.PrecioUnitarioDolares) * b.Cantidad),
+                            2);
                         decimal total = subtotal + totalImpuestos;
+
+                        // Garantiza que todos los valores enviados al frontend estén en el formato adecuado
+                        subtotal = Math.Round(subtotal, 2);
+                        totalImpuestos = Math.Round(totalImpuestos, 2);
+                        total = Math.Round(total, 2);
 
                         // Construir la respuesta
                         var cotizacionVista = new CrearCotizacionVistaDTO
@@ -344,7 +352,7 @@ namespace BigSolutionsApi.Controllers
 
         }
 
-
+        [Authorize]
         [HttpPost]
         [Route("CrearCotizacion")]
         public async Task<IActionResult> CrearCotizacion(CrearCotizacionVistaDTO cotizacion)
@@ -358,7 +366,7 @@ namespace BigSolutionsApi.Controllers
                 resp.Mensaje = "La información de la cotización es inválida.";
                 return BadRequest(resp);
             }
-            
+
             using (var connection = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 await connection.OpenAsync();
@@ -425,6 +433,7 @@ namespace BigSolutionsApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("ActualizarRutaCotizacion")]
         public async Task<IActionResult> ActualizarRutaCotizacion(long idCotizacion, string downloadURL)
@@ -453,6 +462,7 @@ namespace BigSolutionsApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("ConsultarCotizacionesAdmin")]
         public async Task<IActionResult> ConsultarCotizacionesAdmin()
@@ -481,37 +491,103 @@ namespace BigSolutionsApi.Controllers
             }
         }
 
-
-
-        //Cotizaciones usuario
+        [Authorize]
         [HttpGet]
-            [Route("ConsultarCotizacionesUsuario")]
-            public async Task<IActionResult> ConsultarCotizacionesUsuario(int IdUsuario)
+        [Route("ObtenerDetalleCotizacion")]
+        public async Task<IActionResult> ObtenerDetalleCotizacion(long IdCotizacion)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var connection = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
-                Respuesta resp = new Respuesta();
-
-                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+                try
                 {
-                    var result = await context.QueryAsync<Cotizacion>("ConsultarCotizacionesUsuario", new { IdUsuario }, commandType: CommandType.StoredProcedure);
+                    var query = "ObtenerDetalleCotizacion";
+                    var parameters = new { IdCotizacion = IdCotizacion };
 
-                    
-                    if (result.Count() > 0)
+                    using (var multi = await connection.QueryMultipleAsync(query, parameters, commandType: CommandType.StoredProcedure))
                     {
-                       
+
+                        // Leer datos del usuario
+                        var usuario = await multi.ReadFirstOrDefaultAsync<Usuario>();
+                        if (usuario == null)
+                        {
+                            resp.Codigo = 0;
+                            resp.Mensaje = "No se encontró información del usuario.";
+                            return Ok(resp);
+                        }
+
+                        // Leer datos de la cotización
+                        var cotizacion = await multi.ReadFirstOrDefaultAsync<Cotizacion>();
+                        if (cotizacion == null)
+                        {
+                            resp.Codigo = 0;
+                            resp.Mensaje = "No se encontró información de la cotización.";
+                            return Ok(resp);
+                        }
+
+                        // Leer datos de los bocetos
+                        var bocetos = (await multi.ReadAsync<BocetoCotizacionDTO>()).ToList();
+
+                        // Construir la respuesta
+                        var detalleCotizacion = new ConsultarCotizacionDTO
+                        {
+                            Usuario = usuario,
+                            Cotizacion = cotizacion,
+                            DescripcionCotizacion = cotizacion.Descripcion,
+                            SubTotal = cotizacion.Subtotal,
+                            TotalImpuestos = cotizacion.Impuesto,
+                            Total = cotizacion.Total,
+                            Bocetos = bocetos
+                        };
+
                         resp.Codigo = 1;
-                        resp.Mensaje = "";
-                        resp.Contenido = result;
-                        return Ok(resp);
-                    }
-                    else
-                    {
-                        resp.Codigo = 0;
-                        resp.Mensaje = "No hay cotizaciones registradas en este momento";
-                        resp.Contenido = false;
+                        resp.Mensaje = "Datos cargados correctamente.";
+                        resp.Contenido = detalleCotizacion;
                         return Ok(resp);
                     }
                 }
+                catch (Exception ex)
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = $"Error al obtener los datos: {ex.Message}";
+                    return StatusCode(500, resp);
+                }
             }
         }
+
+
+
+        //Cotizaciones usuario
+        [Authorize]
+        [HttpGet]
+        [Route("ConsultarCotizacionesUsuario")]
+        public async Task<IActionResult> ConsultarCotizacionesUsuario(int IdUsuario)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var result = await context.QueryAsync<Cotizacion>("ConsultarCotizacionesUsuario", new { IdUsuario }, commandType: CommandType.StoredProcedure);
+
+
+                if (result.Count() > 0)
+                {
+
+                    resp.Codigo = 1;
+                    resp.Mensaje = "";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay cotizaciones registradas en este momento";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+    }
 }
 

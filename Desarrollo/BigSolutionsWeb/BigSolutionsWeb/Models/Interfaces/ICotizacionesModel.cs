@@ -16,6 +16,7 @@ namespace BigSolutionsWeb.Models.Interfaces
         Respuesta ActualizarRutaCotizacion(long idCotizacion, string downloadURL);
         Respuesta ConsultarCotizacionesAdmin();
         Respuesta ConsultarCotizacionesCliente(long IdUsuario);
+        Respuesta ObtenerDetalleCotizacion(long IdCotizacion);
 
     }
 }

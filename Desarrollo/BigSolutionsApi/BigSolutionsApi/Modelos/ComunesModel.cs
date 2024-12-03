@@ -87,7 +87,7 @@ namespace BigSolutionsApi.Modelos
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(10),
+                expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: cred);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

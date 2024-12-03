@@ -15,6 +15,12 @@
             <h3 class="mb-0">Lista de Bocetos</h3>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            @if (ViewBag.MsjPantalla != null)
+            {
+                <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+                    @ViewBag.MsjPantalla
+                </div>
+            }
             <table id="tabla-Bocetos" class="table table-hover">
                 <thead>
                     <tr>

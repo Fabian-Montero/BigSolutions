@@ -17,13 +17,18 @@
             <a href="@(Url.Action("CrearSolicitudCotizacionCliente", "Cotizaciones"))" class="botones-secundarios">Generar Solicitud de Cotización</a>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            @if (ViewBag.MsjPantalla != null)
+            {
+                <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+                    @ViewBag.MsjPantalla
+                </div>
+            }
             <table id="tabla-Bocetos" class="table table-hover">
                 <thead>
                     <tr>
                         <th style="text-align:left">Número de solicitud</th>
                         <th style="text-align:left">Descripción de la solicitud</th>
                         <th style="text-align:left">Fecha de Generación</th>
-                        <th style="text-align:left">Estado</th>
                         <th style="text-align:left">Moneda</th>
                         <th style="text-align:left">Acciones</th>
                     </tr>
@@ -35,7 +40,6 @@
                             <td style="text-align:left">@solicitud.IdSolicitudCotizacion</td>
                             <td style="text-align:left">@solicitud.Descripcion</td>
                             <td style="text-align:left">@solicitud.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                            <td style="text-align:left">@solicitud.Estado</td>
                             <td style="text-align:left">@solicitud.Moneda</td>
                             <td style="text-align:left">
                                 <a href="@(Url.Action("ConsultarSolicitudCotizacionCliente", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles de la solicitud</a>

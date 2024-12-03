@@ -20,6 +20,12 @@
             @* <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones"))" class="botones-secundarios">Generar Cotización</a> *@
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+            @if (ViewBag.MsjPantalla != null)
+            {
+                <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+                    @ViewBag.MsjPantalla
+                </div>
+            }
             <table id="tabla-Bocetos" class="table table-hover">
                 <thead>
                     <tr>
@@ -35,15 +41,15 @@
                     @foreach (var cotizacion in Model)
                     {
                         <tr>
-                            <td style="text-align:left">@cotizacion.IdSolicitudCotizacion</td>
+                            <td style="text-align:left">@cotizacion.IdCotizacion</td>
                             <td style="text-align:left">@cotizacion.Descripcion</td>
                             <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
                             
                             <td style="text-align:left">@cotizacion.NombreCompleto</td>
                             <td style="text-align:left">
-                                <a href="@(Url.Action("ConsultarCotizaciones", "Cotizaciones", new { id = cotizacion.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
-                                <a href="@(Url.Action("EditarSolicitudCotizacionCliente", "Cotizaciones", new { id = cotizacion.IdSolicitudCotizacion }))" class="botones">Editar</a>
-                                <a class="botones eliminar-producto" href="#" data-id="@cotizacion.IdSolicitudCotizacion">Eliminar</a>
+                                <a href="@(Url.Action("ConsultarDetalleCotizacion", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))" class="botones">Ver detalles</a>
+                                <a href="@(Url.Action("EditarSolicitudCotizacionCliente", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))" class="botones">Editar</a>
+                                <a class="botones eliminar-producto" href="#" data-id="@cotizacion.IdCotizacion">Eliminar</a>
                             </td>
                         </tr>
                     }

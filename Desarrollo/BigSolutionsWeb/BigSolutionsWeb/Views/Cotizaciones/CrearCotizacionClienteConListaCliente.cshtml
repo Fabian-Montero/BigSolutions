@@ -9,6 +9,12 @@
 
     <!-- Información Principal en una Fila -->
     <div class="row mb-4">
+        @if (ViewBag.MsjPantalla != null)
+        {
+            <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+                @ViewBag.MsjPantalla
+            </div>
+        }
         <!-- Información del Cliente -->
         <div class="col-md-4">
             <div class="card">
@@ -49,25 +55,26 @@
                     <p>
                         <strong>Subtotal:</strong> <span id="subtotal">
                             @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                                ? "₡" + Model.SubTotal.ToString("N2")
-                                : "$" + Model.SubTotal.ToString("N2"))
+                                ? "₡" + Model.SubTotal.ToString("F2")
+                                : "$" + Model.SubTotal.ToString("F2"))
                         </span>
                     </p>
                     <p>
                         <strong>Total Impuestos:</strong> <span id="totalImpuestos">
                             @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                                ? "₡" + Model.TotalImpuestos.ToString("N2")
-                                : "$" + Model.TotalImpuestos.ToString("N2"))
+                                ? "₡" + Model.TotalImpuestos.ToString("F2")
+                                : "$" + Model.TotalImpuestos.ToString("F2"))
                         </span>
                     </p>
                     <p>
                         <strong>Total:</strong> <span id="total">
                             @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                                ? "₡" + Model.Total.ToString("N2")
-                                : "$" + Model.Total.ToString("N2"))
+                                ? "₡" + Model.Total.ToString("F2")
+                                : "$" + Model.Total.ToString("F2"))
                         </span>
                     </p>
                 </div>
+
             </div>
         </div>
     </div>
@@ -103,7 +110,8 @@
                             <td class="fecha-generacion">@boceto.FechaCreacion.ToString("yyyy-MM-dd")</td>
                             <td class="nombre-producto">@boceto.NombreProducto</td>
                             <td><input type="number" class="form-control cantidad" value="@boceto.Cantidad" min="1"></td>
-                            <td><input type="number" class="form-control precio" value="@(Model.SolicitudCotizacion.Moneda == Moneda.Colones ? boceto.PrecioUnitarioColones : boceto.PrecioUnitarioDolares)" step="0.01" min="0"></td>
+                            <td><input type="number" class="form-control precio" value="@((Model.SolicitudCotizacion.Moneda == Moneda.Colones ? boceto.PrecioUnitarioColones : boceto.PrecioUnitarioDolares).ToString("N2").Replace(",", "."))" step="0.01" min="0"></td>
+
                             <td>
                                 <button class="botones view-image" data-src="@boceto.RutaImagen">Ver Imagen</button>
                             </td>
@@ -161,18 +169,20 @@
             const simbolo = moneda === 1 ? "₡" : "$";
 
             $('#tabla-Bocetos tbody tr').each(function () {
-                const cantidad = parseFloat($(this).find('.cantidad').val()) || 0;
-                const precio = parseFloat($(this).find('.precio').val()) || 0;
+                const cantidad = parseFloat($(this).find('.cantidad').val().replace(',', '.') || 0);
+                const precio = parseFloat($(this).find('.precio').val().replace(',', '.') || 0);
                 subtotal += cantidad * precio;
                 totalImpuestos += cantidad * precio * 0.13;
             });
 
             total = subtotal + totalImpuestos;
 
+            // Mostrar valores en formato numérico correcto
             $('#subtotal').text(`${simbolo} ${subtotal.toFixed(2)}`);
             $('#totalImpuestos').text(`${simbolo} ${totalImpuestos.toFixed(2)}`);
             $('#total').text(`${simbolo} ${total.toFixed(2)}`);
         }
+
 
         $(document).on('input', '.cantidad, .precio', function () {
             recalculateTotals();
@@ -215,13 +225,12 @@
                         NombreProducto: nombreProducto,
                         FechaCreacion: fechaGeneracion,
                         RutaImagen: rutaImagen,
-                        PrecioUnitarioColones: precio,
-                        PrecioUnitarioDolares: precio
+                        PrecioUnitarioColones: parseFloat(precio.toFixed(2)),
+                        PrecioUnitarioDolares: parseFloat(precio.toFixed(2))
                     });
                 }
             });
 
-            // Limpiar totales antes de enviar al backend
             const subtotal = parseFloat($('#subtotal').text().replace(/[^0-9.-]+/g, ''));
             const totalImpuestos = parseFloat($('#totalImpuestos').text().replace(/[^0-9.-]+/g, ''));
             const total = parseFloat($('#total').text().replace(/[^0-9.-]+/g, ''));
@@ -231,11 +240,12 @@
                 SolicitudCotizacion: solicitudCotizacion,
                 DescripcionCotizacion: $('#generalDescription').val().trim(),
                 Bocetos: bocetos,
-                SubTotal: subtotal,
-                TotalImpuestos: totalImpuestos,
-                Total: total
+                SubTotal: parseFloat(subtotal),
+                TotalImpuestos: parseFloat(totalImpuestos),
+                Total: parseFloat(total)
             };
         }
+
 
         $('#generarCotizacion').on('click', function () {
             const cotizacion = buildCotizacionObject();
