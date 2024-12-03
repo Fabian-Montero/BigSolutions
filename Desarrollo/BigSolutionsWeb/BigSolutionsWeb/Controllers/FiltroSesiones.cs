@@ -56,4 +56,23 @@ namespace BigSolutionsWeb.Controllers
             base.OnActionExecuting(context);
         }
     }
+
+    //Este filtro está apliclado en Program.cs para ser utilizado en todas las acciones
+    public class NoVolverAlLoginFiltro : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var token = context.HttpContext.Session.GetString("TOKEN");
+
+            if (context.RouteData.Values["action"].ToString() == "InicioSesion" && token != null)
+            {
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary
+                {
+                    { "controller", "Home" },
+                    { "action", "Index" }
+                });
+            }
+            base.OnActionExecuting(context);
+        }
+    }
 }
