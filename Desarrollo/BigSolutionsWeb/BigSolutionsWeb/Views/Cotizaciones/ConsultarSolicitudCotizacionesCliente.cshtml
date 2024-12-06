@@ -49,9 +49,9 @@
                     @* Esta parte no va pero es un mensaje de error En caso de que la lista esté vacía, se muestra un mensaje *@
                     @* @if (!Model.Any())
                     {
-                        <tr>
-                            <td colspan="5" style="text-align:center">No hay solicitudes de cotización disponibles</td>
-                        </tr>
+                    <tr>
+                    <td colspan="5" style="text-align:center">No hay solicitudes de cotización disponibles</td>
+                    </tr>
                     } *@
                 </tbody>
             </table>
@@ -66,7 +66,8 @@
         var table = $('#tabla-Bocetos').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            }
+            },
+            order: [[0, 'desc']],
         });
     });
 </script>

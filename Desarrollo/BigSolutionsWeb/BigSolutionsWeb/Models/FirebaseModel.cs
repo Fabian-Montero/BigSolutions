@@ -40,7 +40,6 @@ namespace BigSolutionsWeb.Models
 
         public async Task<bool> EliminarImagen(string carpeta, int id)
         {
-
             try
             {
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
@@ -59,7 +58,12 @@ namespace BigSolutionsWeb.Models
             }
             catch (FirebaseStorageException ex)
             {
-                Console.WriteLine(ex.Message.ToString());
+                Console.WriteLine($"Error eliminando imagen: {ex.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error general: {ex.Message}");
                 return false;
             }
         }

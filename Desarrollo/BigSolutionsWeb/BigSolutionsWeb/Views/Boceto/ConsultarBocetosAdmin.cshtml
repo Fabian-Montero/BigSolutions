@@ -76,7 +76,8 @@
         $('#tabla-Bocetos').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            }
+            },
+            order: [[0, 'desc']],
         });
 
         $('#tabla-Bocetos').on('click', '.boceto-img', function () {

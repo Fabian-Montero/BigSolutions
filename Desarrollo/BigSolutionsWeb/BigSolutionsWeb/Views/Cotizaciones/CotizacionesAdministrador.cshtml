@@ -5,9 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
         <h1>Cotizaciones</h1>
@@ -17,7 +14,6 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Cotizaciones</h3>
-            @* <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones"))" class="botones-secundarios">Generar Cotización</a> *@
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
             @if (ViewBag.MsjPantalla != null)
@@ -30,10 +26,9 @@
                 <thead>
                     <tr>
                         <th style="text-align:left">Número de solicitud</th>
-                        <th style="text-align:left">Descripción de la solicitud</th>
                         <th style="text-align:left">Fecha de Generación</th>
-                        
                         <th style="text-align:left">Cliente</th>
+                        <th style="text-align:left">Moneda</th>
                         <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
@@ -42,16 +37,23 @@
                     {
                         <tr>
                             <td style="text-align:left">@cotizacion.IdCotizacion</td>
-                            <td style="text-align:left">@cotizacion.Descripcion</td>
                             <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                            
                             <td style="text-align:left">@cotizacion.NombreCompleto</td>
+                            <td style="text-align:left">@cotizacion.Moneda</td>
                             <td style="text-align:left">
-
-                                <a href="@(Url.Action("ConsultarDetalleCotizacion", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))" class="botones">Ver detalles</a>
-                                <a href="@(Url.Action("EditarSolicitudCotizacionCliente", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))" class="botones"><i class="fas fa-pencil-alt"></i>Editar</a>
-                                <a class="botones-eliminar eliminar-producto" href="#" data-id="@cotizacion.IdSolicitudCotizacion"><i class="fas fa-trash-alt"></i>&nbsp;Eliminar</a>
-
+                                <a href="@(Url.Action("ConsultarDetalleCotizacion", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))"
+                                   class="botones">
+                                    Ver detalles
+                                </a>
+                                <a href="@(Url.Action("EditarCotizacion", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))"
+                                   class="botones">
+                                    <i class="fas fa-pencil-alt"></i> Editar
+                                </a>
+                                <a href="#"
+                                   class="botones-eliminar botonEliminar"
+                                   data-id="@cotizacion.IdCotizacion">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </a>
                             </td>
                         </tr>
                     }
@@ -62,47 +64,70 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
-
 <script>
     $(document).ready(function () {
         // Inicializar DataTable
         var table = $('#tabla-Bocetos').DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            }
+                url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+            },
+            order: [[0, 'desc']],
         });
+       
 
-        // Alerta de eliminación
-        $('#tabla-Bocetos').on('click', '.eliminar-producto', function (e) {
+        // SweetAlert para eliminar
+        $('.botonEliminar').on('click', function (e) {
             e.preventDefault();
-            var $row = $(this).closest('tr');
-            var solicitudId = $(this).data('id');
+            var $this = $(this);
+            var IdCotizacion = $this.data('id');
+
             Swal.fire({
-                title: '¿Está seguro que deseas eliminarlo?',
-                text: "No podrás revertir esto",
+                title: '¿Está seguro de que desea eliminar esta cotización?',
+                text: "¡Esta acción no se puede deshacer!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#c1952c',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarla',
-                customClass: {
-                    popup: 'my-swal-popup'
-                }
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Eliminada',
-                        text: 'La cotización ha sido eliminada',
-                        icon: 'success',
-                        confirmButtonColor: '#c1952c',
-                        customClass: {
-                            popup: 'my-swal-popup'
+                    
+                    var url = `/Cotizaciones/EliminarCotizacion?IdCotizacion=${IdCotizacion}`;
+
+                    // Enviar solicitud GET al controlador
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    title: '¡Eliminado!',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonColor: '#c1952c',
+                                    confirmButtonText: 'Aceptar'
+                                }).then(() => {
+                                    // Eliminar fila de la tabla
+                                    table.row($this.closest('tr')).remove().draw();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonColor: '#d33'
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un problema al intentar eliminar la cotización.',
+                                icon: 'error',
+                                confirmButtonColor: '#d33'
+                            });
                         }
-                    }).then(() => {
-                        // Aquí puedes agregar la lógica para eliminar la solicitud en el servidor
-                        // por ejemplo, enviando una solicitud AJAX para eliminar la solicitud.
-                        $row.remove();
                     });
                 }
             });

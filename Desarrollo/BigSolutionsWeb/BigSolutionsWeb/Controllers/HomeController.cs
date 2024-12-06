@@ -14,6 +14,9 @@ namespace BigSolutionsWeb.Controllers
             _logger = logger;
         }
 
+        [FiltroSesiones]
+        [HttpGet]
+        [AutorizacionFiltro]
         public IActionResult Index()
         {
             return View();

@@ -114,7 +114,9 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
+            order: [[1, 'desc']],
             destroy: true
+
         });
         let selectedBocetos = [];
         // Guardar los datos actuales al cambiar de página
@@ -190,11 +192,17 @@
                         icon: 'success',
                         title: 'Solicitud Creada',
                         text: 'La solicitud de cotización se creó exitosamente.',
+                        confirmButtonColor: '#c1952c',
                         timer: 1800
                     }).then(() => window.location.href = '/Cotizaciones/ConsultarSolicitudCotizacionesCliente');
                 },
                 error: function () {
-                    Swal.fire('Error', 'Hubo un problema al enviar la solicitud.', 'error');
+                    Swal.fire({
+                        title: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonColor: '#d33'
+                    });
                 }
             });
         });

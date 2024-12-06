@@ -17,6 +17,7 @@ namespace BigSolutionsWeb.Models.Interfaces
         Respuesta ConsultarCotizacionesAdmin();
         Respuesta ConsultarCotizacionesCliente(long IdUsuario);
         Respuesta ObtenerDetalleCotizacion(long IdCotizacion);
+        Respuesta EliminarCotizacion(long IdCotizacion);
 
     }
 }

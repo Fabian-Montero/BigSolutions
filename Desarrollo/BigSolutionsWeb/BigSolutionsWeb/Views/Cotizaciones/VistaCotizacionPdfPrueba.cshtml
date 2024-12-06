@@ -3,7 +3,6 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,112 +13,128 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            line-height: 1.5; /* Ajuste de la altura de línea para mejorar legibilidad */
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             position: relative;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
         }
 
             .header img {
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100px;
+                width: 120px;
                 height: auto;
             }
 
             .header h1 {
+                font-size: 28px;
                 margin: 0;
-                font-size: 24px;
                 text-transform: uppercase;
+                color: #333;
             }
 
         .info-table {
             width: 100%;
             margin-bottom: 20px;
+            border-collapse: collapse;
         }
 
             .info-table td {
-                padding: 8px;
+                padding: 8px 12px; /* Ajuste de padding para evitar separación excesiva */
                 vertical-align: top;
+                font-size: 14px;
             }
+
+                .info-table td strong {
+                    font-size: 14px;
+                    color: #555;
+                }
 
         .description {
             margin: 20px 0;
             font-size: 16px;
-            line-height: 1.5;
+            font-weight: bold;
         }
 
         .items-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            font-size: 14px; /* Tamaño uniforme de fuente */
         }
 
             .items-table th, .items-table td {
-                border: 1px solid #000;
-                padding: 8px;
+                border: 1px solid #ddd;
+                padding: 10px;
                 text-align: left;
+                vertical-align: middle;
             }
 
             .items-table th {
-                background-color: #f2f2f2;
+                background-color: #f9f9f9;
                 text-align: center;
+                font-size: 14px;
+            }
+
+            .items-table td img {
+                max-width: 70px;
+                height: auto;
+                display: block;
+                margin: 0 auto;
             }
 
         .totals {
             text-align: right;
             margin-top: 20px;
+            font-size: 16px; /* Tamaño uniforme en totales */
         }
 
             .totals p {
-                margin: 0;
+                margin: 5px 0;
             }
 
             .totals strong {
-                font-size: 16px;
+                font-size: 18px;
             }
 
-        .image-container {
+        .footer {
+            margin-top: 30px;
             text-align: center;
-            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
         }
-
-            .image-container img {
-                max-width: 100px;
-                height: auto;
-                display: block;
-                margin: 0 auto;
-            }
     </style>
 </head>
 <body>
     <div class="header">
         <img src="~/page/images/bigsolutions-logo.jpg" alt="Logo Big Solutions">
         <h1>Cotización</h1>
-        <p><strong>Fecha:</strong> @DateTime.Now.ToString("dd/MM/yyyy")</p>
     </div>
 
     <table class="info-table">
         <tr>
             <td><strong>Señores:</strong> @Model.Usuario.NombreCompleto</td>
-            @* <td><strong>Atención:</strong> @Model.Usuario.NombreCompleto</td> *@
-        </tr>
-        <tr>
+            <td><strong>Empresa:</strong> @Model.Usuario.NombreEmpresa</td>
             <td><strong>Teléfono:</strong> @Model.Usuario.NumeroTelefono</td>
-            <td><strong>Forma de Pago:</strong> 50% adelanto, 50% contra entrega</td>
         </tr>
         <tr>
-            <td><strong>Moneda:</strong> @Model.SolicitudCotizacion.Moneda</td>
+            <td><strong>Forma de Pago:</strong> 50% adelanto, 50% contra entrega</td>
+            <td><strong>Fecha:</strong> @DateTime.Now.ToString("dd/MM/yyyy")</td>
             <td><strong>Vigencia de Oferta:</strong> 15 días</td>
+        </tr>
+        <tr>
+            <td colspan="3"><strong>Moneda:</strong> @Model.SolicitudCotizacion.Moneda</td>
         </tr>
     </table>
 
-    <!-- Sección para la descripción de la cotización -->
     <div class="description">
-        <p><strong>Descripción de la Cotización:</strong> @Model.DescripcionCotizacion</p>
+        <p>Descripción de la Cotización: @Model.DescripcionCotizacion</p>
     </div>
 
     <table class="items-table">
@@ -138,19 +153,19 @@
             @foreach (var boceto in Model.Bocetos)
             {
                 <tr>
-                    <td>@boceto.IdBoceto</td>
-                    <td class="image-container">
+                    <td style="text-align: center;">@boceto.IdBoceto</td>
+                    <td>
                         <img src="@boceto.RutaImagen" alt="Imagen Boceto">
                     </td>
                     <td>@boceto.NombreProducto</td>
-                    <td>@boceto.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                    <td>@boceto.Cantidad</td>
-                    <td>
+                    <td style="text-align: center;">@boceto.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    <td style="text-align: center;">@boceto.Cantidad</td>
+                    <td style="text-align: right;">
                         @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
                             ? "₡" + boceto.PrecioUnitarioColones.ToString("N2")
                             : "$" + boceto.PrecioUnitarioDolares.ToString("N2"))
                     </td>
-                    <td>
+                    <td style="text-align: right;">
                         @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
                             ? "₡" + (boceto.Cantidad * boceto.PrecioUnitarioColones).ToString("N2")
                             : "$" + (boceto.Cantidad * boceto.PrecioUnitarioDolares).ToString("N2"))
@@ -160,30 +175,14 @@
         </tbody>
     </table>
 
-    <div style="margin-top: 10px;" class="totals">
-        <p>
-            <strong>Sub-total:</strong>
-            @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                ? "₡" + Model.SubTotal.ToString("N2")
-                : "$" + Model.SubTotal.ToString("N2"))
-        </p>
-        <p>
-            <strong>Impuestos:</strong>
-            @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                ? "₡" + Model.TotalImpuestos.ToString("N2")
-                : "$" + Model.TotalImpuestos.ToString("N2"))
-        </p>
-        <p>
-            <strong>Total:</strong>
-            @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                ? "₡" + Model.Total.ToString("N2")
-                : "$" + Model.Total.ToString("N2"))
-        </p>
+    <div class="totals">
+        <p><strong>Sub-total:</strong> @(Model.SolicitudCotizacion.Moneda == Moneda.Colones ? "₡" + Model.SubTotal.ToString("N2") : "$" + Model.SubTotal.ToString("N2"))</p>
+        <p><strong>Impuestos:</strong> @(Model.SolicitudCotizacion.Moneda == Moneda.Colones ? "₡" + Model.TotalImpuestos.ToString("N2") : "$" + Model.TotalImpuestos.ToString("N2"))</p>
+        <p><strong>Total:</strong> @(Model.SolicitudCotizacion.Moneda == Moneda.Colones ? "₡" + Model.Total.ToString("N2") : "$" + Model.Total.ToString("N2"))</p>
     </div>
 
     <div class="footer">
-        @* <p>Condiciones de pago: 50% adelanto, 50% contra entrega</p>
-        <p>Vigencia de la oferta: 15 días</p> *@
+        <p>Gracias por elegir Big Solutions. Contáctenos para cualquier consulta.</p>
     </div>
 </body>
 </html>

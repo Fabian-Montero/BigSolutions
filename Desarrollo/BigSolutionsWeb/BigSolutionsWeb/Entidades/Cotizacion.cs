@@ -4,7 +4,7 @@ namespace BigSolutionsWeb.Entidades
 {
     public class Cotizacion
     {
-        public int IdCotizacion { get; set; }
+        public long IdCotizacion { get; set; }
         public int IdUsuario { get; set; }
         public int IdSolicitudCotizacion { get; set; }
         public string? RutaCotizacion { get; set; }

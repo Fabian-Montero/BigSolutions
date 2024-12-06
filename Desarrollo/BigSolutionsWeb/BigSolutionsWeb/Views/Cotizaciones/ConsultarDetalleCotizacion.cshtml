@@ -58,22 +58,22 @@
                         <p>
                             <strong>Subtotal:</strong> <span id="subtotal">
                                 @(Model.Cotizacion.Moneda == Moneda.Colones
-                                    ? "₡" + Model.SubTotal.ToString("F2")
-                                    : "$" + Model.SubTotal.ToString("F2"))
+                                    ? "₡" + Model.SubTotal.ToString("N2")
+                                    : "$" + Model.SubTotal.ToString("N2"))
                             </span>
                         </p>
                         <p>
                             <strong>Total Impuestos:</strong> <span id="totalImpuestos">
                                 @(Model.Cotizacion.Moneda == Moneda.Colones
-                                    ? "₡" + Model.TotalImpuestos.ToString()
-                                    : "$" + Model.TotalImpuestos.ToString())
+                                    ? "₡" + Model.TotalImpuestos.ToString("N2")
+                                    : "$" + Model.TotalImpuestos.ToString("N2"))
                             </span>
                         </p>
                         <p>
                             <strong>Total:</strong> <span id="total">
                                 @(Model.Cotizacion.Moneda == Moneda.Colones
-                                    ? "₡" + Model.Total.ToString()
-                                    : "$" + Model.Total.ToString())
+                                    ? "₡" + Model.Total.ToString("N2")
+                                    : "$" + Model.Total.ToString("N2"))
                             </span>
                         </p>
                     </div>
@@ -115,8 +115,8 @@
                                 <td>@boceto.Cantidad</td>
                                 <td>
                                     @(Model.Cotizacion.Moneda == Moneda.Colones
-                                        ? "₡" + boceto.PrecioUnitarioColones.ToString()
-                                        : "$" + boceto.PrecioUnitarioDolares.ToString())
+                                        ? "₡" + boceto.PrecioUnitarioColones.ToString("N2")
+                                        : "$" + boceto.PrecioUnitarioDolares.ToString("N2"))
                                 </td>
                                 <td>
                                     <button class="botones view-image" data-src="@boceto.RutaImagen">Ver Imagen</button>

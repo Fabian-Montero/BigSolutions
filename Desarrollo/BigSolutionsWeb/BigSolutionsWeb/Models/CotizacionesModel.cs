@@ -2,14 +2,15 @@
 using BigSolutionsWeb.Entidades;
 using BigSolutionsWeb.Models.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
 namespace BigSolutionsWeb.Models
 {
-    public class CotizacionesModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iAccesor)  : ICotizacionesModel
+    public class CotizacionesModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iAccesor) : ICotizacionesModel
     {
-        
+
 
         public Respuesta CrearSolicitudCotizacionVista(int IdUsuario)
         {
@@ -237,5 +238,23 @@ namespace BigSolutionsWeb.Models
                     return new Respuesta();
             }
         }
+
+        public Respuesta EliminarCotizacion(long IdCotizacion)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Cotizacion/EliminarCotizacion?IdCotizacion=" + IdCotizacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var res = httpClient.DeleteAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
     }
 }
