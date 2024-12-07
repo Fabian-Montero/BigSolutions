@@ -74,7 +74,7 @@
                                         @if (usuario.UsuarioId == usuarioLogueadoId)
                                         {
                                             <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                                <a href="#" class="botones"> <i class="fas fa-pencil-alt"></i> Editar</a>
+                                                <a href="#" class="botones-editar"> <i class="fas fa-pencil-alt"></i> Editar</a>
                                                 <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;" disabled>
                                                     <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
                                                 </button>
@@ -83,7 +83,7 @@
                                         else
                                         {
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                                <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones"><i class="fas fa-pencil-alt"></i> Editar</a>
+                                                <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones-editar"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
                                                 <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;"
                                                         data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
                                                     <i class="fas fa-trash-alt"></i>&nbsp;Eliminar

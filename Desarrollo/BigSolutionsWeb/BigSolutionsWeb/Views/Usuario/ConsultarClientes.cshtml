@@ -80,7 +80,7 @@
                                             else
                                             {
                                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <a href="@Url.Action("EditarUsuario", "Usuario", new { id = item.UsuarioId })" class="botones"><i class="fas fa-pencil-alt"></i>Editar</a>
+                                                    <a href="@Url.Action("EditarUsuario", "Usuario", new { id = item.UsuarioId })" class="botones-editar"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
                                                     <div style="margin-left:5px">
                                                         <a href="#" class="botones-eliminar" onclick="confirmarBorrado('@Url.Action("EliminarClientes", "Usuario", new { id = item.Identificacion })')"> <i class="fas fa-trash-alt"></i>&nbsp;Eliminar</a>
                                                     </div>
