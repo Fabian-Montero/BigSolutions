@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Rotativa.AspNetCore;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Transactions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BigSolutionsWeb.Controllers
@@ -20,7 +21,7 @@ namespace BigSolutionsWeb.Controllers
             return View();
         }
 
-        
+
         [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarSolicitudCotizacionesCliente()
@@ -31,11 +32,11 @@ namespace BigSolutionsWeb.Controllers
 
             if (resp.Codigo == 1)
             {
-                
+
                 var datos = JsonSerializer.Deserialize<List<SolicitudCotizacion>>((JsonElement)resp.Contenido!);
                 return View(datos);
             }
-            else 
+            else
             {
                 ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new List<SolicitudCotizacion>());
@@ -157,7 +158,7 @@ namespace BigSolutionsWeb.Controllers
 
         //Cotizaciones
 
-        
+
         [FiltroSesiones]
         [FiltroAdmin]
         [HttpGet]
@@ -232,7 +233,7 @@ namespace BigSolutionsWeb.Controllers
                 // Convertir los bytes del PDF a un MemoryStream
                 using (var memoryStream = new MemoryStream(pdfBytes))
                 {
-                 
+
                     // Guardar el PDF en Firebase en la carpeta "Cotizaciones" con el ID de cotización
                     downloadURL = await iFirebaseModel.GuardarImagen("cotizaciones", (int)idCotizacion, new FormFile(
                         memoryStream, 0, memoryStream.Length, null, pdf.FileName
@@ -295,7 +296,7 @@ namespace BigSolutionsWeb.Controllers
         [HttpGet]
         public IActionResult CotizacionesAdministrador()
         {
-            
+
             var resp = iCotizacionesModel.ConsultarCotizacionesAdmin();
 
             if (resp.Codigo == 1)
@@ -329,5 +330,79 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
+        public IActionResult EditarCotizacion(long IdCotizacion)
+        {
+            var resp = iCotizacionesModel.ObtenerDetalleCotizacion(IdCotizacion);
+
+            if (resp.Codigo == 1)
+            {
+               
+                var cotizacionExistente = JsonSerializer.Deserialize<ConsultarCotizacionDTO>((JsonElement)resp.Contenido!);
+
+                // Mapear la información de ConsultarCotizacionDTO a CrearCotizacionVistaDTO
+                var nuevaCotizacion = new CrearCotizacionVistaDTO
+                {
+                    Usuario = cotizacionExistente.Usuario,
+                    SolicitudCotizacion = new SolicitudCotizacion
+                    {
+                        IdSolicitudCotizacion = cotizacionExistente.SolicitudCotizacion.IdSolicitudCotizacion,
+                        Descripcion = cotizacionExistente.SolicitudCotizacion.Descripcion,
+                        Moneda = cotizacionExistente.SolicitudCotizacion.Moneda
+                    },
+                    Bocetos = cotizacionExistente.Bocetos.Select(b => new BocetoCotizacionDTO
+                    {
+                        IdBoceto = b.IdBoceto,
+                        NombreProducto = b.NombreProducto,
+                        PrecioUnitarioColones = b.PrecioUnitarioColones,
+                        PrecioUnitarioDolares = b.PrecioUnitarioDolares,
+                        Cantidad = b.Cantidad,
+                        FechaCreacion = b.FechaCreacion,
+                        RutaImagen = b.RutaImagen
+                    }).ToList(),
+                    SubTotal = cotizacionExistente.SubTotal,
+                    TotalImpuestos = cotizacionExistente.TotalImpuestos,
+                    Total = cotizacionExistente.Total,
+                    DescripcionCotizacion = cotizacionExistente.DescripcionCotizacion
+                };
+
+                // Pasar los datos a la vista de crear cotización
+                return View("CrearCotizacionClienteConListaCliente", nuevaCotizacion);
+            }
+            else
+            {
+                ViewBag.MsjPantalla = resp.Mensaje;
+                return RedirectToAction("ConsultarCotizaciones");
+            }
+        }
+
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
+        public async Task<JsonResult> EliminarCotizacion(long IdCotizacion)
+        {
+            var resp = iCotizacionesModel.EliminarCotizacion(IdCotizacion);
+
+            if (resp.Codigo == 1)
+            {
+                // Eliminar el archivo de Firebase
+                bool imagenEliminada = await iFirebaseModel.EliminarImagen("cotizaciones", (int)IdCotizacion);
+
+                if (imagenEliminada)
+                {
+                    return Json(new { success = true, message = "La cotización ha sido eliminada correctamente." });
+                }
+                else
+                {
+                    return Json(new { success = true, message = "La cotización fue eliminada, pero no se pudo eliminar el archivo en Firebase." });
+                }
+            }
+            else
+            {
+                return Json(new { success = false, message = "Error al eliminar la cotización: " + resp.Mensaje });
+            }
+        }
     }
 }

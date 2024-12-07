@@ -507,6 +507,14 @@ namespace BigSolutionsApi.Controllers
 
                     using (var multi = await connection.QueryMultipleAsync(query, parameters, commandType: CommandType.StoredProcedure))
                     {
+                        // Leer datos de la solicitud de cotización
+                        var solicitudCotizacion = await multi.ReadFirstOrDefaultAsync<SolicitudCotizacion>();
+                        if (solicitudCotizacion == null)
+                        {
+                            resp.Codigo = 0;
+                            resp.Mensaje = "No se encontró información de la solicitud de cotización.";
+                            return Ok(resp);
+                        }
 
                         // Leer datos del usuario
                         var usuario = await multi.ReadFirstOrDefaultAsync<Usuario>();
@@ -534,6 +542,7 @@ namespace BigSolutionsApi.Controllers
                         {
                             Usuario = usuario,
                             Cotizacion = cotizacion,
+                            SolicitudCotizacion = solicitudCotizacion,
                             DescripcionCotizacion = cotizacion.Descripcion,
                             SubTotal = cotizacion.Subtotal,
                             TotalImpuestos = cotizacion.Impuesto,
@@ -588,6 +597,35 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("EliminarCotizacion")]
+        public async Task<IActionResult> EliminarCotizacion(long IdCotizacion)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                var result = await context.ExecuteAsync("EliminarCotizacion", new { IdCotizacion }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "Error al eliminar la cotización";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+            }
+        }
+
     }
 }
 

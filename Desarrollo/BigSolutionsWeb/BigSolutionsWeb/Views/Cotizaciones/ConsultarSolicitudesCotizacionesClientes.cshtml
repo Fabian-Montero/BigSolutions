@@ -26,7 +26,6 @@
                 <thead>
                     <tr>
                         <th style="text-align:left">Número de Solicitud</th>
-                        
                         <th style="text-align:left">Fecha de Generación</th>
                         <th style="text-align:left">Cliente</th>
                         <th style="text-align:left">Moneda</th> 
@@ -38,7 +37,6 @@
                     {
                         <tr>
                             <td style="text-align:left">@solicitud.IdSolicitudCotizacion</td>
-                            
                             <td style="text-align:left">@solicitud.FechaCreacion.ToString("dd/MM/yyyy")</td>
                             <td style="text-align:left">@solicitud.NombreCliente</td>
                             <td style="text-align:left">@solicitud.Moneda</td> 
@@ -61,7 +59,8 @@
         var table = $('#tabla-Solicitudes').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            }
+            },
+            order: [[0, 'desc']],
         });
     });
 </script>
