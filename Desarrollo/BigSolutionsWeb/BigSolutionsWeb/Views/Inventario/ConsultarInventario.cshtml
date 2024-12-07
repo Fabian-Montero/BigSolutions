@@ -44,11 +44,11 @@
                             </td>
                             <td>@item.Nombre</td>
                             <td>@item.Cantidad</td>
-                            <td>@item.PrecioUnitarioColones</td>
-                            <td>@item.PrecioUnitarioDolares</td>
+                            <td>₡ @item.PrecioUnitarioColones.ToString("N2")</td>
+                            <td>$ @item.PrecioUnitarioDolares.ToString("N2")</td>
                             <td>@item.NombreCategoria</td>
                             <td style="text-align:center">
-                                <a class="botones" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
+                                <a class="botones-editar" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
                                     <i class="fas fa-pencil-alt"></i> Editar
                                 </a>
                                 <a class="botones-eliminar botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">
