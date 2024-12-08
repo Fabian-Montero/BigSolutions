@@ -75,9 +75,23 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = Model.IdSolicitudCotizacion}))" class="botones-secundarios">Generar una cotización con esta solicitud</a>
-    </div>
+    @{
+        long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+    }
+    @if (rol == 1)
+    {
+        <div class="mt-4">
+            <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = Model.IdSolicitudCotizacion}))" class="botones-secundarios">Generar una cotización con esta solicitud</a>
+        </div>
+    }
+    else
+    {
+        <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+            <span class="botones-secundarios disabled-link">
+                Generar una cotización con esta solicitud
+            </span>
+        </div>
+    }
 </div>
 
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">

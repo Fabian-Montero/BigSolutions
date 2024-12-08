@@ -57,38 +57,53 @@
                                     <td>@usuario.Identificacion</td>
                                     <td>@usuario.NumeroTelefono</td>
                                     <td>@usuario.CorreoElectronico</td>
-                                    <td>@usuario.NombreRol</td> <!-- Muestra el rol del usuario -->
+                                    <td>@usuario.NombreRol</td>
                                     <td>
-                                        @* <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones">Editar</a>
-                                    <button class="botones btn-deleteUsu" style="margin-left:5px;"
-                                    data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
-                                    Eliminar
-                                    </button>
-
-                                    </div> *@
                                         @{
                                             long usuarioLogueadoId = Convert.ToInt64(Context.Session.GetString("IDUSUARIO"));
+                                            long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
                                         }
 
                                         @if (usuario.UsuarioId == usuarioLogueadoId)
                                         {
                                             <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                                <a href="#" class="botones-editar"> <i class="fas fa-pencil-alt"></i> Editar</a>
-                                                <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;" disabled>
-                                                    <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
-                                                </button>
+                                                <span class="botones-editar disabled-link">
+                                                    <i class="fas fa-pencil-alt"></i>&nbsp; Editar
+                                                </span>
+                                            </div>
+
+                                            <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                                <span class="botones-eliminar btn-deleteUsu disabled-link">
+                                                    <i class="fas fa-trash-alt"></i>&nbsp; Eliminar
+                                                </span>
                                             </div>
                                         }
                                         else
                                         {
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones-editar"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
-                                                <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;"
-                                                        data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
-                                                    <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
-                                                </button>
-                                            </div>
+                                            @if (rol == 1)
+                                            {
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones-editar"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
+                                                    <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;"
+                                                            data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
+                                                        <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
+                                                    </button>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                                    <span class="botones-editar disabled-link">
+                                                        <i class="fas fa-pencil-alt"></i>&nbsp; Editar
+                                                    </span>
+                                                </div>
+
+                                                <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                                    <span class="botones-eliminar disabled-link">
+                                                        <i class="fas fa-trash-alt"></i>&nbsp; Eliminar
+                                                    </span>
+                                                </div>
+                                            }
                                         }
                                     </td>
                                 </tr>

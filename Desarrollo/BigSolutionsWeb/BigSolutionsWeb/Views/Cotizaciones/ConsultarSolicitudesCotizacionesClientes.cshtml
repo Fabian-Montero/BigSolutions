@@ -33,6 +33,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+                    }
                     @foreach (var solicitud in Model)
                     {
                         <tr>
@@ -41,8 +44,20 @@
                             <td style="text-align:left">@solicitud.NombreCliente</td>
                             <td style="text-align:left">@solicitud.Moneda</td> 
                             <td style="text-align:left">
+                                @if (rol == 1)
+                                {
                                 <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
                                 <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion}))" class="botones">Generar una cotización</a>
+                                }
+                                else
+                                {
+                                    <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
+                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                        <span class="botones disabled-link">
+                                            Generar cotización
+                                        </span>
+                                    </div>
+                                }
                             </td>
                         </tr>
                     }

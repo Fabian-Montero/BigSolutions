@@ -33,6 +33,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+                    }
                     @foreach (var cotizacion in Model)
                     {
                         <tr>
@@ -41,6 +44,8 @@
                             <td style="text-align:left">@cotizacion.NombreCompleto</td>
                             <td style="text-align:left">@cotizacion.Moneda</td>
                             <td style="text-align:left">
+                                @if (rol == 1)
+                                {
                                 <a href="@(Url.Action("ConsultarDetalleCotizacion", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))"
                                    class="botones">
                                     Ver detalles
@@ -54,6 +59,24 @@
                                    data-id="@cotizacion.IdCotizacion">
                                     <i class="fas fa-trash-alt"></i>&nbsp; Eliminar
                                 </a>
+                                }
+                                else
+                                {
+                                    <a href="@(Url.Action("ConsultarDetalleCotizacion", "Cotizaciones", new { IdCotizacion = cotizacion.IdCotizacion }))"
+                                       class="botones">
+                                        Ver detalles
+                                    </a>
+                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                        <span class="botones-editar disabled-link">
+                                            <i class="fas fa-pencil-alt"></i> Editar
+                                        </span>
+                                    </div>
+                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                        <span class="botones-eliminar disabled-link">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </span>
+                                    </div>
+                                }
                             </td>
                         </tr>
                     }
