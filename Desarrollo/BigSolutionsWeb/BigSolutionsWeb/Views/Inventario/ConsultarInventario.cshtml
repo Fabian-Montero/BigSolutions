@@ -18,9 +18,23 @@
         </div>
     }
     <div class="card">
+        @{
+            long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+        }
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Lista de productos</h3>
-            <a class="botones-secundarios" href="@Url.Action("AgregarInventario", "Inventario")"> + Agregar</a>
+            @if (rol == 1)
+            {
+                <a class="botones-secundarios" href="@Url.Action("AgregarInventario", "Inventario")"> + Agregar</a>
+            }
+            else
+            {
+                <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                    <span class="botones-secundarios disabled-link">
+                        + Agregar
+                    </span>
+                </div>
+            }
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
             <table id="tabla-Inventario" class="table table-hover">
@@ -48,12 +62,29 @@
                             <td>$ @item.PrecioUnitarioDolares.ToString("N2")</td>
                             <td>@item.NombreCategoria</td>
                             <td style="text-align:center">
-                                <a class="botones-editar" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
-                                    <i class="fas fa-pencil-alt"></i> Editar
-                                </a>
-                                <a class="botones-eliminar botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">
-                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                </a>
+                                @if (rol == 1)
+                                {
+                                    <a class="botones-editar" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
+                                        <i class="fas fa-pencil-alt"></i> Editar
+                                    </a>
+                                    <a class="botones-eliminar botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </a>
+                                }
+                                else
+                                {
+                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                        <span class="botones-editar disabled-link">
+                                            <i class="fas fa-pencil-alt"></i> Editar
+                                        </span>
+                                    </div>
+
+                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                        <span class="botones-eliminar disabled-link">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </span>
+                                    </div>
+                                }
                             </td>
                         </tr>
                     }
@@ -88,7 +119,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
-            columnDefs: [{ type: 'string', target: [0,2,3,4]}]
+            columnDefs: [{ type: 'string', target: [0, 2, 3, 4] }]
         });
 
         //Para ver imagen del producto

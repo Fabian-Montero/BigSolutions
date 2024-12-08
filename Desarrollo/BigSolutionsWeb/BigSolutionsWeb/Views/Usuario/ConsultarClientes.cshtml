@@ -66,6 +66,7 @@
                                         <td>
                                             @{
                                                 long usuarioLogueadoId = Convert.ToInt64(Context.Session.GetString("IDUSUARIO"));
+                                                long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
                                             }
 
                                             @if (item.UsuarioId == usuarioLogueadoId)
@@ -79,12 +80,29 @@
                                             }
                                             else
                                             {
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <a href="@Url.Action("EditarUsuario", "Usuario", new { id = item.UsuarioId })" class="botones-editar"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
-                                                    <div style="margin-left:5px">
-                                                        <a href="#" class="botones-eliminar" onclick="confirmarBorrado('@Url.Action("EliminarClientes", "Usuario", new { id = item.Identificacion })')"> <i class="fas fa-trash-alt"></i>&nbsp;Eliminar</a>
+                                                @if (rol == 1)
+                                                {
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <a href="@Url.Action("EditarUsuario", "Usuario", new { id = item.UsuarioId })" class="botones-editar"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
+                                                        <div style="margin-left:5px">
+                                                            <a href="#" class="botones-eliminar" onclick="confirmarBorrado('@Url.Action("EliminarClientes", "Usuario", new { id = item.Identificacion })')"> <i class="fas fa-trash-alt"></i>&nbsp;Eliminar</a>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                                        <span class="botones-editar disabled-link">
+                                                            <i class="fas fa-pencil-alt"></i> &nbsp; Editar
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+                                                        <span class="botones-eliminar disabled-link" onclick="return false;">
+                                                            <i class="fas fa-trash-alt"></i> &nbsp; Eliminar
+                                                        </span>
+                                                    </div>
+                                                }
                                             }
                                         </td>
                                         <td>
