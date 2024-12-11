@@ -1,55 +1,125 @@
-﻿@{
+﻿@model BigSolutionsWeb.DTOs.ConsultarVistaOrdenDTO
+@using BigSolutionsWeb.Enums
+
+@{
     ViewData["Title"] = "Detalles de la Orden";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
         <h1>Detalles de la Orden</h1>
         <p>Aquí puedes ver los detalles completos de esta orden.</p>
     </div>
+
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
                     <h3>Información de la Orden</h3>
                 </div>
                 <div class="card-body">
-                    <p><strong>Número de Orden:</strong> 111</p>
-                    <p><strong>Descripción de la Orden:</strong> Descripción detallada de la orden.</p>
-                    <p><strong>Estado de la Orden:</strong> Pendiente</p>
-                    <p><strong>Cliente: </strong> Juan Pérez</p>
-                    <p><strong>Método de Pago:</strong> Pago anticipado</p>
-                    <p><strong>Fecha de Creación:</strong> @DateTime.Now</p>
+                    <p><strong>Número de Orden:</strong> @Model.Orden.IdOrden</p>
+                    <p><strong>Descripción de la Orden:</strong> @Model.Orden.Descripcion</p>
+                    <p><strong>Estado de la Orden:</strong> @Model.Orden.Estado.GetDisplayName()</p>
+                    <p><strong>Cliente:</strong> @Model.Orden.NombreUsuario</p>
+                    <p><strong>Método de Pago:</strong> @Model.Orden.MetodoPago.GetDisplayName()</p>
+                    <p><strong>Fecha de Creación:</strong> @Model.Orden.FechaCreacion.ToString("dd/MM/yyyy")</p>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
+
+        <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
                     <h3>Archivos de la Orden</h3>
                 </div>
                 <div class="card-body">
-                    <p><strong>Orden de Compra:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
-                    <p><strong>Cotización:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
-                    <p><strong>Factura Venta:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
-                    <p><strong>Boleta de entrega:</strong> <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a></p>
-                    <p><strong>Solicitud de Cotización:</strong> <a href="@(Url.Action("ConsultarSolicitudCotizacionCliente", "Cotizaciones", new {id = 1111}))">Ver Solicitud</a></p>
+                    <p>
+                        <strong>Orden de Compra:</strong>
+                        @if (!string.IsNullOrEmpty(Model.Orden.RutaOrdenCompra))
+                        {
+                            <a href="@Model.Orden.RutaOrdenCompra" target="_blank">Ver Archivo</a>
+                        }
+                        else
+                        {
+                            <span>No disponible</span>
+                        }
+                    </p>
+                    <p>
+                        <strong>Cotización:</strong>
+                        @if (!string.IsNullOrEmpty(Model.Cotizacion.RutaCotizacion))
+                        {
+                            <a href="@Model.Cotizacion.RutaCotizacion" target="_blank">Ver Archivo</a>
+                        }
+                        else
+                        {
+                            <span>No disponible</span>
+                        }
+                    </p>
+                    <p>
+                        <strong>Factura Venta:</strong>
+                        @if (!string.IsNullOrEmpty(Model.Orden.RutaFacturaVenta))
+                        {
+                            <a href="@Model.Orden.RutaFacturaVenta" target="_blank">Ver Archivo</a>
+                        }
+                        else
+                        {
+                            <span>No disponible</span>
+                        }
+                    </p>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h3>Facturas Pendientes</h3>
+                    <h3>Información Interna</h3>
                 </div>
                 <div class="card-body">
-                    <p>Esta orden cuenta con una cuenta por pagar.</p>
+                    <p><strong>Material:</strong> @Model.Orden.Material</p>
+                    <p><strong>Fecha de Entrega:</strong> @Model.Orden.FechaEntrega?.ToString("dd/MM/yyyy")</p>
+                    <p><strong>Estado Interno:</strong> @Model.Orden.EstadoInterno.GetDisplayName()</p>
+                    <p><strong>Descripción Interna:</strong> @Model.Orden.DescripcionInterna</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Facturas Pendientes</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-FacturasPendientes" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Número de Orden</th>
+                        <th style="text-align:left">Cliente</th>
+                        <th style="text-align:left">Subtotal</th>
+                        <th style="text-align:left">Impuesto IVA</th>
+                        <th style="text-align:left">Total</th>
+                        <th style="text-align:left">Fecha Creación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var factura in Model.FacturasPendientes)
+                    {
+                        <tr>
+                            <td style="text-align:left">@Model.Orden.IdOrden</td>
+                            <td style="text-align:left">@Model.Orden.NombreUsuario</td>
+                            <td style="text-align:left">@factura.SubTotal.ToString("C")</td>
+                            <td style="text-align:left">@factura.ImpuestoIVA.ToString("C")</td>
+                            <td style="text-align:left">@factura.Total.ToString("C")</td>
+                            <td style="text-align:left">@factura.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <div class="card mb-4">
         <div class="card-header">
@@ -59,66 +129,24 @@
             <table id="tabla-Comprobantes" class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="text-align:left">Archivo</th>
+                        <th style="text-align:left">Id del Comprobante</th>
                         <th style="text-align:left">Descripción</th>
-                        <th style="text-align:left">Fecha Añadida</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align:left">
-                            <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a>
-                        </td>
-                        <td style="text-align:left">Pago parcial de la orden</td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">
-                            <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Ver Archivo</a>
-                        </td>
-                        <td style="text-align:left">Pago final de la orden</td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Productos de la Orden</h3>
-        </div>
-        <div class="card-body">
-            <table id="tabla-Productos" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">Imagen</th>
-                        <th style="text-align:left">Nombre del Producto</th>
-                        <th style="text-align:left">Descripción</th>
+                        <th style="text-align:left">Fecha de Creación</th>
                         <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align:left">
-                            <img src="~/page/images/imagenbotella.jpeg" class="product-img" style="width: 80px; height: auto; cursor: pointer;" alt="Producto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                        </td>
-                        <td style="text-align:left">Producto 1</td>
-                        <td style="text-align:left">Descripción del Producto 1</td>
-                        <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">
-                            <img src="~/page/images/imagenbotella.jpeg" class="product-img" style="width: 80px; height: auto; cursor: pointer;" alt="Producto 2" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                        </td>
-                        <td style="text-align:left">Producto 2</td>
-                        <td style="text-align:left">Descripción del Producto 2</td>
-                        <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                        </td>
-                    </tr>
+                    @foreach (var comprobante in Model.Comprobantes)
+                    {
+                        <tr>
+                            <td style="text-align:left">@comprobante.IdOrdenDetalleComprobantes</td>
+                            <td style="text-align:left">@comprobante.DescripcionComprobante</td>
+                            <td style="text-align:left">@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td style="text-align:left">
+                                <a href="@comprobante.RutaComprobante" target="_blank" class="botones">Ver Comprobante</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -132,46 +160,68 @@
             <table id="tabla-Bocetos" class="table table-hover">
                 <thead>
                     <tr>
+                        <th style="text-align:left">Número de Boceto</th>
                         <th style="text-align:left">Imagen del Boceto</th>
-                        <th style="text-align:left">Fecha de Creación</th>
+                        <th style="text-align:left">Producto</th>
+                        <th style="text-align:left">Fecha de Generación</th>
+                        <th style="text-align:left">Cliente</th>
                         <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align:left">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                        </td>
-                        <td style="text-align:left">@DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
-                        <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">
-                            <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" alt="Boceto" style="width: 80px; height: auto;cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                        </td>
-                        <td style="text-align:left">@DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
-                        <td style="text-align:left">
-                            <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                        </td>
-                    </tr>
+                    @foreach (var boceto in Model.Bocetos)
+                    {
+                        <tr>
+                            <td style="text-align:left">@boceto.IdBoceto</td>
+                            <td style="text-align:left">
+                                <img src="@boceto.RutaImagen" class="boceto-img" alt="Boceto" style="width: 80px; height: auto; cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@boceto.RutaImagen">
+                            </td>
+                            <td style="text-align:left">@boceto.NombreProducto</td>
+                            <td style="text-align:left">@boceto.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td style="text-align:left">@boceto.NombreUsuario</td>
+                            <td style="text-align:left">
+                                <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@boceto.RutaImagen">Ver Imagen</button>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
+
     <div class="card mb-4">
         <div class="card-header">
-            <h3>Control Interno</h3>
+            <h3>Cotizaciones de la Orden</h3>
         </div>
         <div class="card-body">
-            <p><strong>Material:</strong> Camisas, botellas</p>
-            <p><strong>Fecha de Entrega:</strong> @DateTime.Now.AddDays(30).ToString("dd/MM/yyyy")</p>
-            <p><strong>Estado Interno:</strong> En Proceso</p>
-            <p><strong>Descripción Interna:</strong> Falta ir a comprar los materiales.</p>
-        </div>
-        <div class="card-footer text-center py-3">
-            <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver a las órdenes</a>
+            <table id="tabla-Cotizaciones" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Id de la Cotización</th>
+                        <th style="text-align:left">Fecha de Creación</th>
+                        <th style="text-align:left">Nombre Completo</th>
+                        <th style="text-align:left">Moneda</th>
+                        <th style="text-align:left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var cotizacion = Model.Cotizacion;
+                        if (cotizacion != null)
+                        {
+                            <tr>
+                                <td style="text-align:left">@cotizacion.IdCotizacion</td>
+                                <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                                <td style="text-align:left">@cotizacion.NombreCompleto</td>
+                                <td style="text-align:left">@cotizacion.Moneda.GetDisplayName()</td>
+                                <td style="text-align:left">
+                                    <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -191,36 +241,19 @@
         </div>
     </div>
 </div>
-
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-
-
 <script>
     $(document).ready(function () {
-        $('#tabla-Comprobantes, #tabla-Productos, #tabla-Bocetos').DataTable({
+        $('#tabla-FacturasPendientes, #tabla-Comprobantes, #tabla-Bocetos, #tabla-Cotizaciones').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             }
         });
 
-        $('#tabla-Bocetos').on('click', '.boceto-img', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
-
-        $('#tabla-Bocetos').on('click', '.view-image', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
-        $('#tabla-Productos').on('click', '.view-image', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
-        $('#tabla-Productos').on('click', '.product-img', function () {
+        $('#tabla-Bocetos').on('click', '.boceto-img, .view-image', function () {
             var src = $(this).data('src');
             $('#modalImage').attr('src', src);
         });
     });
 </script>
+

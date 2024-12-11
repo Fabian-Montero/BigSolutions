@@ -29,6 +29,7 @@
                         <th style="text-align:left">Descripción</th>
                         <th style="text-align:left">Fecha de Creación</th>
                         <th style="text-align:left">Acciones</th>
+                        <th style="text-align:left">Moneda</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,11 +39,12 @@
                             <td style="text-align:left">@cotizacion.IdCotizacion</td>
                             <td style="text-align:left">@cotizacion.Descripcion</td>
                             <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td style="text-align:left">@cotizacion.Moneda</td>
                             <td style="text-align:left">
                                 <!-- Botón Ver Cotización -->
                                 <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
                                 <!-- Botón Generar Orden -->
-                                <button class="botones" onclick="generarOrden(@cotizacion.IdCotizacion)">Generar Orden</button>
+                                <a href="@(Url.Action("CargarCrearOrdenCliente", "Ordenes"))" class="botones">Generar Orden</a>
                             </td>
                         </tr>
                     }

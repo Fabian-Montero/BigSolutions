@@ -22,6 +22,7 @@ builder.Services.AddScoped<IProductoModel, ProductoModel>();
 builder.Services.AddScoped<ICategoriaModel, CategoriaModel>();
 builder.Services.AddScoped<IBocetoModel, BocetoModel>();
 builder.Services.AddScoped<ICotizacionesModel, CotizacionesModel>();
+builder.Services.AddScoped<IOrdenModel, OrdenModel>();
 
 
 // Inyección de dependencias para cerrar sesión por inactividad

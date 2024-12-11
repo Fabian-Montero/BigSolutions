@@ -1,0 +1,188 @@
+﻿@model BigSolutionsWeb.DTOs.CrearOrdenClienteDTO
+@using BigSolutionsWeb.Enums
+
+@{
+    ViewData["Title"] = "Crear Orden Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="text-center mb-4">
+        <h1>Crear Orden</h1>
+        <p>Llena el siguiente formulario para crear una nueva orden.</p>
+    </div>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-warning text-center">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Formulario de Creación de Orden</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="descripcionOrden">Descripción de la Orden</label>
+                            <textarea id="descripcionOrden" name="descripcionOrden" class="form-control" rows="3" placeholder="Descripción de la orden"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="ordenCompra">Orden de Compra</label>
+                            <input type="file" id="ordenCompra" name="ordenCompra" class="form-control-file">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="metodoPago">Método de Pago</label>
+                            <select id="metodoPago" name="metodoPago" class="form-control">
+                                @foreach (var metodo in Enum.GetValues(typeof(MetodoPago)).Cast<MetodoPago>())
+                                {
+                                    <option value="@((int)metodo)">@metodo.GetDisplayName()</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="comprobantePago">Comprobante de Pago</label>
+                            <input type="file" id="comprobantePago" name="comprobantePago" class="form-control-file">
+                            <small class="form-text text-muted">Este campo no es necesario si su método de pago no se ajusta.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcionComprobante">Descripción del Comprobante</label>
+                            <textarea id="descripcionComprobante" name="descripcionComprobante" class="form-control" rows="2" placeholder="Descripción del comprobante"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cotizacion">Seleccionar Cotización</label>
+                    <table id="tabla-Cotizaciones" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left">Seleccionar</th>
+                                <th style="text-align:left">Número de Cotización</th>
+                                <th style="text-align:left">Descripción de la Cotización</th>
+                                <th style="text-align:left">Fecha de Generación</th>
+                                <th style="text-align:left">Acciones</th>
+                                <th style="text-align:left">Moneda</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cotizacion in Model.ListaCotizaciones)
+                            {
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="radio" name="IdCotizacion" value="@cotizacion.IdCotizacion" />
+                                    </td>
+                                    <td style="text-align:left">@cotizacion.IdCotizacion</td>
+                                    <td style="text-align:left">@cotizacion.Descripcion</td>
+                                    <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                                    <td style="text-align:left">@cotizacion.Moneda</td>
+                                    <td style="text-align:left">
+                                        <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <button id="crearOrdenButton" type="button" class="botones-secundarios">Crear Orden</button>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ClienteConsultarOrdenes", "Ordenes")" class="inventario-link">Volver a mis órdenes</a>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#tabla-Cotizaciones').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            order: [[1, 'desc']]
+        });
+
+        // Función para construir el FormData
+        function buildCrearOrdenFormData() {
+            const formData = new FormData();
+
+            // Capturar datos del formulario
+            formData.append('Descripcion', $('#descripcionOrden').val().trim());
+            formData.append('MetodoPago', $('#metodoPago').val());
+            formData.append('IdCotizacion', $('input[name="IdCotizacion"]:checked').val());
+            formData.append('ComprobantePago.DescripcionComprobante', $('#descripcionComprobante').val().trim());
+
+            // Capturar archivos
+            const ordenCompraFile = $('#ordenCompra')[0].files[0];
+            const archivoComprobanteFile = $('#comprobantePago')[0].files[0];
+
+            if (ordenCompraFile) formData.append('OrdenCompra', ordenCompraFile);
+            if (archivoComprobanteFile) formData.append('ComprobantePago.ArchivoComprobante', archivoComprobanteFile);
+
+            return formData;
+        }
+
+        // Evento al hacer clic en el botón de Crear Orden
+        $('#crearOrdenButton').on('click', function (e) {
+            e.preventDefault();
+
+            const formData = buildCrearOrdenFormData();
+
+            if (!formData.get('IdCotizacion')) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Selecciona una cotización',
+                    text: 'Por favor, selecciona una cotización antes de crear la orden.',
+                    confirmButtonColor: '#c1952c'
+                });
+                return;
+            }
+            const $button = $(this);
+            $button.prop('disabled', true).text('Creando Orden...');
+
+            $.ajax({
+                url: '/Ordenes/CrearOrdenCliente',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Orden Creada',
+                        text: 'La orden fue creada exitosamente.',
+                        confirmButtonColor: '#c1952c',
+                        timer: 1800
+                    }).then(() => {
+                        window.location.href = '/Ordenes/ClienteConsultarOrdenes';
+                    });
+                },
+                error: function (xhr) {
+                    $button.prop('disabled', false).text('Crear Orden');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseText || 'Hubo un problema al crear la orden. Verifica los datos.',
+                        confirmButtonColor: '#c1952c'
+                    });
+                }
+            });
+        });
+    });
+</script>
+
