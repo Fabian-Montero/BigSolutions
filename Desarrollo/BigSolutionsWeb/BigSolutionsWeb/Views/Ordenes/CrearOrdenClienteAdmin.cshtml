@@ -1,8 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Crear Orden";
+﻿@model BigSolutionsWeb.DTOs.CrearOrdenAdminDTO
+@using BigSolutionsWeb.Enums
+
+@{
+    ViewData["Title"] = "Crear Orden Admin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
@@ -10,32 +12,41 @@
         <p>Llena el siguiente formulario para crear una nueva orden.</p>
     </div>
 
+    @if (ViewBag.MsjPantalla != null)
+    {
+        <div class="alert alert-warning text-center">
+            @ViewBag.MsjPantalla
+        </div>
+    }
+
     <div class="card mb-4">
         <div class="card-header">
             <h3>Formulario de Creación de Orden</h3>
         </div>
         <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
+            <form id="crearOrdenAdminForm" enctype="multipart/form-data">
+                <input type="hidden" id="idUsuario" name="IdUsuario" value="" />
                 <div class="row justify-content-center">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="descripcionOrden">Descripción de la Orden</label>
-                            <textarea id="descripcionOrden" name="descripcionOrden" class="form-control" rows="3" placeholder="Descripción de la orden"></textarea>
+                            <textarea id="descripcionOrden" name="descripcion" class="form-control" rows="3">@Model.Descripcion</textarea>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="ordenCompra">Orden de Compra</label>
-                            <input type="file" id="ordenCompra" name="ordenCompra" class="form-control-file">
+                            <input type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="metodoPago">Método de Pago</label>
                             <select id="metodoPago" name="metodoPago" class="form-control">
-                                <option value="contado">Pago anticipado</option>
-                                <option value="credito">Crédito</option>
-                                <option value="50y50">Parcial 50 y 50</option>
+                                @foreach (var metodo in Enum.GetValues(typeof(MetodoPago)).Cast<MetodoPago>())
+                                {
+                                    <option value="@((int)metodo)">@metodo.GetDisplayName()</option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -44,25 +55,25 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="comprobantePago">Comprobante de Pago</label>
-                            <input type="file" id="comprobantePago" name="comprobantePago" class="form-control-file">
-                            <small class="form-text text-muted">Este campo no es necesario si su método de pago no se ajusta.</small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
                             <label for="facturaVenta">Factura Venta</label>
-                            <input type="file" id="facturaVenta" name="facturaVenta" class="form-control-file">
+                            <input type="file" id="facturaVentaArchivo" name="FacturaVentaArchivo" class="form-control-file">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="boletaEntrega">Boleta de Entrega</label>
-                            <input type="file" id="boletaEntrega" name="boletaEntrega" class="form-control-file">
+                            <input type="file" id="boletaEntregaArchivo" name="BoletaEntregaArchivo" class="form-control-file">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="comprobantePagoArchivo">Comprobante de Pago</label>
+                            <input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
+                            <label for="descripcionComprobante">Descripción del Comprobante</label>
+                            <textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2">@Model.ComprobantePago.DescripcionComprobante</textarea>
                         </div>
                     </div>
                 </div>
-
                 <div class="card mb-4">
                     <div class="card-header">
                         <h3>Seleccionar Cotización</h3>
@@ -73,150 +84,28 @@
                                 <tr>
                                     <th style="text-align:left">Seleccionar</th>
                                     <th style="text-align:left">Número de Cotización</th>
-                                    <th style="text-align:left">Descripción de la Cotización</th>
                                     <th style="text-align:left">Fecha de Generación</th>
+                                    <th style="text-align:left">Cliente</th>
+                                    <th style="text-align:left">Moneda</th>                                    
                                     <th style="text-align:left">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="radio" name="seleccionarCotizacion" value="11111">
-                                    </td>
-                                    <td style="text-align:left">11111</td>
-                                    <td style="text-align:left">Descripción de la Cotización 1</td>
-                                    <td style="text-align:left">@DateTime.Now</td>
-                                    <td style="text-align:left">
-                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank" class="botones">Ver Cotización</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="radio" name="seleccionarCotizacion" value="11112">
-                                    </td>
-                                    <td style="text-align:left">11112</td>
-                                    <td style="text-align:left">Descripción de la Cotización 2</td>
-                                    <td style="text-align:left">@DateTime.Now</td>
-                                    <td style="text-align:left">
-                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank" class="botones">Ver Cotización</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Productos de la Orden</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="tabla-Productos" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:left">Seleccionar</th>
-                                    <th style="text-align:left">Imagen</th>
-                                    <th style="text-align:left">Nombre del Producto</th>
-                                    <th style="text-align:left">Descripción</th>
-                                    <th style="text-align:left">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="checkbox" name="seleccionarProducto" value="1">
-                                    </td>
-                                    <td style="text-align:left">
-                                        <img src="~/page/images/imagenbotella.jpeg" class="product-img" style="width: 80px; height: auto; cursor: pointer;" alt="Producto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                                    </td>
-                                    <td style="text-align:left">Producto 1</td>
-                                    <td style="text-align:left">Descripción del Producto 1</td>
-                                    <td style="text-align:left">
-                                        <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="checkbox" name="seleccionarProducto" value="1">
-                                    </td>
-                                    <td style="text-align:left">
-                                        <img src="~/page/images/imagenbotella.jpeg" class="product-img" style="width: 80px; height: auto; cursor: pointer;" alt="Producto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                                    </td>
-                                    <td style="text-align:left">Producto 2</td>
-                                    <td style="text-align:left">Descripción del Producto 2</td>
-                                    <td style="text-align:left">
-                                        <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="checkbox" name="seleccionarProducto" value="1">
-                                    </td>
-                                    <td style="text-align:left">
-                                        <img src="~/page/images/imagenbotella.jpeg" class="product-img" style="width: 80px; height: auto; cursor: pointer;" alt="Producto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                                    </td>
-                                    <td style="text-align:left">Producto 3</td>
-                                    <td style="text-align:left">Descripción del Producto 3</td>
-                                    <td style="text-align:left">
-                                        <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Bocetos de la Orden</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="tabla-Bocetos" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:left">Seleccionar</th>
-                                    <th style="text-align:left">Imagen del Boceto</th>
-                                    <th style="text-align:left">Fecha de Creación</th>
-                                    <th style="text-align:left">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="checkbox" name="seleccionarBoceto" value="1">
-                                    </td>
-                                    <td style="text-align:left">
-                                        <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                                    </td>
-                                    <td style="text-align:left">@DateTime.Now</td>
-                                    <td style="text-align:left">
-                                        <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="checkbox" name="seleccionarBoceto" value="1">
-                                    </td>
-                                    <td style="text-align:left">
-                                        <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                                    </td>
-                                    <td style="text-align:left">@DateTime.Now</td>
-                                    <td style="text-align:left">
-                                        <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left">
-                                        <input type="checkbox" name="seleccionarBoceto" value="1">
-                                    </td>
-                                    <td style="text-align:left">
-                                        <img src="~/page/images/imagenbotella.jpeg" class="boceto-img" style="width: 80px; height: auto; cursor: pointer;" alt="Boceto 1" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">
-                                    </td>
-                                    <td style="text-align:left">@DateTime.Now</td>
-                                    <td style="text-align:left">
-                                        <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@Url.Content("~/page/images/imagenbotella.jpeg")">Ver Imagen</button>
-                                    </td>
-                                </tr>
+                                @foreach (var cotizacion in Model.ListaCotizaciones)
+                                {
+                                    <tr>
+                                        <td style="text-align:left">
+                                            <input type="radio" name="IdCotizacion" value="@cotizacion.IdCotizacion" data-idusuario="@cotizacion.IdUsuario" />
+                                        </td>
+                                        <td style="text-align:left">@cotizacion.IdCotizacion</td>
+                                        <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                                        <td style="text-align:left">@cotizacion.NombreCompleto</td>
+                                        <td style="text-align:left">@cotizacion.Moneda</td>                                       
+                                        <td style="text-align:left">
+                                            <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -230,54 +119,41 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="material">Material</label>
-                                    <textarea id="material" name="material" class="form-control" rows="3" placeholder="Tipo de material"></textarea>
+                                    <textarea id="material" name="material" class="form-control" rows="3">@Model.Material</textarea>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="fechaEntrega">Fecha de Entrega</label>
-                                    <input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control">
+                                    <input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control" value="@Model.FechaEntrega?.ToString("yyyy-MM-dd")">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="estadoInterno">Estado Interno</label>
                                     <select id="estadoInterno" name="estadoInterno" class="form-control">
-                                        <option value="proceso">En Proceso</option>
-                                        <option value="completado">Completado</option>
-                                        <option value="pendiente">Pendiente</option>
+                                        @foreach (var estado in Enum.GetValues(typeof(EstadoInternoOrden)).Cast<EstadoInternoOrden>())
+                                        {
+                                            <option value="@((int)estado)">@estado.GetDisplayName()</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="descripcionInterna">Descripción Interna</label>
-                            <textarea id="descripcionInterna" name="descripcionInterna" class="form-control" rows="3" placeholder="Descripción interna del estado y observaciones"></textarea>
+                            <textarea id="descripcionInterna" name="descripcionInterna" class="form-control" rows="3">@Model.DescripcionInterna</textarea>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="botones-secundarios">Crear Orden</button>
+                <!-- Botón de Crear Orden -->
+                <button id="crearOrdenAdminButton" type="button" class="botones-secundarios">Crear Orden</button>
             </form>
+            
         </div>
         <div class="card-footer text-center py-3">
-            <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver a las órdenes</a>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen Ampliada</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Imagen Ampliada">
-            </div>
+            <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver órdenes</a>
         </div>
     </div>
 </div>
@@ -285,22 +161,91 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#tabla-Cotizaciones, #tabla-Productos, #tabla-Bocetos').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            }
+        $('#tabla-Cotizaciones').DataTable({
+            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']]
         });
-        $('.boceto-img, .product-img').off('click').on('click', function (e) {
-            e.preventDefault();
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
+        
+        //Campo con el id del usuario en oculto
+        $('input[name="IdCotizacion"]').on('change', function () {
+            const selectedCotizacion = $(this);
+            const idUsuario = selectedCotizacion.data('idusuario');
+            $('#idUsuario').val(idUsuario);
+        });
 
-        });
-        $('.view-image').off('click').on('click', function (e) {
+        // Función para construir el FormData
+        function buildCrearOrdenAdminFormData() {
+            const formData = new FormData();
+
+            // Capturar datos generales
+            formData.append('Descripcion', $('#descripcionOrden').val().trim());
+            formData.append('MetodoPago', $('#metodoPago').val());
+            formData.append('IdCotizacion', $('input[name="IdCotizacion"]:checked').val());
+            formData.append('IdUsuario', $('#idUsuario').val());
+            formData.append('Material', $('#material').val().trim());
+            formData.append('FechaEntrega', $('#fechaEntrega').val());
+            formData.append('EstadoInternoOrden', $('#estadoInterno').val());
+            formData.append('DescripcionInterna', $('#descripcionInterna').val().trim());
+            formData.append('ComprobantePago.DescripcionComprobante', $('#descripcionComprobante').val().trim());
+
+            // Capturar archivos
+            const ordenCompraFile = $('#ordenCompraArchivo')[0].files[0];
+            const facturaVentaFile = $('#facturaVentaArchivo')[0].files[0];
+            const boletaEntregaFile = $('#boletaEntregaArchivo')[0].files[0];
+            const comprobantePagoFile = $('#comprobantePagoArchivo')[0].files[0];
+
+            if (ordenCompraFile) formData.append('OrdenCompraArchivo', ordenCompraFile);
+            if (facturaVentaFile) formData.append('FacturaVentaArchivo', facturaVentaFile);
+            if (boletaEntregaFile) formData.append('BoletaEntregaArchivo', boletaEntregaFile);
+            if (comprobantePagoFile) formData.append('ComprobantePago.ArchivoComprobante', comprobantePagoFile);
+
+            return formData;
+        }
+
+        // Crear Orden
+        $('#crearOrdenAdminButton').on('click', function (e) {
             e.preventDefault();
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
+
+            const formData = buildCrearOrdenAdminFormData();
+
+            if (!formData.get('IdCotizacion')) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Selecciona una Cotización',
+                    text: 'Por favor, selecciona una cotización antes de crear la orden.',
+                });
+                return;
+            }
+
+            const $button = $(this);
+            $button.prop('disabled', true).text('Creando Orden...');
+
+            $.ajax({
+                url: '/Ordenes/CrearOrdenClienteAdmin',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Orden Creada',
+                        text: 'La orden fue creada exitosamente.',
+                        confirmButtonColor: '#c1952c',
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = '/Ordenes/ConsultarOrdenesClientesAdmin';
+                    });
+                },
+                error: function (xhr) {
+                    $button.prop('disabled', false).text('Crear Orden');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseText || 'Hubo un problema al crear la orden.',
+                        confirmButtonColor: '#c1952c'
+                    });
+                }
+            });
         });
     });
 </script>
-

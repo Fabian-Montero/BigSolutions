@@ -14,6 +14,11 @@ namespace BigSolutionsWeb.Models
         public async Task<string> GuardarImagen(string carpeta, int id, IFormFile archivoImagen)
         {
 
+            //Sacar extension del archivo
+
+            string extension = Path.GetExtension(archivoImagen.FileName);
+            
+
             using (Stream imagen = archivoImagen.OpenReadStream())
             {
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
@@ -29,7 +34,7 @@ namespace BigSolutionsWeb.Models
                         ThrowOnCancel = true
                     })
                 .Child(carpeta)
-                .Child(id.ToString())
+                .Child(id.ToString() + extension)
                 .PutAsync(imagen, cancellation.Token);
 
                 var downloadURL = await task;

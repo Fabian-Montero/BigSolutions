@@ -112,12 +112,6 @@ namespace BigSolutionsWeb.Controllers
 
         }
 
-        public IActionResult ConsultarCotizacionesCliente()
-        {
-            return View();
-        }
-
-
         //Admin
         [FiltroSesiones]
         [FiltroAdmin]

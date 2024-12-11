@@ -204,7 +204,7 @@
             const usuario = {
                 UsuarioId: parseInt($('#usuarioId').val()),
                 NombreCompleto: $('#nombreCliente').text().trim(),
-                NombreEmpresa: $('#nombreEmpresa').text().trim(), // Nuevo
+                NombreEmpresa: $('#nombreEmpresa').text().trim(),
                 NumeroTelefono: $('#telefonoCliente').text().trim(),
                 CorreoElectronico: $('#correoCliente').text().trim()
             };
@@ -261,7 +261,7 @@
 
             if (cotizacion.Bocetos.length === 0) {
                 Swal.fire('Atención', 'Debes seleccionar al menos un boceto con cantidad válida.', 'warning');
-                button.prop('disabled', false).text('Generar Cotización'); // Restaurar el botón
+                button.prop('disabled', false).text('Generar Cotización');
                 return;
             }
 
