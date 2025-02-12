@@ -95,7 +95,6 @@ namespace BigSolutionsApi.Controllers
             }
         }
 
-
         [AllowAnonymous]
         [HttpPost]
         [Route("Recuperar")]
@@ -652,10 +651,5 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
-
-
-
-
-
     }
 }

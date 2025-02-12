@@ -31,13 +31,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="fullName">Nombre Completo</label>
-                                    @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", @placeholder = "Nombre", @required = "required" })
+                                    @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", @placeholder = "Nombre", @required = "required", Type = "text" })
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="cedula">Cédula</label>
-                                    @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", @placeholder = "Identificación", @required = "required" })
+                                    @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", @placeholder = "Identificación", @required = "required", Type = "text" })
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="address">Dirección Exacta</label>
-                                    @Html.TextAreaFor(m => m.DireccionExacta, new { @class = "form-control", @placeholder = "Dirección", @required = "required" })
+                                    @Html.TextAreaFor(m => m.DireccionExacta, new { @class = "form-control", @placeholder = "Dirección", @required = "required", Type = "text" })
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="email">Dirección de Correo Electrónico</label>
-                                    @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @placeholder = "Correo", @required = "required" })
+                                    @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @placeholder = "Correo", @required = "required", Type = "email" })
                                 </div>
                             </div>
 

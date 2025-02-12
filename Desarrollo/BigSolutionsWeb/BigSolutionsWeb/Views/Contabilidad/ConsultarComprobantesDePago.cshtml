@@ -1,106 +1,138 @@
-﻿@{
+﻿@model List<BigSolutionsWeb.Entidades.ComprobantePago>
+@{
     ViewData["Title"] = "Comprobante de pago";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="~/css/hojaestilos.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
-        <h1>Comprobantes de pago</h1>
-        <p>Aquí puedes ver todas los comprobantes de pago.</p>
+        <h1>Comprobantes de Pago</h1>
+        <p>Aquí puedes ver todos los comprobantes de pago.</p>
     </div>
-    <br />
-    <br />
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-warning text-center">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de comprobantes de pago</h3>
-            <a class="botones-secundarios" href="@Url.Action("AgregarComprobantesDePago", "Contabilidad")"> + Agregar</a>
+            <h3 class="mb-0">Lista de Comprobantes de Pago</h3>
+            <a class="botones-secundarios" href="@Url.Action("AgregarComprobantesDePago", "Contabilidad")">+ Agregar</a>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            <table id="tabla-Inventario" class="table table-hover">
+            <table id="tabla-Comprobantes" class="table table-hover">
                 <thead>
                     <tr>
+                        <th style="text-align:left">Número de Comprobante</th>
                         <th style="text-align:left">Número de Orden</th>
-                        <th style="text-align:left">Cliente</th>
                         <th style="text-align:left">Descripción</th>
-                        <th style="text-align:left">Comprobantes</th>
-                        <th style="text-align:left">Acción</th>
+                        <th style="text-align:left">Fecha de Creación</th>
+                        <th style="text-align:left">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>005</td>
-                        <td>Juan Pérez Barquero</td>
-                        <td>Descripción 1</td>
-                        <td style="text-align:left">
-                            <a class="botones" href="@Url.Action("ComprobantesDePago", "Contabilidad")">Ver Comprobantes</a>
-                        </td>
-                        <td style="text-align:center">
-                            <a class="botones-eliminar eliminar-producto" href="#" data-id="1"><i class="fas fa-trash-alt"></i>&nbsp;Eliminar</a>
-                        </td>
-                    </tr>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var comprobante in Model)
+                        {
+                            <tr>
+                                <td style="text-align:start">@comprobante.IdOrdenDetalleComprobantes</td>
+                                <td style="text-align:start">@comprobante.IdOrden</td>
+                                <td>@comprobante.DescripcionComprobante</td>
+                                <td>@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(comprobante.RutaComprobante))
+                                    {
+                                        <a class="botones" href="@Url.Content(comprobante.RutaComprobante)" target="_blank">Ver Comprobante</a>
+                                    }
+                                    else
+                                    {
+                                        <span style="margin-right: 65px;">No disponible</span>
+                                    }
+                                    <a class="botones-eliminar eliminar-comprobante" href="#" data-id="@comprobante.IdOrdenDetalleComprobantes"
+                                       data-orden="@comprobante.IdOrden">
+                                        <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">No hay comprobantes de pago disponibles.</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del producto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Producto Ampliado">
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script>
     $(document).ready(function () {
-        var table = new DataTable("#tabla-Inventario", {
+        
+        $('#tabla-Comprobantes').DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+                url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
             },
-            columnDefs: [{ type: 'string', target: [0] }]
+            
+            order: [[1, 'desc']]
         });
 
-        //Alerta de eliminación
-        $('.eliminar-producto').on('click', function (e) {
+        // Confirmación de eliminación
+        $('.eliminar-comprobante').on('click', function (e) {
             e.preventDefault();
-            var productId = $(this).data('id');
+            var idComprobante = $(this).data('id');
+            var idOrden = $(this).data('orden');
+
             Swal.fire({
-                title: '¿Está seguro que deseas eliminar estos comprobantes de pago?',
-                text: "No podrá revertir esto",
+                title: '¿Está seguro que desea eliminar este comprobante?',
+                text: "Esta acción no se puede deshacer.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#c1952c',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, eliminarlo',
-                customClass: {
-                    popup: 'my-swal-popup'
-                }
+                cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Eliminado',
-                        text: 'Los comprobantes de pago han sido eliminados',
-                        icon: 'success',
-                        confirmButtonColor: '#c1952c',
-                        customClass: {
-                            popup: 'my-swal-popup'
+                    // Enviar solicitud al servidor
+                    $.ajax({
+                        url: `/Contabilidad/EliminarComprobante?IdOrdenDetalleComprobantes=${idComprobante}&IdOrden=${idOrden}`,
+                        type: 'GET',
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'Eliminado',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonColor: '#c1952c'
+                                }).then(() => {
+                                    // Eliminar fila de la tabla
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonColor: '#d33'
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un problema al intentar eliminar el comprobante.',
+                                icon: 'error',
+                                confirmButtonColor: '#d33'
+                            });
                         }
-                    }).then(() => {
                     });
                 }
             });

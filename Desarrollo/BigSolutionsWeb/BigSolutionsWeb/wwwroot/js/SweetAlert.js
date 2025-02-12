@@ -39,7 +39,20 @@ $(function () {
 // SweetAlert de confirmación de perfil de usuario actualizado
 document.addEventListener('DOMContentLoaded', function () {
     $('#perfilForm').on('submit', function (event) {
+        /*event.preventDefault();*/
+
+
+
+        let form = this;
+        // Verificaciones del navegador en el formulario
+        if (!form.checkValidity()) {
+            event.preventDefault(); // Evita el envío solo si hay errores
+            form.reportValidity(); // Muestra los errores nativos del navegador
+            return;
+        }
+
         event.preventDefault();
+
 
         $.ajax({
             url: $(this).attr('action'),

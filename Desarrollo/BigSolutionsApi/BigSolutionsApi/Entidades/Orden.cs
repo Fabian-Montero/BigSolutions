@@ -7,7 +7,8 @@ namespace BigSolutionsApi.Entidades
         public long IdOrden { get; set; }
         public long IdUsuario { get; set; }
         public string? RutaOrdenCompra { get; set; } 
-        public string? RutaFacturaVenta { get; set; } 
+        public string? RutaFacturaVenta { get; set; }
+        public string? NumFacturaVenta { get; set; }
         public string? RutaBoletaEntrega { get; set; } 
         public string Descripcion { get; set; }
         public EstadoOrden Estado { get; set; }
