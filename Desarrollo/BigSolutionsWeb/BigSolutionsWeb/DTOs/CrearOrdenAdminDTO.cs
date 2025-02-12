@@ -9,6 +9,8 @@ namespace BigSolutionsWeb.DTOs
         public string Descripcion { get; set; } = string.Empty;
         public string? RutaOrdenCompra { get; set; }
         public string? RutaFacturaVenta { get; set; }
+
+        public string? NumFacturaVenta { get; set; }
         public string? RutaBoletaEntrega { get; set; }
         public MetodoPago MetodoPago { get; set; }
         public ComprobantePago ComprobantePago { get; set; } = new ComprobantePago();

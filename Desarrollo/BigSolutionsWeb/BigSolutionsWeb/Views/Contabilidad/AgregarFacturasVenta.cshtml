@@ -1,9 +1,9 @@
-﻿@{
+﻿@model BigSolutionsWeb.DTOs.CrearFacturaDTO
+
+@{
     ViewData["Title"] = "Agregar Factura Venta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<link href="~/css/hojaestilos.css" rel="stylesheet" />
 
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
@@ -11,141 +11,148 @@
         <p>Llena el siguiente formulario para agregar una nueva factura de venta.</p>
     </div>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-12">
-                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                    <div class="card-header">
-                        <h3 class="font-weight-extra-bold my-4">Formulario para registrar factura de venta</h3>
-                        <!-- Alertas-->
-                        <div id="successAlert" class="alert alert-success alert-custom" role="alert">
-                            Factura agregada exitosamente
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Seleccionar Orden</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Ordenes" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Seleccionar</th>
+                        <th style="text-align:left">Número de Orden</th>
+                        <th style="text-align:left">Cliente</th>
+                        <th style="text-align:left">Descripción de la Orden</th>
+                        <th style="text-align:left">Orden de Compra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Ordenes != null && Model.Ordenes.Any())
+                    {
+                        foreach (var orden in Model.Ordenes)
+                        {
+                            <tr>
+                                <td style="text-align:left">
+                                    <input type="radio" name="IdOrden" value="@orden.IdOrden">
+                                </td>
+                                <td style="text-align:left">@orden.IdOrden</td>
+                                <td style="text-align:left">@orden.NombreUsuario</td>
+                                <td style="text-align:left">@orden.Descripcion</td>
+                                <td style="text-align:left">
+                                    @if (!string.IsNullOrEmpty(orden.RutaOrdenCompra))
+                                    {
+                                        <a href="@Url.Content(orden.RutaOrdenCompra)" target="_blank" class="botones">Ver Orden de Compra</a>
+                                    }
+                                    else
+                                    {
+                                        <span>No disponible</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">No hay órdenes disponibles.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Datos de la Factura</h3>
+        </div>
+        <div class="card-body">
+            <form id="agregarFacturaForm" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="FacturaArchivo">Adjuntar Factura</label>
+                            <input type="file" id="FacturaArchivo" name="FacturaArchivo" class="form-control-file">
                         </div>
-                        <div id="warningAlert" class="alert alert-warning alert-custom" role="alert">
-                            Por favor, complete todos los campos antes de aceptar
-                        </div>
-                        <!-- Alertas-->
                     </div>
-                    <div class="card-body">
-                        <br />
-                        <div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <div>
-                                            <h3>Seleccione una orden</h3>
-                                            <hr>
-                                        </div>
-                                        <table id="tabla-Orden" class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align:left">Seleccionar</th>
-                                                    <th style="text-align:left">Número de Orden</th>
-                                                    <th style="text-align:left">Cliente</th>
-                                                    <th style="text-align:left">Descripción de la Orden</th>
-                                                    <th style="text-align:left">Orden de Compra</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="text-align:left">
-                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="001">
-                                                    </td>
-                                                    <td style="text-align:left">001</td>
-                                                    <td style="text-align:left">Juan Pérez Barquero</td>
-                                                    <td style="text-align:left">Descripción de la orden</td>
-                                                    <td style="text-align:left">
-                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:left">
-                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="002">
-                                                    </td>
-                                                    <td style="text-align:left">002</td>
-                                                    <td style="text-align:left">Juan Pérez Barquero</td>
-                                                    <td style="text-align:left">Descripción de la orden</td>
-                                                    <td style="text-align:left">
-                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:left">
-                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="003">
-                                                    </td>
-                                                    <td style="text-align:left">003</td>
-                                                    <td style="text-align:left">Juan Pérez Barquero</td>
-                                                    <td style="text-align:left">Descripción de la orden</td>
-                                                    <td style="text-align:left">
-                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <br />
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <div>
-                                            <h3>Ajuntar Factura</h3>
-                                            <hr>
-                                        </div>
-                                        <input type="file" id="Factura" name="Factura" class="form-control form-control-user" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="NumFacturaVenta">Número de Factura</label>
+                            <input type="text" id="NumFacturaVenta" name="NumFacturaVenta" class="form-control" placeholder="Ingrese el número de la factura">
                         </div>
-                        <div class="d-flex justify-content-center mt-4">
-                            <button type="button" class="botones" onclick="submitForm()">Aceptar</button>
-                        </div>
-                        <br />
-                    </div>
-                    <div class="card-footer text-center py-3">
-                        <a href="@Url.Action("ConsultarFacturasVenta", "Contabilidad")" class="inventario-link">Volver a facturas venta</a>
                     </div>
                 </div>
-            </div>
+                <button id="crearFacturaButton" type="button" class="botones-secundarios">Crear Factura</button>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarFacturasVenta", "Contabilidad")" class="inventario-link">Volver a facturas venta</a>
         </div>
     </div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
 <script>
     $(document).ready(function () {
-        $('#tabla-Orden').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+
+        $('#tabla-Ordenes').DataTable({
+            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']]
+        });
+
+        // Enviar datos al controller
+        $('#crearFacturaButton').on('click', function (e) {
+            e.preventDefault();
+
+            const idOrden = $('input[name="IdOrden"]:checked').val();
+            const numFacturaVenta = $('#NumFacturaVenta').val().trim();
+            const facturaArchivo = $('#FacturaArchivo')[0].files[0];
+
+            if (!idOrden || !numFacturaVenta || !facturaArchivo) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos incompletos',
+                    text: 'Por favor, complete todos los campos antes de aceptar.'
+                });
+                return;
             }
+
+            const formData = new FormData();
+            formData.append('IdOrden', idOrden);
+            formData.append('NumFacturaVenta', numFacturaVenta);
+            formData.append('FacturaVentaArchivo', facturaArchivo);
+
+            // Deshabilitar botón mientras se procesa
+            const $button = $(this);
+            $button.prop('disabled', true).text('Creando Factura...');
+
+            $.ajax({
+                url: '/Contabilidad/AgregarFacturasVenta',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Factura Creada',
+                        text: 'La factura ha sido registrada exitosamente.',
+                        confirmButtonColor: '#c1952c',
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = '/Contabilidad/ConsultarFacturasVenta';
+                    });
+                },
+                error: function (xhr) {
+                    $button.prop('disabled', false).text('Crear Factura');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseText || 'Hubo un problema al registrar la factura.',
+                        confirmButtonColor: '#c1952c'
+                    });
+                }
+            });
         });
     });
-
-    function submitForm() {
-        var seleccionOrden = document.querySelector('input[name="selectBoceto"]:checked');
-        var factura = document.getElementById('Factura').files.length > 0;
-
-        var warningAlert = document.getElementById('warningAlert');
-        var successAlert = document.getElementById('successAlert');
-
-        warningAlert.classList.remove('show');
-        successAlert.classList.remove('show');
-
-        if (!seleccionOrden || !factura) {
-            warningAlert.classList.add('show');
-            return;
-        }
-
-        successAlert.classList.add('show');
-
-        setTimeout(function () {
-            successAlert.classList.remove('show');
-            window.location.href = '@Url.Action("ConsultarFacturasVenta", "Contabilidad")';
-        }, 2000);
-    }
 </script>

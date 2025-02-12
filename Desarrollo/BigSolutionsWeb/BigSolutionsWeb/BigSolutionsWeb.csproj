@@ -9,11 +9,21 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\JSLayout.js" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Rotativa\Windows\wkhtmltopdf.exe" />
+  </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\JSLayout.js" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Rotativa\Windows\wkhtmltopdf.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="wwwroot\js\JSLayout.js" />
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />

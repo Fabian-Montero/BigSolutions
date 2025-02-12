@@ -34,7 +34,7 @@ namespace BigSolutionsWeb.Models
                         ThrowOnCancel = true
                     })
                 .Child(carpeta)
-                .Child(id.ToString() + extension)
+                .Child(id.ToString())
                 .PutAsync(imagen, cancellation.Token);
 
                 var downloadURL = await task;
@@ -58,6 +58,70 @@ namespace BigSolutionsWeb.Models
                     })
                 .Child(carpeta)
                 .Child(id.ToString())
+                .DeleteAsync();
+                return true;
+            }
+            catch (FirebaseStorageException ex)
+            {
+                Console.WriteLine($"Error eliminando imagen: {ex.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error general: {ex.Message}");
+                return false;
+            }
+        }
+
+        //STRING
+
+        public async Task<string> GuardarImagenString(string carpeta, string id, IFormFile archivoImagen)
+        {
+
+            //Sacar extension del archivo
+
+            string extension = Path.GetExtension(archivoImagen.FileName);
+
+
+            using (Stream imagen = archivoImagen.OpenReadStream())
+            {
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
+                var a = await auth.SignInWithEmailAndPasswordAsync(email, clave);
+
+                var cancellation = new CancellationTokenSource();
+
+                var task = new FirebaseStorage(
+                    ruta,
+                    new FirebaseStorageOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                        ThrowOnCancel = true
+                    })
+                .Child(carpeta)
+                .Child(id + extension)
+                .PutAsync(imagen, cancellation.Token);
+
+                var downloadURL = await task;
+
+                return downloadURL;
+            }
+        }
+
+        public async Task<bool> EliminarImagenString(string carpeta, string id)
+        {
+            try
+            {
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
+                var a = await auth.SignInWithEmailAndPasswordAsync(email, clave);
+                await new FirebaseStorage(
+                    ruta,
+                    new FirebaseStorageOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                        ThrowOnCancel = true
+                    })
+                .Child(carpeta)
+                .Child(id)
                 .DeleteAsync();
                 return true;
             }

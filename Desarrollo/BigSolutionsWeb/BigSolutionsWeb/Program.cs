@@ -3,11 +3,56 @@ using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
 using Rotativa.AspNetCore;
 using System.Text.Json;
+using DotNetEnv;
+using DotNetEnv.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Variables de entorno
+Env.Load();
+
+// Agregar variables de entorno al ConfigurationBuilder
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
+    
+var configuration = builder.Configuration;
+
+// Configuraciones a sobrescribir
+var environmentVariables = new Dictionary<string, string>
+{
+    { "Llaves:UrlApi", "URL_API" },
+    { "Llaves:SecretKey", "SECRET_KEY" },
+
+    { "FirebaseConfig:Email", "FIREBASE_EMAIL" },
+    { "FirebaseConfig:Contrasenna", "FIREBASE_PASSWORD" },
+    { "FirebaseConfig:Ruta", "FIREBASE_ROUTE" },
+    { "FirebaseConfig:ApiKey", "FIREBASE_API_KEY" },
+
+};
+
+// Sobreescribir valores del `appsettings.json` con las variables de entorno
+foreach (var setting in environmentVariables)
+{
+    string envValue = Environment.GetEnvironmentVariable(setting.Value);
+    if (!string.IsNullOrEmpty(envValue))
+    {
+        builder.Configuration[setting.Key] = envValue;
+    }
+}
+
+// Debugging 
+/*foreach (var setting in environmentVariables)
+{
+    Console.WriteLine($"[DEBUG] {setting.Key} (from Configuration): {configuration[setting.Key]}");
+}*/
+
 
 //inyeccion de dependencias
 
@@ -23,6 +68,7 @@ builder.Services.AddScoped<ICategoriaModel, CategoriaModel>();
 builder.Services.AddScoped<IBocetoModel, BocetoModel>();
 builder.Services.AddScoped<ICotizacionesModel, CotizacionesModel>();
 builder.Services.AddScoped<IOrdenModel, OrdenModel>();
+builder.Services.AddScoped<IContabilidadModel, ContabilidadModel>();
 
 
 // Inyección de dependencias para cerrar sesión por inactividad
@@ -52,6 +98,8 @@ builder.Services.AddControllersWithViews(options =>
 //Rotativa 
 
 RotativaConfiguration.Setup(builder.Environment.ContentRootPath, wkhtmltopdfRelativePath: "Rotativa/Windows");
+
+
 
 var app = builder.Build();
 

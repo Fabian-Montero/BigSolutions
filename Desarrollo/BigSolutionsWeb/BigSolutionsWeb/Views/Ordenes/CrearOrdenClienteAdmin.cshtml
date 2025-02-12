@@ -57,19 +57,22 @@
                         <div class="form-group">
                             <label for="facturaVenta">Factura Venta</label>
                             <input type="file" id="facturaVentaArchivo" name="FacturaVentaArchivo" class="form-control-file">
+                            <label style="margin-top: 5px;"for="numFacturaVenta">Número de Factura</label>
+                            <input type="text" id="numFacturaVenta" name="NumFacturaVenta" class="form-control" placeholder="Ingrese el número de factura">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="boletaEntrega">Boleta de Entrega</label>
                             <input type="file" id="boletaEntregaArchivo" name="BoletaEntregaArchivo" class="form-control-file">
+                            
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="comprobantePagoArchivo">Comprobante de Pago</label>
                             <input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
-                            <label for="descripcionComprobante">Descripción del Comprobante</label>
+                            <label style="margin-top: 5px;" for="descripcionComprobante">Descripción del Comprobante</label>
                             <textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2">@Model.ComprobantePago.DescripcionComprobante</textarea>
                         </div>
                     </div>
@@ -144,17 +147,17 @@
                             <label for="descripcionInterna">Descripción Interna</label>
                             <textarea id="descripcionInterna" name="descripcionInterna" class="form-control" rows="3">@Model.DescripcionInterna</textarea>
                         </div>
+                        <button style="margin-bo" id="crearOrdenAdminButton" type="button" class="botones-secundarios">Crear Orden</button>
                     </div>
                 </div>
 
-                <!-- Botón de Crear Orden -->
-                <button id="crearOrdenAdminButton" type="button" class="botones-secundarios">Crear Orden</button>
+              
             </form>
-            
+            <div class="card-footer text-center py-3">
+                <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver órdenes</a>
+            </div>
         </div>
-        <div class="card-footer text-center py-3">
-            <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver órdenes</a>
-        </div>
+        
     </div>
 </div>
 
@@ -194,7 +197,13 @@
             const comprobantePagoFile = $('#comprobantePagoArchivo')[0].files[0];
 
             if (ordenCompraFile) formData.append('OrdenCompraArchivo', ordenCompraFile);
-            if (facturaVentaFile) formData.append('FacturaVentaArchivo', facturaVentaFile);
+            if (facturaVentaFile) {
+                formData.append('FacturaVentaArchivo', facturaVentaFile);
+            }
+            const numFacturaVenta = $('#numFacturaVenta').val().trim();
+            if (numFacturaVenta) {
+                formData.append('NumFacturaVenta', numFacturaVenta);
+            }
             if (boletaEntregaFile) formData.append('BoletaEntregaArchivo', boletaEntregaFile);
             if (comprobantePagoFile) formData.append('ComprobantePago.ArchivoComprobante', comprobantePagoFile);
 

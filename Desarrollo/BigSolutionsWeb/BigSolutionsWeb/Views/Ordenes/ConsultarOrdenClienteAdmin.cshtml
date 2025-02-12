@@ -62,6 +62,7 @@
                         @if (!string.IsNullOrEmpty(Model.Orden.RutaFacturaVenta))
                         {
                             <a href="@Model.Orden.RutaFacturaVenta" target="_blank">Ver Archivo</a>
+                            <p><strong>Número de Factura:</strong> @Model.Orden.NumFacturaVenta</p>
                         }
                         else
                         {

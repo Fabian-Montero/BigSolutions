@@ -19,9 +19,7 @@ namespace BigSolutionsApi.Controllers
         [Route("CargarCrearOrdenCliente")]
         public async Task<IActionResult> CargarCrearOrdenCliente(long IdUsuario)
         {
-
             Respuesta resp = new Respuesta();
-
             try
             {
                 using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
@@ -93,9 +91,10 @@ namespace BigSolutionsApi.Controllers
                                 CrearOrdenClienteDTO.Descripcion,
                                 CrearOrdenClienteDTO.IdUsuario,
                                 CrearOrdenClienteDTO.MetodoPago,
-                                FechaCreacion = DateTime.Now,
+                                FechaCreacion = DateTime.Now, 
                                 RutaOrdenCompra = "",
-                                Estado = EstadoOrden.PendienteDeConfirmar
+                                Estado = EstadoOrden.PendienteDeConfirmar,
+                                EstadoInterno = EstadoInternoOrden.NoEmpezada
                             },
                             commandType: CommandType.StoredProcedure,
                             transaction: transaction
@@ -423,11 +422,12 @@ namespace BigSolutionsApi.Controllers
                                 Material = CrearOrdenAdminDTO.Material ?? "",
                                 FechaEntrega = CrearOrdenAdminDTO.FechaEntrega,
                                 EstadoInternoOrden = CrearOrdenAdminDTO.EstadoInternoOrden,
-                                DescripcionInterna = CrearOrdenAdminDTO.DescripcionInterna ?? ""
+                                DescripcionInterna = CrearOrdenAdminDTO.DescripcionInterna ?? "",
+                                NumFacturaVenta = CrearOrdenAdminDTO.NumFacturaVenta
                             },
                             commandType: CommandType.StoredProcedure,
                             transaction: transaction
-                        );
+                        ) ;
 
                         // Crear el comprobante de pago si existe
                         long? idComprobante = null;
@@ -635,6 +635,7 @@ namespace BigSolutionsApi.Controllers
                     datosGenerales.FechaEntrega = orden.FechaEntrega;
                     datosGenerales.DescripcionInterna = orden.DescripcionInterna;
                     datosGenerales.EstadoOrden = (EstadoOrden)orden.EstadoOrden;
+                    datosGenerales.NumFacturaVenta = orden.NumFacturaVenta;
 
                     // Comprobantes
                     var comprobantes = await connection.QueryAsync<ComprobantePago>(
@@ -711,7 +712,8 @@ namespace BigSolutionsApi.Controllers
                                 Material = actualizarOrdenAdminDTO.Material,
                                 FechaEntrega = actualizarOrdenAdminDTO.FechaEntrega,
                                 EstadoInternoOrden = actualizarOrdenAdminDTO.EstadoInternoOrden,
-                                DescripcionInterna = actualizarOrdenAdminDTO.DescripcionInterna
+                                DescripcionInterna = actualizarOrdenAdminDTO.DescripcionInterna,
+                                NumFacturaVenta = actualizarOrdenAdminDTO.NumFacturaVenta
                             },
                             commandType: CommandType.StoredProcedure,
                             transaction: transaction
