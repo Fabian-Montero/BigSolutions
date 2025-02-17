@@ -21,6 +21,31 @@ namespace BigSolutionsApi.Controllers
     [ApiController]
     public class UsuarioController(IConfiguration iConfiguration, IComunesModel iComunesModel, IHostEnvironment iHost) : ControllerBase
     {
+        [HttpGet]
+        [Route("TestEndPoint")]
+        public async Task<IActionResult> GetTestEndPoint()
+        {
+            Respuesta resp = new Respuesta();
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            {
+                
+                var result = await context.QueryAsync<Usuario>("TestEndPoint", commandType: System.Data.CommandType.StoredProcedure);
+
+                if (result.Count() > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No se ha encontrado la información";
+                    return Ok(resp);
+                }
+            }
+        }
 
         [HttpPost]
         [Route("Registro")]

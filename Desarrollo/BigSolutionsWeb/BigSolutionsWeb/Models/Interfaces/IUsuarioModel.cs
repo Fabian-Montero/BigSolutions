@@ -4,6 +4,8 @@ namespace BigSolutionsWeb.Models.Interfaces
 {
     public interface IUsuarioModel
     {
+
+        Respuesta TestEndPoint();
         Respuesta Registro(Usuario ent);
 
         Respuesta InicioSesion(Usuario ent);

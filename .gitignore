@@ -13,6 +13,16 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Archivos de macOS
+.DS_Store
+
+# Configuración de Rider/JetBrains
+.idea/
+
+# Opcional: si global.json no es necesario, agregarlo
+Desarrollo/BigSolutionsApi/global.json
+Desarrollo/BigSolutionsWeb/global.json
+
 # Mono auto generated files
 mono_crash.*
 
