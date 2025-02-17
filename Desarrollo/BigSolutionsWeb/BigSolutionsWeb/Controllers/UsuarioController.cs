@@ -58,6 +58,14 @@ namespace BigSolutionsWeb.Controllers
         [HttpGet]
         public IActionResult InicioSesion()
         {
+            var resp = iUsuarioModel.TestEndPoint();
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)resp.Contenido!);
+
+                Console.WriteLine("Test Endpoint users: ");
+                datos.ForEach(dato => Console.WriteLine(dato.NombreCompleto));
+            }
             return View();
         }
 
