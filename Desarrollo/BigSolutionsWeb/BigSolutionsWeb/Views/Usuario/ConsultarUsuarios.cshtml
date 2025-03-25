@@ -1,20 +1,8 @@
 ﻿@model List<BigSolutionsWeb.Entidades.Usuario>
 @{
     ViewData["Title"] = "Listado de Usuarios";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Asegúrate de que el layout sea el correcto
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Listado de Usuarios</title>
-    <link href="~/css/hojaestilos.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/page/vendors/feather/feather.css">
-    <link rel="stylesheet" href="~/page/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="~/page/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-</head>
-
 <body>
     <div class="container-fluid" style="margin-top: 50px;">
         <div class="text-center mb-4">
@@ -81,7 +69,7 @@
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <a href="@Url.Action("EditarUsuario", "Usuario", new { id = usuario.UsuarioId })" class="botones-editar"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
                                                     <button class="botones-eliminar btn-deleteUsu" style="margin-left:5px;"
-                                                            data-url="@(Url.Action("EliminarUsuario", "Usuario", new { id = usuario.UsuarioId }))">
+                                                            data-id="@usuario.UsuarioId">
                                                         <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
                                                     </button>
                                                 </div>
@@ -109,10 +97,6 @@
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $('#usuariosTable').DataTable({
@@ -120,16 +104,11 @@
                     url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
                 }
             });
-        });
-
-        $(function () {
+            
             $('.btn-deleteUsu').on('click', function (e) {
                 e.preventDefault();
                 var $this = $(this);
-                var url = $this.data('url');
-
-                // Para depurar: verificar la URL
-                console.log(url);
+                var idUsuario = $this.data('id'); 
 
                 Swal.fire({
                     title: '¿Estás seguro?',
@@ -142,18 +121,44 @@
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire({
-                            title: '¡Eliminado!',
-                            text: 'El usuario ha sido eliminado.',
-                            icon: 'success',
-                            confirmButtonColor: '#c1952c'
-                        }).then(() => {
-                            window.location.href = url;
+                        $.ajax({
+                            url: '/Usuario/EliminarUsuario?id=' + idUsuario,
+                            type: 'GET',
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        title: '¡Eliminado!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        confirmButtonColor: '#c1952c',
+                                        confirmButtonText: 'Aceptar'
+                                    }).then(() => {
+                                        // Eliminamos la fila del DataTable
+                                        $('#usuariosTable').DataTable().row($this.closest('tr')).remove().draw();
+                                    });
+                                } else {
+                                    // Error: mostrar mensaje de error
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: response.message,
+                                        icon: 'error',
+                                        confirmButtonColor: '#d33'
+                                    });
+                                }
+                            },
+                            error: function () {
+                                // Error de conexión u otro problema
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Ocurrió un problema al intentar eliminar el usuario.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#d33'
+                                });
+                            }
                         });
                     }
                 });
             });
         });
     </script>
-
 </body>

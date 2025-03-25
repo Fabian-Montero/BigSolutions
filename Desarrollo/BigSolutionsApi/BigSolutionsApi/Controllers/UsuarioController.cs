@@ -19,34 +19,9 @@ namespace BigSolutionsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController(IConfiguration iConfiguration, IComunesModel iComunesModel, IHostEnvironment iHost) : ControllerBase
+    public class UsuarioController(IConfiguration iConfiguration, IComunesModel iComunesModel, IHostEnvironment iHost)
+        : ControllerBase
     {
-        [HttpGet]
-        [Route("TestEndPoint")]
-        public async Task<IActionResult> GetTestEndPoint()
-        {
-            Respuesta resp = new Respuesta();
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
-            {
-                
-                var result = await context.QueryAsync<Usuario>("TestEndPoint", commandType: System.Data.CommandType.StoredProcedure);
-
-                if (result.Count() > 0)
-                {
-                    resp.Codigo = 1;
-                    resp.Mensaje = "OK";
-                    resp.Contenido = result;
-                    return Ok(resp);
-                }
-                else
-                {
-                    resp.Codigo = 0;
-                    resp.Mensaje = "No se ha encontrado la información";
-                    return Ok(resp);
-                }
-            }
-        }
-
         [HttpPost]
         [Route("Registro")]
         [AllowAnonymous]
@@ -54,35 +29,67 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta res = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            try
             {
-                //El rol y el estado se asignan en el procedimiento almacenado
-                //También se indica que no es una contraseña temporal 
-                var result = await context.ExecuteAsync("RegistrarUsuario", new
+                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
                 {
-                    ent.Identificacion,
-                    ent.NombreCompleto,
-                    ent.CorreoElectronico,
-                    ent.NumeroTelefono,
-                    ent.DireccionExacta,
-                    ent.Contrasenna,
-                    ent.NombreEmpresa
-                }, commandType: CommandType.StoredProcedure);
+                    var result = await context.ExecuteAsync(
+                        "RegistrarUsuario",
+                        new
+                        {
+                            ent.Identificacion,
+                            ent.NombreCompleto,
+                            ent.CorreoElectronico,
+                            ent.NumeroTelefono,
+                            ent.DireccionExacta,
+                            ent.Contrasenna,
+                            ent.NombreEmpresa
+                        },
+                        commandType: CommandType.StoredProcedure
+                    );
 
-                if (result > 0)
+                    if (result > 0)
+                    {
+                        res.Codigo = 1;
+                        res.Mensaje = "";
+                        res.Contenido = result;
+                        return Ok(res);
+                    }
+                    else
+                    {
+                        res.Codigo = 0;
+                        res.Mensaje = "Error al registrar el usuario en la base de datos";
+                        res.Contenido = false;
+                        return Ok(res);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                // 2627 y 2601 se utilizan cuando se viola un índice único o una restricción UNIQUE
+                if (ex.Number == 2627 || ex.Number == 2601)
                 {
-                    res.Codigo = 1;
-                    res.Mensaje = "";
-                    res.Contenido = result;
+                    res.Codigo = 0;
+                    res.Mensaje = "Este usuario ya se encuentra registrado en el sistema.";
+                    res.Contenido = false;
                     return Ok(res);
                 }
                 else
                 {
+                    // Otros errores de SQL
                     res.Codigo = 0;
-                    res.Mensaje = "Error al registrar el usuario en la base de datos";
+                    res.Mensaje = "Error de SQL al registrar el usuario";
                     res.Contenido = false;
                     return Ok(res);
                 }
+            }
+            catch (Exception ex)
+            {
+                // Cualquier otra excepción no relacionada con SQL
+                res.Codigo = 0;
+                res.Mensaje = "Error general al registrar el usuario";
+                res.Contenido = false;
+                return Ok(res);
             }
         }
 
@@ -93,7 +100,8 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta res = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 var result = await context.QueryFirstOrDefaultAsync<Usuario>("IniciarSesion", new
                 {
@@ -132,7 +140,8 @@ namespace BigSolutionsApi.Controllers
             bool EsTemporal = true;
             DateTime VigenciaTemporal = DateTime.Now.AddMinutes(10);
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 //Buscar al usuario por el correo, cambia la contrasenna por el codigo encriptado generado, es contrasenna temporal, agrega la vigencia temporal del codigo
                 var result = await context.QueryFirstOrDefaultAsync<Usuario>("Recuperar", new
@@ -178,7 +187,8 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta res = new Respuesta();
             var HoraActual = DateTime.Now;
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 var result = await context.ExecuteAsync("RecuperaContrasennaCodigo", new
                 {
@@ -215,12 +225,14 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta resp = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@idusuario", idusuario);
 
-                var result = (await context.QueryAsync<Usuario>("ConsultarPerfilUsuario", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                var result = (await context.QueryAsync<Usuario>("ConsultarPerfilUsuario", parameters,
+                    commandType: System.Data.CommandType.StoredProcedure)).ToList();
 
                 if (result != null && result.Count > 0)
                 {
@@ -237,6 +249,7 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+
         //Actualizar perfil de usuario
         [HttpPut]
         [Authorize]
@@ -245,7 +258,8 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta resp = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 var result = await context.ExecuteAsync("ActualizarPerfilUsuario", new
                 {
@@ -273,6 +287,7 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+
         //Eliminar perfil de usuario
         [HttpDelete]
         [Authorize]
@@ -281,9 +296,12 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta resp = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
-                var result = await context.ExecuteAsync("EliminarPerfilUsuario", new { UsuarioId }, commandType: CommandType.StoredProcedure);
+                // Cambiar el estado a inactivo (no se elimina por completo);
+                var result = await context.ExecuteAsync("EliminarPerfilUsuario", new { UsuarioId },
+                    commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -308,13 +326,15 @@ namespace BigSolutionsApi.Controllers
         public async Task<IActionResult> ListarClientes()
         {
             List<RespuestaListarClientes> res = new List<RespuestaListarClientes>();
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 // Abre la conexión
                 await context.OpenAsync();
 
                 // Llama al procedimiento almacenado
-                var result = await context.QueryAsync<Usuario>("SP_ListarClientes", commandType: CommandType.StoredProcedure);
+                var result =
+                    await context.QueryAsync<Usuario>("SP_ListarClientes", commandType: CommandType.StoredProcedure);
                 // Procesa los resultados
                 if (result != null && result.Any())
                 {
@@ -337,98 +357,6 @@ namespace BigSolutionsApi.Controllers
             return Ok(res);
         }
 
-        //[HttpPost]
-        //[Route("ActualizarCliente")]
-        //public async Task<IActionResult> ActualizarCliente(Cliente Cliente)
-        //{
-        //    using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
-        //    {
-        //        //El rol y el estado se asignan en el procedimiento almacenado
-        //        //También se indica que no es una contraseña temporal 
-        //        var result = await context.ExecuteAsync("SP_ActualizarCliente", new
-        //        {
-        //            Cliente.Identificacion,
-        //            Cliente.NombreCompleto,
-        //            Cliente.CorreoElectronico,
-        //            Cliente.NumeroTelefono,
-        //            Cliente.DireccionExacta,
-        //            Cliente.Estado,
-        //            Cliente.NombreEmpresa,
-        //            Cliente.EsTemporal,
-        //            Cliente.VigenciaTemporal
-        //        }, commandType: CommandType.StoredProcedure);
-        //    }
-
-        //    return Ok();
-        //}
-
-        [HttpDelete]
-        [Authorize]
-        [Route("EliminarCliente")]
-        public async Task<IActionResult> EliminarCliente(string identificacion)
-        {
-            string mensaje = string.Empty;
-            try
-            {
-               
-                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
-                {
-                    var result = await context.QueryFirstOrDefaultAsync<string>("SP_EliminarCliente", new
-                    {
-                        ID_Cliente = identificacion
-                    }, commandType: CommandType.StoredProcedure);
-                    mensaje = result.ToString();
-                }
-            }
-            catch (Exception ex) { 
-            
-            }
-            return Ok(mensaje);
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("BuscarCliente")]
-        public async Task<IActionResult> BuscarCliente(string ParametroBusqueda)
-        {
-            List<RespuestaListarClientes> res = new List<RespuestaListarClientes>();
-            try
-            {              
-                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
-                {
-                    // Abre la conexión
-                    await context.OpenAsync();
-
-                    var parameters = new { ParametroBusqueda = ParametroBusqueda };
-
-                    // Llama al procedimiento almacenado pasando el parámetro
-                    var result = await context.QueryAsync<Usuario>("SP_BuscarCliente", parameters, commandType: CommandType.StoredProcedure);
-
-                    // Procesa los resultados
-                    if (result != null && result.Any())
-                    {
-                        foreach (var usuario in result)
-                        {
-                            res.Add(new RespuestaListarClientes
-                            {
-                                identificacion = usuario.Identificacion,
-                                NombreCompleto = usuario.NombreCompleto,
-                                CorreoElectronico = usuario.CorreoElectronico,
-                                Rol = usuario.IdRol,
-                                Estado = usuario.Estado
-                            });
-                        }
-                    }
-                }
-                
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return Ok(res);
-        }
-
         [HttpGet]
         [Authorize]
         [Route("DetallesCliente")]
@@ -438,7 +366,8 @@ namespace BigSolutionsApi.Controllers
             try
             {
 
-                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+                using (var context =
+                       new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
                 {
                     // Abre la conexión
                     await context.OpenAsync();
@@ -446,7 +375,8 @@ namespace BigSolutionsApi.Controllers
                     var parameters = new { identificacion = identificacion };
 
                     // Llama al procedimiento almacenado pasando el parámetro
-                    var result = await context.QueryAsync<DetallesCliente>("SP_Detalles_Cliente", parameters, commandType: CommandType.StoredProcedure);
+                    var result = await context.QueryAsync<DetallesCliente>("SP_Detalles_Cliente", parameters,
+                        commandType: CommandType.StoredProcedure);
 
                     // Procesa los resultados
                     if (result != null && result.Any())
@@ -465,12 +395,13 @@ namespace BigSolutionsApi.Controllers
                         }
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
 
             }
+
             return Ok(detallesCliente);
         }
 
@@ -483,10 +414,12 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta res = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 // Obtener la lista de usuarios usando el procedimiento almacenado
-                var result = await context.QueryAsync<Usuario>("ObtenerListaUsuarios", commandType: CommandType.StoredProcedure);
+                var result =
+                    await context.QueryAsync<Usuario>("ObtenerListaUsuarios", commandType: CommandType.StoredProcedure);
 
                 if (result.Count() > 0)
                 {
@@ -512,9 +445,11 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta resp = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
-                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuarioPorId", new { UsuarioId }, commandType: CommandType.StoredProcedure);
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuarioPorId", new { UsuarioId },
+                    commandType: CommandType.StoredProcedure);
 
                 if (result != null)
                 {
@@ -532,6 +467,7 @@ namespace BigSolutionsApi.Controllers
                 }
             }
         }
+
         [HttpPut]
         [Authorize]
         [Route("EditarUsuario")]
@@ -539,7 +475,8 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta resp = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            using (var context =
+                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
             {
                 var result = await context.ExecuteAsync("EditarUsuario", new
                 {
@@ -578,27 +515,59 @@ namespace BigSolutionsApi.Controllers
         [Route("EliminarUsuario")]
         public async Task<IActionResult> EliminarUsuario(long Id)
         {
-            Respuesta resp = new Respuesta();
+            var resp = new Respuesta();
 
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            try
             {
-                var result = await context.ExecuteAsync("EliminarUsuario", new { Id }, commandType: CommandType.StoredProcedure);
-
-                if (result > 0)
+                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
                 {
-                    resp.Codigo = 1;
-                    resp.Mensaje = "OK";
-                    resp.Contenido = result;
-                    return Ok(resp);
+                    // Ejecuta tu SP de eliminación
+                    var result = await context.ExecuteAsync(
+                        "EliminarUsuario",
+                        new { Id },
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    if (result > 0)
+                    {
+                        // Eliminación exitosa
+                        resp.Codigo = 1;
+                        resp.Mensaje = "OK";
+                        resp.Contenido = result;
+                    }
+                    else
+                    {
+                        
+                        resp.Codigo = 0;
+                        resp.Mensaje = "No se pudo eliminar el usuario. Se recomienda inactivar.";
+                        resp.Contenido = false;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Número 547 es típico de violación de FK en SQL Server.
+                if (ex.Number == 547)
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "El usuario tiene datos asociados. Se recomienda inactivar.";
+                    resp.Contenido = false;
                 }
                 else
                 {
                     resp.Codigo = 0;
-                    resp.Mensaje = "Eror al eliminar el usuario";
+                    resp.Mensaje = "Error SQL al eliminar el usuario: " + ex.Message;
                     resp.Contenido = false;
-                    return Ok(resp);
                 }
             }
+            catch (Exception ex)
+            {
+                // Cualquier otro tipo de excepción
+                resp.Codigo = 0;
+                resp.Mensaje = "Error general al eliminar el usuario: " + ex.Message;
+                resp.Contenido = false;
+            }
+            return Ok(resp);
         }
 
         [HttpPut]

@@ -19,6 +19,8 @@ namespace BigSolutionsWeb.Models.Interfaces
 
         //Admin
         Respuesta ConsultarOrdenesAdmin();
+
+        Respuesta ConsultarOrdenesClienteAdmin(string Identificacion);
         Respuesta CargarCrearOrdenAdmin();
         Task<Respuesta> CrearOrdenAdmin(CrearOrdenAdminDTO CrearOrdenAdminDTO);
         Task<Respuesta> ActualizarRutasArchivos(ActualizarRutasDTO ActualizarRutasDTO);

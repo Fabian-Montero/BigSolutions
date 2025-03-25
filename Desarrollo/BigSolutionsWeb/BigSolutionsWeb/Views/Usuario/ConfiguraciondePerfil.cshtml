@@ -73,10 +73,10 @@
                         <div class="d-flex  justify-content-between mt-4">
                             @* <button type="submit" class="botones" onclick="submitForm()">Guardar Cambios</button> *@
                             <button type="button" class="botones" onclick="submitForm()">Guardar Cambios</button>
-                            <a class="botones-eliminar btn-EliminarPerfilUsuario"
-                               href="@(Url.Action("EliminarPerfilUsuario", "Usuario", new { UsuarioId = Model.UsuarioId }))">
-                                Eliminar Perfil
-                            </a>
+                            <button type="button" class="botones-eliminar btn-EliminarPerfilUsuario"
+                                    data-id="@Model.UsuarioId">
+                                Inactivar Cuenta
+                            </button>
                         </div>
                     }
                 </div>
@@ -85,4 +85,64 @@
     </div>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/sweetalert.js"></script>
+
+<script>
+    $(document).ready(function() {
+
+        $('.btn-EliminarPerfilUsuario').on('click', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var userId = $this.data('id');
+
+            Swal.fire({
+                title: '¿Deseas inactivar tu cuenta?',
+                text: 'Si deseas eliminar todos tus datos, contacta a Big Solutions. ¿Deseas continuar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#c1952c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, inactivar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Llamada AJAX a tu acción que retorna JSON
+                    $.ajax({
+                        url: '/Usuario/EliminarPerfilUsuario?UsuarioId=' + userId,
+                        type: 'GET',
+                        success: function(response) {
+                            if (response.success) {
+                                // Si se inactivó correctamente
+                                Swal.fire({
+                                    title: '¡Cuenta Inactivada!',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonColor: '#c1952c',
+                                    confirmButtonText: 'Aceptar'
+                                }).then(() => {
+                                    
+                                    window.location.href = '@Url.Action("Salir", "Usuario")';
+                                });
+                            } else {
+                                // Error o datos asociados
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonColor: '#d33'
+                                });
+                            }
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un problema al intentar inactivar tu cuenta.',
+                                icon: 'error',
+                                confirmButtonColor: '#d33'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

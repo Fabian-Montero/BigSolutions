@@ -3,6 +3,7 @@ using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
 using Rotativa.AspNetCore;
 using System.Text.Json;
+using BigSolutionsWeb.Models.Binders;
 using DotNetEnv;
 using DotNetEnv.Configuration;
 
@@ -82,6 +83,10 @@ builder.Services.AddSession(options =>
 // Configura los servicios para los controladores y las vistas en la aplicación, para que así no pueda retroceder al de Inicio Sesión
 builder.Services.AddControllersWithViews(options =>
 {
+    
+    // Trimming string values 
+    options.ModelBinderProviders.Insert(0, new TrimmingModelBinderProvider());
+    
     // Agrega el filtro global NoVolverAlLoginFiltro a todas las acciones
     // Este filtro se ejecutará antes de que se ejecute cualquier acción en los controladores
     // y garantiza que el usuario no pueda regresar a la página de inicio de sesión

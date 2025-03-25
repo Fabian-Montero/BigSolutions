@@ -14,7 +14,6 @@
                             <img src="~/page/images/bigsolutions-logo.jpg" alt="logo">
                         </div>
                         <h4>Registro</h4>
-                        @* Alertas *@
                         @if (ViewBag.msj != null)
                         {
                             <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
@@ -64,71 +63,5 @@
 </div>
 
 <script>
-    /*
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('registration-form');
-        const alertContainer = document.getElementById('alert-container');
-
-        form.addEventListener('submit', function (event) {
-            let isValid = true;
-            alertContainer.innerHTML = ''; // Limpiar alertas anteriores
-
-            // Validar Nombre Completo
-            const fullName = document.getElementById('fullName').value.trim();
-            if (!fullName) {
-                isValid = false;
-                showAlert('Nombre completo es obligatorio.');
-            }
-
-            // Validar Cédula
-            const cedula = document.getElementById('cedula').value.trim();
-            if (!cedula) {
-                isValid = false;
-                showAlert('Cédula es obligatoria.');
-            }
-
-            // Validar Número de Teléfono
-            const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            if (!phoneNumber) {
-                isValid = false;
-                showAlert('Número de teléfono es obligatorio.');
-            }
-
-            // Validar Correo
-            const email = document.getElementById('email').value.trim();
-            if (!email) {
-                isValid = false;
-                showAlert('Correo es obligatorio.');
-            }
-
-            // Validar Dirección
-            const address = document.getElementById('address').value.trim();
-            if (!address) {
-                isValid = false;
-                showAlert('Dirección exacta es obligatoria.');
-            }
-
-            // Validar Contraseña
-            const password = document.getElementById('password').value.trim();
-            const passwordPattern = /^(?=.*[A-Z]).{8,}$/;
-            if (!passwordPattern.test(password)) {
-                isValid = false;
-                showAlert('La contraseña debe tener al menos 8 caracteres y una mayúscula.');
-            }
-
-            if (!isValid) {
-                event.preventDefault(); // Evitar el envío del formulario
-            }
-        });
-
-        function showAlert(message) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-warning';
-            alertDiv.style.textAlign = 'center';
-            alertDiv.role = 'alert';
-            alertDiv.innerText = message;
-            alertContainer.appendChild(alertDiv);
-        }
-    });
-    */
+    
 </script>

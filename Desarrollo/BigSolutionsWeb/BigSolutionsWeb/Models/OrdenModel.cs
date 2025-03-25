@@ -128,6 +128,24 @@ namespace BigSolutionsWeb.Models
             }
         }
 
+        public Respuesta ConsultarOrdenesClienteAdmin(string Identificacion)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Orden/ConsultarOrdenesClienteAdmin?Identificacion=" + Identificacion;
+                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var res = httpClient.GetAsync(url).Result;
+
+                if (res.IsSuccessStatusCode)
+                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
         public Respuesta CargarCrearOrdenAdmin()
         {
             using (httpClient)
@@ -279,6 +297,5 @@ namespace BigSolutionsWeb.Models
                     return new Respuesta();
             }
         }
-
     }
 }
