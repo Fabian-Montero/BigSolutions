@@ -39,7 +39,7 @@
                         <strong>Orden de Compra:</strong>
                         @if (!string.IsNullOrEmpty(Model.Orden.RutaOrdenCompra))
                         {
-                            <a href="@Model.Orden.RutaOrdenCompra" target="_blank">Ver Archivo</a>
+                            <a href="@Model.Orden.RutaOrdenCompra" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Archivo</a>
                         }
                         else
                         {
@@ -50,7 +50,7 @@
                         <strong>Cotización:</strong>
                         @if (!string.IsNullOrEmpty(Model.Cotizacion.RutaCotizacion))
                         {
-                            <a href="@Model.Cotizacion.RutaCotizacion" target="_blank">Ver Archivo</a>
+                            <a href="@Model.Cotizacion.RutaCotizacion" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Archivo</a>
                         }
                         else
                         {
@@ -61,7 +61,7 @@
                         <strong>Factura Venta:</strong>
                         @if (!string.IsNullOrEmpty(Model.Orden.RutaFacturaVenta))
                         {
-                            <a href="@Model.Orden.RutaFacturaVenta" target="_blank">Ver Archivo</a>
+                            <a href="@Model.Orden.RutaFacturaVenta" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Archivo</a>
                             <p><strong>Número de Factura:</strong> @Model.Orden.NumFacturaVenta</p>
                         }
                         else

@@ -6,31 +6,9 @@ using System.Net.Http.Headers;
 
 namespace BigSolutionsWeb.Models
 {
-    public class UsuarioModel(IConfiguration iConfiguration, HttpClient httpClient, IHttpContextAccessor iAccesor) : IUsuarioModel
+    public class UsuarioModel(IConfiguration iConfiguration, HttpClient httpClient, IHttpContextAccessor iAccesor)
+        : IUsuarioModel
     {
-        
-        public Respuesta TestEndPoint()
-        {
-            using (httpClient)
-            {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/TestEndPoint";
-                //string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
-                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                var res = httpClient.GetAsync(url).Result;
-
-                if (res.IsSuccessStatusCode)
-                {
-                    return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
-                }
-                else
-                {
-                    return new Respuesta();
-                }
-            }
-        }
-        
-        
         public Respuesta Registro(Usuario ent)
         {
             using (httpClient)
@@ -74,7 +52,8 @@ namespace BigSolutionsWeb.Models
         }
 
 
-        public Respuesta Recuperar(Usuario ent) {
+        public Respuesta Recuperar(Usuario ent)
+        {
 
             using (httpClient)
             {
@@ -88,7 +67,6 @@ namespace BigSolutionsWeb.Models
                     return res.Content.ReadFromJsonAsync<Respuesta>().Result!;
                 else
                     return new Respuesta();
-                
             }
         }
 
@@ -112,7 +90,8 @@ namespace BigSolutionsWeb.Models
 
         public Respuesta? ConsultarUsuarioPerfil(long idusuario)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuarioPerfil?idusuario=" + idusuario;
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value +
+                         "Usuario/ConsultarUsuarioPerfil?idusuario=" + idusuario;
             string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -143,11 +122,13 @@ namespace BigSolutionsWeb.Models
                     return new Respuesta();
             }
         }
+
         public Respuesta EliminarPerfilUsuario(long UsuarioId)
         {
             using (httpClient)
             {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EliminarPerfilUsuario?UsuarioId=" + UsuarioId;
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value +
+                             "Usuario/EliminarPerfilUsuario?UsuarioId=" + UsuarioId;
                 string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -183,55 +164,13 @@ namespace BigSolutionsWeb.Models
             }
         }
 
-        public List<Cliente> BuscarClientes(string parametroBusqueda)
-        {
-            using (httpClient)
-            {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/BuscarCliente?ParametroBusqueda=" + parametroBusqueda;
-                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
-
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                var res = httpClient.GetAsync(url).Result;
-
-                if (res.IsSuccessStatusCode)
-                {
-                    return res.Content.ReadFromJsonAsync<List<Cliente>>().Result!;
-                }
-                else
-                {
-                    return new List<Cliente>();
-                }
-            }
-        }
-
-        public string EliminarClientes(string identificacion)
-        {
-            using (httpClient)
-            {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EliminarCliente?identificacion=" + identificacion;
-                string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
-
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                var res = httpClient.DeleteAsync(url).Result;
-
-                if (res.IsSuccessStatusCode)
-                {
-                    return res.Content.ReadAsStringAsync().Result;
-                }
-                else
-                {
-                    return "Error al establecer conexion con el api, Eliminar el cliente ";
-                }
-            }
-        }
 
         public DetallesCliente DetallesClientes(string identificacion)
         {
             using (httpClient)
             {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/DetallesCliente?identificacion=" + identificacion;
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value +
+                             "Usuario/DetallesCliente?identificacion=" + identificacion;
                 string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -246,8 +185,6 @@ namespace BigSolutionsWeb.Models
                 {
                     return null;
                 }
-
-
             }
         }
 
@@ -278,7 +215,8 @@ namespace BigSolutionsWeb.Models
         {
             using (httpClient)
             {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuarioPorId?UsuarioId=" + UsuarioId;
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value +
+                             "Usuario/ConsultarUsuarioPorId?UsuarioId=" + UsuarioId;
                 string token = iAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

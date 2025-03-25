@@ -15,7 +15,7 @@ namespace BigSolutionsApi.Controllers
     public class OrdenController(IConfiguration iConfiguration) : ControllerBase
     {
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("CargarCrearOrdenCliente")]
         public async Task<IActionResult> CargarCrearOrdenCliente(long IdUsuario)
         {
@@ -61,7 +61,7 @@ namespace BigSolutionsApi.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("CrearOrdenCliente")]
         public async Task<IActionResult> CrearOrdenCliente(CrearOrdenClienteDTO CrearOrdenClienteDTO)
@@ -338,9 +338,50 @@ namespace BigSolutionsApi.Controllers
                 return StatusCode(500, resp);
             }
         }
+        
+        [HttpGet]
+        [Route("ConsultarOrdenesClienteAdmin")]
+        public async Task<IActionResult> ConsultarOrdenesClienteAdmin(long Identificacion)
+        {
+            Respuesta resp = new Respuesta();
+
+            try
+            {
+                using (var connection = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+                {
+                    var ordenes = await connection.QueryAsync<Orden>(
+                        "ConsultarOrdenesClienteAdmin",
+                        new {Identificacion},
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    if (ordenes.Count() > 0)
+                    {
+                        resp.Codigo = 1;
+                        resp.Mensaje = "Órdenes consultadas correctamente.";
+                        resp.Contenido = ordenes;
+                        return Ok(resp);
+                    }
+                    else
+                    {
+                        resp.Codigo = 0;
+                        resp.Mensaje = "No se encontraron órdenes del cliente.";
+                        resp.Contenido = null;
+                        return Ok(resp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                resp.Codigo = -1;
+                resp.Mensaje = $"Error al consultar las órdenes: {ex.Message}";
+                resp.Contenido = null;
+                return StatusCode(500, resp);
+            }
+        }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("CargarCrearOrdenAdmin")]
         public async Task<IActionResult> CargarCrearOrdenAdmin()
         {

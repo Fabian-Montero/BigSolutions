@@ -42,7 +42,7 @@
                             <input style="margin-bottom: 5px;" type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file">
                             @if (!string.IsNullOrEmpty(Model.RutaOrdenCompra))
                             {
-                                <a href="@Model.RutaOrdenCompra" target="_blank">Ver Orden de Compra Actual</a>
+                                <a href="@Model.RutaOrdenCompra" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Orden de Compra Actual</a>
                             }
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                                 <label style="margin-top: 5px;" for="numFacturaVenta">Número de Factura</label>
                                 <input style="margin-bottom: 5px;" type="text" id="numFacturaVenta" name="NumFacturaVenta" class="form-control" value="@Model.NumFacturaVenta"  placeholder="Ingrese el número de factura">
 
-                                <a href="@Model.RutaFacturaVenta" target="_blank">Ver Factura Venta Actual</a>
+                                <a href="@Model.RutaFacturaVenta" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Factura Venta Actual</a>
                             }
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                             <input style="margin-bottom: 5px;" type="file" id="boletaEntregaArchivo" name="BoletaEntregaArchivo" class="form-control-file">
                             @if (!string.IsNullOrEmpty(Model.RutaBoletaEntrega))
                             {
-                                <a href="@Model.RutaBoletaEntrega" target="_blank">Ver Boleta Actual</a>
+                                <a href="@Model.RutaBoletaEntrega" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Boleta Actual</a>
                             }
                         </div>
                     </div>
@@ -294,7 +294,7 @@
             formData.append('EstadoInternoOrden', estadoInternoOrden);
             formData.append('DescripcionInterna', descripcionInterna);
             formData.append('ComprobantePago.DescripcionComprobante', descripcionComprobante);
-            const numFacturaVenta = $('#numFacturaVenta').val().trim();
+            const numFacturaVenta = $('#numFacturaVenta').val()?.trim || '';
             if (numFacturaVenta) {
                 formData.append('NumFacturaVenta', numFacturaVenta);
             }

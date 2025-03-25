@@ -204,6 +204,23 @@ namespace BigSolutionsWeb.Controllers
                 return View(new List<Orden>());
             }
         }
+        
+        public IActionResult ConsultarOrdenesClienteAdmin(string Identificacion)
+        {
+            var resp = iOrdenModel.ConsultarOrdenesClienteAdmin(Identificacion);
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<List<Orden>>((JsonElement)resp.Contenido!);
+                return View(datos);
+            }
+
+            else
+            {
+                ViewBag.MsjPantalla = resp.Mensaje;
+                return View(new List<Orden>());
+            }
+        }
 
         [FiltroAdmin]
         [FiltroSesiones]
@@ -436,17 +453,6 @@ namespace BigSolutionsWeb.Controllers
                 ViewBag.MsjPantalla = resp.Mensaje;
                 return View(new ConsultarVistaOrdenDTO());
             }
-        }
-        
-        
-        public IActionResult EditarOrdenPendienteCliente()
-        {
-            return View();
-        }
-
-        public IActionResult ConsultarOrdenesPendientesClientes()
-        {
-            return View();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<BigSolutionsWeb.Entidades.Orden>
+@using BigSolutionsWeb.Entidades
 @using BigSolutionsWeb.Enums;
 
 @{
@@ -9,7 +10,7 @@
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
         <h1>Órdenes</h1>
-        <p>Aquí puedes ver todas las órdenes de tus clientes.</p>
+        <p>Aquí puedes ver todas las órdenes del cliente</p>
     </div>
 
     <div class="card">
@@ -51,7 +52,7 @@
                                 <td style="text-align:left">
                                     @if (!string.IsNullOrEmpty(orden.RutaOrdenCompra))
                                     {
-                                        <a href="@orden.RutaOrdenCompra" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Orden de Compra</a>
+                                        <a href="@orden.RutaOrdenCompra" target="_blank" style="color: black; text-decoration: underline; cursor: pointer;">Orden de Compra</a>
                                     }
                                     else
                                     {

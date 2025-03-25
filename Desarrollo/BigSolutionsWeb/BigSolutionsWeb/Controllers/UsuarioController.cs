@@ -1,14 +1,7 @@
 ﻿using BigSolutionsWeb.Entidades;
-using BigSolutionsWeb.Models;
 using BigSolutionsWeb.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Net.Http;
 using System.Text.Json;
 
 namespace BigSolutionsWeb.Controllers
@@ -29,15 +22,10 @@ namespace BigSolutionsWeb.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario ent)
         {
-
-            //validar contraseña
-
             if (iComunesModel.ValidarContrasenna(ent.Contrasenna))
             {
                 ent.Contrasenna = iComunesModel.Encrypt(ent.Contrasenna!);
-
                 var res = iUsuarioModel.Registro(ent);
-
                 if (res.Codigo == 1)
                 {
                     return RedirectToAction("InicioSesion", "Usuario");
@@ -58,26 +46,16 @@ namespace BigSolutionsWeb.Controllers
         [HttpGet]
         public IActionResult InicioSesion()
         {
-            var resp = iUsuarioModel.TestEndPoint();
-            if (resp.Codigo == 1)
-            {
-                var datos = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)resp.Contenido!);
-
-                Console.WriteLine("Test Endpoint users: ");
-                datos.ForEach(dato => Console.WriteLine(dato.NombreCompleto));
-            }
             return View();
         }
 
         [HttpPost]
         public IActionResult InicioSesion(Usuario ent)
         {
-
             ent.Contrasenna = iComunesModel.Encrypt(ent.Contrasenna!);
             var res = iUsuarioModel.InicioSesion(ent);
             if (res.Codigo == 1)
             {
-
                 var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)res.Contenido!);
                 HttpContext.Session.SetString("TOKEN", datos!.Token!);
                 HttpContext.Session.SetString("NOMBRE", datos!.NombreCompleto!);
@@ -171,15 +149,14 @@ namespace BigSolutionsWeb.Controllers
         {
 
             var resp = iUsuarioModel.EliminarPerfilUsuario(UsuarioId);
-
+            
             if (resp.Codigo == 1)
             {
-                return RedirectToAction("InicioSesion", "Usuario");
+                return Json(new { success = true, message = "Tu cuenta ha sido inactivada correctamente." });
             }
             else
             {
-                ViewBag.MsjPantalla = resp.Mensaje;
-                return RedirectToAction("ConfiguraciondePerfil", "Usuario");
+                return Json(new { success = false, message = resp.Mensaje });
             }
 
         }
@@ -240,17 +217,12 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
-        public IActionResult ConsultarUsuariosPrueba()
+        [FiltroSesiones]
+        [FiltroAdmin]
+        public IActionResult EditarUsuario()
         {
             return View();
         }
-
-        //[FiltroSesiones]
-        //[FiltroAdmin]
-        //public IActionResult EditarUsuario()
-        //{
-        //    return View();
-        //}
 
         [AutorizacionFiltro]
         [FiltroSesiones]
@@ -268,16 +240,7 @@ namespace BigSolutionsWeb.Controllers
             // Retornar la vista con la lista de clientes
             return View(ListCliente);
         }
-
-        [AutorizacionFiltro]
-        [FiltroSesiones]
-        [FiltroAdmin]
-        public IActionResult EliminarClientes(string id)
-        {
-            mensaje = iUsuarioModel.EliminarClientes(id);
-           
-            return RedirectToAction("ConsultarClientes");
-        }
+        
 
         [AutorizacionFiltro]
         [FiltroSesiones]
@@ -288,47 +251,7 @@ namespace BigSolutionsWeb.Controllers
 
             return View(detalleCLiente);
         }
-
-        [AutorizacionFiltro]
-        [FiltroSesiones]
-        [FiltroAdmin]
-        public IActionResult BuscarClientes(string ParametroBusqueda)
-        {
-            List<Cliente> ListCliente = new List<Cliente>();
-
-            //si el campo de busqueda tiene datos cargue la busqueda
-            if (ParametroBusqueda != null)
-            {
-                // Obtener la lista de clientes con el parámetro de búsqueda
-                ListCliente = iUsuarioModel.BuscarClientes(ParametroBusqueda);
-            }
-            else { //Si el campo de busqueda esta vacio, cargue toda la informacion del cliente 
-                 ListCliente = iUsuarioModel.ListarClientes();
-            }
-
-            ViewBag.Aviso = mensaje;
-            mensaje = null;
-
-            // Retornar la vista completa
-            return View("ConsultarClientes", ListCliente);
-        }
-
-        [AutorizacionFiltro]
-        [FiltroSesiones]
-        [FiltroAdmin]
-        public IActionResult EditarClientes()
-        {
-            return View();
-        }
-
-        [AutorizacionFiltro]
-        [FiltroSesiones]
-        [FiltroAdmin]
-        public IActionResult OrdenesPorCliente(string id)
-        {
-            return View();
-        }
-
+        
         //A
         [AutorizacionFiltro]
         [FiltroSesiones]
@@ -402,19 +325,16 @@ namespace BigSolutionsWeb.Controllers
         [HttpGet]
         public IActionResult EliminarUsuario(long id)
         {
-
             var resp = iUsuarioModel.EliminarUsuario(id);
             
             if (resp.Codigo == 1)
             {
-                return RedirectToAction("ConsultarUsuarios", "Usuario");
+                return Json(new { success = true, message = "El usuario ha sido eliminado correctamente." });
             }
             else
             {
-                ViewBag.msj = resp.Mensaje;
-                return RedirectToAction("ConsultarUsuarios", "Usuario");
+                return Json(new { success = false, message = "Error al eliminar el usuario: " + resp.Mensaje });
             }
-
         }
 
         [AutorizacionFiltro]
