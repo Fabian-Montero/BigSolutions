@@ -8,8 +8,6 @@ namespace BigSolutionsWeb.Models
 {
     public class OrdenModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iAccesor) : IOrdenModel
     {
-        
-
         public Respuesta CargarCrearOrdenCliente(long IdUsuario)
         {
             using (httpClient)

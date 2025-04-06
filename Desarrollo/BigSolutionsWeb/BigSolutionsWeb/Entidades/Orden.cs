@@ -20,6 +20,8 @@ namespace BigSolutionsWeb.Entidades
         public EstadoInternoOrden? EstadoInterno { get; set; }
         public string? DescripcionInterna { get; set; }
         public string? NombreUsuario { get; set; }
+        public Moneda? Moneda { get; set; }
+
     }
 
 
