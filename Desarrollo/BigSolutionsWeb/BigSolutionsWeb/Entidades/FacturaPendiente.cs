@@ -1,4 +1,6 @@
-﻿namespace BigSolutionsWeb.Entidades
+﻿using BigSolutionsWeb.Enums;
+
+namespace BigSolutionsWeb.Entidades
 {
     public class FacturaPendiente
     {
@@ -8,5 +10,7 @@
         public decimal ImpuestoIVA { get; set; }
         public decimal Total { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public string? NombreCompleto { get; set; }
+        public Moneda? Moneda { get; set; }
     }
 }

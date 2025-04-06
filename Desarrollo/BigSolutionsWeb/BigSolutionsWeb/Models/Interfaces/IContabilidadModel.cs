@@ -19,5 +19,16 @@ namespace BigSolutionsWeb.Models.Interfaces
         Respuesta CargarAgregarComprobantes();
         Respuesta AgregarComprobante(CrearComprobanteDTO Comprobante);
         Respuesta EliminarComprobante(long IdOrdenDetalleComprobantes);
+        
+        //Facturas pendientes
+        
+        Respuesta ConsultarFacturasPendientes();
+        
+        Respuesta CargarAgregarFacturasPendientes();
+        Respuesta AgregarFacturaPendiente(CrearFacturaPendienteDTO FacturaPendiente);
+        Respuesta ConsultarFacturaPendiente(long IdFacturaPendiente);
+        Respuesta ActualizarFacturaPendiente(CrearFacturaPendienteDTO FacturaPendiente);
+        
+        Respuesta EliminarFacturaPendiente(long IdFacturaPendiente);
     }
 }

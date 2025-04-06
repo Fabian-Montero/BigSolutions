@@ -1,11 +1,10 @@
-﻿﻿@{
-    ViewData["Title"] = "Consultar Inventario";
+﻿@using BigSolutionsWeb.Enums
+@model IEnumerable<BigSolutionsWeb.Entidades.FacturaPendiente>
+
+@{
+    ViewData["Title"] = "Consultar Facturas Pendientes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<link href="~/css/hojaestilos.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="text-center mb-4">
@@ -16,94 +15,126 @@
     <br />
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de facturas pendientes</h3>
-            <a class="botones-secundarios" href="@Url.Action("AgregarFacturasPendientes", "Contabilidad")"> + Agregar</a>
+            <h3 class="mb-0">Lista de Facturas Pendientes</h3>
+            <a class="botones-secundarios" href="@Url.Action("AgregarFacturasPendientes", "Contabilidad")">+ Agregar</a>
         </div>
         <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
             <table id="tabla-Inventario" class="table table-hover">
                 <thead>
-                    <tr>
-                        <th style="text-align:left">Número de Orden</th>
-                        <th style="text-align:left">Cliente</th>
-                        <th style="text-align:left">Subtotal</th>
-                        <th style="text-align:left">Impuesto IVA</th>
-                        <th style="text-align:left">Total</th>
-                        <th style="text-align:left">Fecha</th>
-                        <th style="text-align:left">Acciones</th>
-                    </tr>
+                <tr>
+                    <th style="text-align:left">Número de Orden</th>
+                    <th style="text-align:left">Cliente</th>
+                    <th style="text-align:left">Subtotal</th>
+                    <th style="text-align:left">Impuesto IVA</th>
+                    <th style="text-align:left">Total</th>
+                    <th style="text-align:left">Moneda</th>
+                    <th style="text-align:left">Fecha</th>
+                    <th style="text-align:left">Acciones</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>004</td>
-                        <td>Juan Pérez Barquero</td>
-                        <td>₡ 20 000</td>
-                        <td>₡ 20 000</td>
-                        <td>₡ 20 000</td>
-                        <td style="text-align:left">@DateTime.Now</td>
-                        <td style="text-align:center">
-                            <a class="botones-editar" href="@Url.Action("EditarFacturasPendientes", "Contabilidad")"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
-                            <a class="botones-eliminar eliminar-producto" href="#" data-id="1"><i class="fas fa-trash-alt"></i>&nbsp;Eliminar</a>
-                        </td>
-                    </tr>
+                @if(Model != null && Model.Any())
+                {
+                    foreach(var factura in Model)
+                    {
+                        var currencySymbol = "";
+                        var monedaText = "";
+                        if(factura.Moneda.HasValue)
+                        {
+                            if(factura.Moneda.Value == Moneda.Colones)
+                            {
+                                currencySymbol = "₡";
+                                monedaText = "Colones";
+                            }
+                            else if(factura.Moneda.Value == Moneda.Dólares)
+                            {
+                                currencySymbol = "$";
+                                monedaText = "Dólares";
+                            }
+                        }
+                        <tr>
+                            <td style="text-align:left">@factura.IdOrden</td>
+                            <td style="text-align:left">@factura.NombreCompleto</td>
+                            <td style="text-align:left">@($"{currencySymbol} {factura.SubTotal.ToString("N2")}")</td>
+                            <td style="text-align:left">@($"{currencySymbol} {factura.ImpuestoIVA.ToString("N2")}")</td>
+                            <td style="text-align:left">@($"{currencySymbol} {factura.Total.ToString("N2")}")</td>
+                            <td style="text-align:left">@monedaText</td>
+                            <td style="text-align:left">@factura.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td style="text-align:center">
+                                <a class="botones-editar" href="@Url.Action("EditarFacturasPendientes", "Contabilidad", new { id = factura.IdFacturaPendiente })">
+                                    <i class="fas fa-pencil-alt"></i>&nbsp;Editar
+                                </a>
+                                <a class="botones-eliminar eliminar-producto" href="#" data-id="@factura.IdFacturaPendiente">
+                                    <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del producto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Producto Ampliado">
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script>
     $(document).ready(function () {
         var table = new DataTable("#tabla-Inventario", {
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
-            columnDefs: [{ type: 'string', target: [0, 2] }]
+            columnDefs: [{ type: 'string', targets: [0, 2] }]
         });
 
-        //Alerta de eliminación
+        // Confirmación de eliminación
         $('.eliminar-producto').on('click', function (e) {
             e.preventDefault();
-            var productId = $(this).data('id');
+            var idFacturaPendiente = $(this).data('id');
+
             Swal.fire({
-                title: '¿Está seguro que deseas eliminar esta factura?',
-                text: "No podrá revertir esto",
+                title: '¿Está seguro que desea eliminar esta factura pendiente?',
+                text: "Esta acción no se puede deshacer.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#c1952c',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, eliminarla',
-                customClass: {
-                    popup: 'my-swal-popup'
-                }
+                cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Eliminada',
-                        text: 'La factura ha sido eliminada',
-                        icon: 'success',
-                        confirmButtonColor: '#c1952c',
-                        customClass: {
-                            popup: 'my-swal-popup'
+                    // Enviar solicitud al servidor
+                    $.ajax({
+                        url: `/Contabilidad/EliminarFacturaPendiente?IdFacturaPendiente=${idFacturaPendiente}`,
+                        type: 'GET',
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'Eliminada',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonColor: '#c1952c'
+                                }).then(() => {
+                                    // Recargar la página
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonColor: '#d33'
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un problema al intentar eliminar la factura pendiente.',
+                                icon: 'error',
+                                confirmButtonColor: '#d33'
+                            });
                         }
-                    }).then(() => {
                     });
                 }
             });

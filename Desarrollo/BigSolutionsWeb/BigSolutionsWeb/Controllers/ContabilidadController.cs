@@ -12,6 +12,7 @@ namespace BigSolutionsWeb.Controllers
     {
         //Facturas Venta
 
+        [FiltroSesiones]
         [FiltroAdmin]
         [HttpGet]
         public IActionResult ConsultarFacturasVenta()
@@ -30,6 +31,7 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
         [FiltroAdmin]
         [HttpGet]
         public IActionResult AgregarFacturasVenta()
@@ -48,6 +50,7 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
         [FiltroAdmin]
         [HttpPost]
         public async Task<IActionResult> AgregarFacturasVenta(CrearFacturaDTO Factura)
@@ -114,6 +117,9 @@ namespace BigSolutionsWeb.Controllers
         }
 
         //Comprobantes de Pago
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
         public IActionResult ConsultarComprobantesDePago()
         {
             var resp = iContabilidadModel.ConsultarComprobantes();
@@ -126,10 +132,11 @@ namespace BigSolutionsWeb.Controllers
             else
             {
                 ViewBag.ErrorMessage = "No se pudieron cargar los comprobantes.";
-                return View(new List<FacturaDTO>());
+                return View(new List<ComprobantePago>());
             }
         }
 
+        [FiltroSesiones]
         [FiltroAdmin]
         [HttpGet]
         public IActionResult AgregarComprobantesDePago()
@@ -148,6 +155,7 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        [FiltroSesiones]
         [FiltroAdmin]
         [HttpPost]
         public async Task<IActionResult> AgregarComprobantesDePago(CrearComprobanteDTO Comprobante)
@@ -212,20 +220,150 @@ namespace BigSolutionsWeb.Controllers
                 return Json(new { success = false, message = "Error al eliminar el comprobante: " + resp.Mensaje });
             }
         }
-
-
+        
         //Facturas Pendientes
+        
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
         public IActionResult ConsultarFacturasPendientes()
         {
-            return View();
+            var resp = iContabilidadModel.ConsultarFacturasPendientes();
+
+            if (resp.Codigo == 1)
+            {
+                var comprobantes = ((JsonElement)resp.Contenido).Deserialize<List<FacturaPendiente>>();
+                return View(comprobantes);
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "No se pudieron cargar las facturas pendientes.";
+                return View(new List<FacturaPendiente>());
+            }
         }
+        
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
         public IActionResult AgregarFacturasPendientes()
         {
-            return View();
+            var resp = iContabilidadModel.CargarAgregarFacturasPendientes();
+
+            if (resp.Codigo == 1)
+            {
+                var facturaPendiente = ((JsonElement)resp.Contenido).Deserialize<CrearFacturaPendienteDTO>();
+                return View(facturaPendiente);
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "No se pudieron cargar las órdenes.";
+                return View(new CrearFacturaPendienteDTO());
+            }
         }
-        public IActionResult EditarFacturasPendientes()
+        
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpPost]
+        public async Task<IActionResult> AgregarFacturaPendiente(CrearFacturaPendienteDTO FacturaPendiente)
         {
-            return View();
+            try
+            {
+                if (FacturaPendiente == null 
+                    || FacturaPendiente.IdOrden == null 
+                    || FacturaPendiente.Subtotal == null 
+                    || FacturaPendiente.ImpuestoIVA == null 
+                    || FacturaPendiente.Total == null)
+                {
+                    return BadRequest("Todos los campos son obligatorios.");
+                }
+
+                // Guardar la factura pendiente en la base de datos
+                var resp = iContabilidadModel.AgregarFacturaPendiente(FacturaPendiente);
+
+                if (resp.Codigo == 1)
+                {
+                    return Ok("Factura pendiente registrada exitosamente.");
+                }
+                else
+                {
+                    return StatusCode(500, $"Error al registrar la factura pendiente: {resp.Mensaje}");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor");
+            }
+        }
+
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
+        public IActionResult EditarFacturasPendientes(long id)
+        {
+            var resp = iContabilidadModel.ConsultarFacturaPendiente(id);
+
+            if (resp.Codigo == 1)
+            {
+                var facturaPendiente = ((JsonElement)resp.Contenido).Deserialize<CrearFacturaPendienteDTO>();
+                return View(facturaPendiente);
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "No se pudo cargar la factura pendiente.";
+                return View(new CrearFacturaPendienteDTO());
+            }
+        }
+
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpPost]
+        public IActionResult EditarFacturaPendiente(CrearFacturaPendienteDTO FacturaPendiente)
+        {
+            try
+            {
+                if (FacturaPendiente == null
+                    || FacturaPendiente.IdFacturaPendiente <= 0
+                    || FacturaPendiente.IdOrden == null
+                    || FacturaPendiente.Subtotal == null
+                    || FacturaPendiente.ImpuestoIVA == null
+                    || FacturaPendiente.Total == null)
+                {
+                    return BadRequest("Todos los campos son obligatorios.");
+                }
+
+                // Actualizar la factura pendiente en la base de datos
+                var resp = iContabilidadModel.ActualizarFacturaPendiente(FacturaPendiente);
+
+                if (resp.Codigo == 1)
+                {
+                    return Ok("Factura pendiente actualizada exitosamente.");
+                }
+                else
+                {
+                    return StatusCode(500, $"Error al actualizar la factura pendiente: {resp.Mensaje}");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor");
+            }
+        }
+        
+        [FiltroSesiones]
+        [FiltroAdmin]
+        [HttpGet]
+        public JsonResult EliminarFacturaPendiente(long IdFacturaPendiente)
+        {
+            var resp = iContabilidadModel.EliminarFacturaPendiente(IdFacturaPendiente);
+    
+            if (resp.Codigo == 1)
+            {
+                return Json(new { success = true, message = "La factura pendiente ha sido eliminada correctamente." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Error al eliminar la factura pendiente: " + resp.Mensaje });
+            }
         }
     }
 }

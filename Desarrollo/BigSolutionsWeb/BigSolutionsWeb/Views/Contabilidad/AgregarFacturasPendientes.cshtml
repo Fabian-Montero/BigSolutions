@@ -1,181 +1,222 @@
-﻿@{
+﻿@using BigSolutionsWeb.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BigSolutionsWeb.DTOs.CrearFacturaPendienteDTO
+
+@{
     ViewData["Title"] = "Agregar Factura Pendiente";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="~/css/hojaestilos.css" rel="stylesheet" />
-
 <div class="container-fluid" style="margin-top: 50px;">
+    <!-- Encabezado -->
     <div class="text-center mb-4">
         <h1>Registrar Factura Pendiente</h1>
         <p>Llena el siguiente formulario para agregar una nueva factura pendiente.</p>
     </div>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-12">
-                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                    <div class="card-header">
-                        <h3 class="font-weight-extra-bold my-4">Formulario para registrar factura pendiente</h3>
-                        <!-- Alertas-->
-                        <div id="successAlert" class="alert alert-success alert-custom" role="alert">
-                            Factura pendiente agregada exitosamente
+    <!-- Card para seleccionar la orden -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Seleccionar Orden</h3>
+        </div>
+        <div class="card-body">
+            <table id="tabla-Ordenes" class="table table-hover">
+                <thead>
+                <tr>
+                    <th style="text-align:left">Seleccionar</th>
+                    <th style="text-align:left">Número de Orden</th>
+                    <th style="text-align:left">Cliente</th>
+                    <th style="text-align:left">Descripción de la Orden</th>
+                    <th style="text-align:left">Orden de Compra</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.Ordenes != null && Model.Ordenes.Any())
+                {
+                    foreach (var orden in Model.Ordenes)
+                    {
+                        <tr>
+                            <td style="text-align:left">
+                                <input type="radio" name="IdOrden"
+                                       value="@orden.IdOrden"
+                                       data-moneda="@orden.Moneda.GetDisplayName()" />
+                            </td>
+                            <td style="text-align:left">@orden.IdOrden</td>
+                            <td style="text-align:left">@orden.NombreUsuario</td>
+                            <td style="text-align:left">@orden.Descripcion</td>
+                            <td style="text-align:left">
+                                @if (!string.IsNullOrEmpty(orden.RutaOrdenCompra))
+                                {
+                                    <a href="@Url.Content(orden.RutaOrdenCompra)" target="_blank" class="botones">
+                                        Ver Orden de Compra
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span>No disponible</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No hay órdenes disponibles.</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Card para ingresar datos de la factura pendiente -->
+    <!-- Card para ingresar datos de la factura pendiente -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Datos de la Factura Pendiente</h3>
+        </div>
+        <div class="card-body">
+            <form id="agregarFacturaPendienteForm">
+                <div class="row">
+                    <!-- Subtotal con Input Group -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label id="lblSubtotal" for="subtotal">Subtotal</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="currencySymbolSubtotal"></span>
+                                <input type="number" id="subtotal" name="subtotal" class="form-control" placeholder="Ingrese el subtotal" required min="0" step="0.01">
+                            </div>
                         </div>
-                        <div id="warningAlert" class="alert alert-warning alert-custom" role="alert">
-                            Por favor, complete todos los campos antes de aceptar
-                        </div>
-                        <!-- Alertas-->
                     </div>
-                    <div class="card-body">
-                        <br />
-                        <div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <div>
-                                            <h3>Seleccione una orden</h3>
-                                            <hr>
-                                        </div>
-                                        <table id="tabla-Orden" class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align:left">Seleccionar</th>
-                                                    <th style="text-align:left">Número de Orden</th>
-                                                    <th style="text-align:left">Cliente</th>
-                                                    <th style="text-align:left">Descripción de la Orden</th>
-                                                    <th style="text-align:left">Orden de Compra</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="text-align:left">
-                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="001">
-                                                    </td>
-                                                    <td style="text-align:left">001</td>
-                                                    <td style="text-align:left">Juan Pérez Barquero</td>
-                                                    <td style="text-align:left">Descripción de la orden</td>
-                                                    <td style="text-align:left">
-                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:left">
-                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="002">
-                                                    </td>
-                                                    <td style="text-align:left">002</td>
-                                                    <td style="text-align:left">Juan Pérez Barquero</td>
-                                                    <td style="text-align:left">Descripción de la orden</td>
-                                                    <td style="text-align:left">
-                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:left">
-                                                        <input type="radio" name="selectBoceto" class="select-boceto" value="003">
-                                                    </td>
-                                                    <td style="text-align:left">003</td>
-                                                    <td style="text-align:left">Juan Pérez Barquero</td>
-                                                    <td style="text-align:left">Descripción de la orden</td>
-                                                    <td style="text-align:left">
-                                                        <a href="~/page/archivos/pdf-prueba.pdf" target="_blank">Orden de Compra</a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                    <!-- IVA con Input Group -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="impuestoIva">Impuesto IVA (13%)</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="currencySymbolIva"></span>
+                                <input type="number" id="impuestoIva" name="impuestoIva" class="form-control" placeholder="IVA" disabled step="0.01">
                             </div>
-                            <br />
-                            <br />
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <div>
-                                            <h3>Precio</h3>
-                                            <hr>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="subtotal">Subtotal</label>
-                                        <input type="number" id="subtotal" name="subtotal" class="form-control form-control-user" placeholder="Ingrese el monto" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="impuestoIva">Impuesto IVA</label>
-                                        <input type="number" id="impuestoIva" name="impuestoIva" class="form-control form-control-user" placeholder="Ingrese el monto" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="total">Total</label>
-                                        <input type="number" id="total" name="total" class="form-control form-control-user" placeholder="Ingrese el monto" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
                         </div>
-                        <div class="d-flex justify-content-center mt-4">
-                            <button type="button" class="botones" onclick="submitForm()">Aceptar</button>
-                        </div>
-                        <br />
                     </div>
-                    <div class="card-footer text-center py-3">
-                        <a href="@Url.Action("ConsultarFacturasPendientes", "Contabilidad")" class="inventario-link">Volver a facturas pendientes</a>
+                    <!-- Total con Input Group -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="total">Total</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="currencySymbolTotal"></span>
+                                <input type="number" id="total" name="total" class="form-control" placeholder="Total" disabled step="0.01">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <button id="crearFacturaPendienteButton" type="button" class="botones-secundarios" onclick="submitForm()">Aceptar</button>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3">
+            <a href="@Url.Action("ConsultarFacturasPendientes", "Contabilidad")" class="inventario-link">Volver a facturas pendientes</a>
         </div>
     </div>
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#tabla-Cliente').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            }
+        // Inicializar DataTable en la tabla de órdenes
+        $('#tabla-Ordenes').DataTable({
+            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']]
         });
-    });
-    $(document).ready(function () {
-        $('#tabla-Orden').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+
+        // Cuando se selecciona una orden, actualizar label, placeholder y símbolos de moneda
+        $('input[name="IdOrden"]').on('change', function () {
+            var monedaDisplay = $(this).data('moneda'); // Ejemplo: "Colones" o "Dólares"
+            var currencySymbol = "$"; // Valor por defecto
+            if (monedaDisplay) {
+                var monedaLower = monedaDisplay.toLowerCase();
+                if (monedaLower.indexOf("colon") >= 0) {
+                    currencySymbol = "₡";
+                } else if (monedaLower.indexOf("dólar") >= 0 || monedaLower.indexOf("dolar") >= 0) {
+                    currencySymbol = "$";
+                }
             }
+            $('#lblSubtotal').text("Subtotal (" + monedaDisplay + ")");
+            $('#subtotal').attr("placeholder", "Ingrese el subtotal en " + monedaDisplay);
+            $('#currencySymbolSubtotal').text(currencySymbol);
+            $('#currencySymbolIva').text(currencySymbol);
+            $('#currencySymbolTotal').text(currencySymbol);
         });
+
+        // Calcular IVA y Total en función del subtotal
+        $('#subtotal').on('input', function () {
+            var subtotalVal = parseFloat($(this).val()) || 0;
+            if (subtotalVal < 0) {
+                $(this).val(0);
+                subtotalVal = 0;
+            }
+            var iva = subtotalVal * 0.13;
+            var total = subtotalVal + iva;
+            $('#impuestoIva').val(iva.toFixed(2));
+            $('#total').val(total.toFixed(2));
+        });
+
+        // Función global submitForm para enviar la petición POST
+        window.submitForm = function () {
+            var idOrden = $('input[name="IdOrden"]:checked').val();
+            var subtotal = $('#subtotal').val().trim();
+            var impuestoIva = $('#impuestoIva').val().trim();
+            var total = $('#total').val().trim();
+
+            // Validar que se hayan seleccionado y completado los campos
+            if (!idOrden || subtotal === '' || impuestoIva === '' || total === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos incompletos',
+                    text: 'Por favor, complete todos los campos antes de aceptar.'
+                });
+                return;
+            }
+
+            // Armar FormData para la petición POST
+            var formData = new FormData();
+            formData.append('IdOrden', idOrden);
+            // Convertir a valores numéricos antes de adjuntarlos al FormData
+            formData.append('Subtotal', parseFloat(subtotal));
+            formData.append('ImpuestoIVA', parseFloat(impuestoIva));
+            formData.append('Total', parseFloat(total));
+
+            // Deshabilitar el botón para evitar múltiples envíos
+            var $button = $('#crearFacturaPendienteButton');
+            $button.prop('disabled', true).text('Creando Factura Pendiente...');
+
+            // Enviar la petición AJAX
+            $.ajax({
+                url: '/Contabilidad/AgregarFacturaPendiente',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Factura Pendiente Creada',
+                        text: 'La factura pendiente ha sido registrada exitosamente.',
+                        confirmButtonColor: '#c1952c',
+                        timer: 2000
+                    }).then(function () {
+                        window.location.href = '/Contabilidad/ConsultarFacturasPendientes';
+                    });
+                },
+                error: function (xhr) {
+                    $button.prop('disabled', false).text('Crear Factura Pendiente');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseText || 'Hubo un problema al registrar la factura pendiente.',
+                        confirmButtonColor: '#c1952c'
+                    });
+                }
+            });
+        };
     });
-
-    function submitForm() {
-        var seleccionOrden = document.querySelector('input[name="selectBoceto"]:checked');
-        var montoTotal = document.getElementById('montoTotal').value.trim();
-        var subtotal = document.getElementById('subtotal').value.trim();
-        var impuestoIva = document.getElementById('impuestoIva').value.trim();
-        var total = document.getElementById('total').value.trim();
-
-        var warningAlert = document.getElementById('warningAlert');
-        var successAlert = document.getElementById('successAlert');
-
-        warningAlert.classList.remove('show');
-        successAlert.classList.remove('show');
-
-        if (!seleccionOrden || montoTotal === '' || subtotal === '' || impuestoIva === '' || total === '') {
-            warningAlert.classList.add('show');
-            return;
-        }
-
-        successAlert.classList.add('show');
-
-        setTimeout(function () {
-            successAlert.classList.remove('show');
-            window.location.href = '@Url.Action("ConsultarFacturasPendientes", "Contabilidad")';
-        }, 2000);
-    }
 </script>
