@@ -39,7 +39,13 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-last-name">Cantidad</label>
-                                            @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", @placeholder = "Ingrese la cantidad", @required = "required", @type = "number" })
+                                            @Html.TextBoxFor(m => m.Cantidad, new {
+                                                @class = "form-control cantidad",
+                                                @placeholder = "Ingrese la cantidad",
+                                                @required = "required",
+                                                @type = "number",
+                                                @min = "1"
+                                            })
                                         </div>
                                     </div>
                                 </div>
@@ -47,19 +53,40 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Precio en Colones</label>
-                                            @Html.TextBoxFor(m => m.PrecioUnitarioColones, new { @class = "form-control", @placeholder = "Ingrese el precio en colones", @required = "required", @type = "number" })
+                                            @Html.TextBoxFor(m => m.PrecioUnitarioColones, new {
+                                                @class = "form-control precio-colones",
+                                                @placeholder = "Ingrese el precio en colones",
+                                                @required = "required",
+                                                @type = "number",
+                                                @min = "0",
+                                                @step = "0.01"
+                                            })
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Precio en Dólares</label>
-                                            @Html.TextBoxFor(m => m.PrecioUnitarioDolares, new { @class = "form-control", @placeholder = "Ingrese el precio en dólares", @required = "required", @type = "number" })
+                                            @Html.TextBoxFor(m => m.PrecioUnitarioDolares, new {
+                                                @class = "form-control precio-dolares",
+                                                @placeholder = "Ingrese el precio en dólares",
+                                                @required = "required",
+                                                @type = "number",
+                                                @min = "0",
+                                                @step = "0.01"
+                                            })
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Porcentaje de Venta</label>
-                                            @Html.TextBoxFor(m => m.PorcentajeVenta, new { @class = "form-control", @placeholder = "Ingrese el porcentaje de venta", @required = "required", @type = "decimal" })
+                                            @Html.TextBoxFor(m => m.PorcentajeVenta, new {
+                                                @class = "form-control porcentaje-venta",
+                                                @placeholder = "Ingrese el porcentaje de venta",
+                                                @required = "required",
+                                                @type = "number",
+                                                @min = "0",
+                                                @step = "0.01"
+                                            })
                                         </div>
                                     </div>
                                 </div>
@@ -119,10 +146,32 @@
         </div>
     </div>
 </div>
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/sweetalert.js"></script>
 <script>
+    $(document).on('input', '.cantidad, .precio-colones, .precio-dolares, .porcentaje-venta', function () {
+        const input = $(this);
+        const value = parseFloat(input.val());
+
+        let minValue = 0;
+        let mensaje = '';
+
+        if (input.hasClass('cantidad')) {
+            minValue = 1;
+            mensaje = 'La cantidad mínima permitida es 1.';
+        } else if (input.hasClass('porcentaje-venta')) {
+            minValue = 0;
+            mensaje = 'El porcentaje no puede ser negativo.';
+        } else {
+            minValue = 0;
+            mensaje = 'El precio no puede ser negativo.';
+        }
+
+        if (isNaN(value) || value < minValue) {
+            input.val(minValue);
+            input.addClass('is-invalid');
+            setTimeout(() => input.removeClass('is-invalid'), 500);
+        }
+    });
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('editarForm');
 

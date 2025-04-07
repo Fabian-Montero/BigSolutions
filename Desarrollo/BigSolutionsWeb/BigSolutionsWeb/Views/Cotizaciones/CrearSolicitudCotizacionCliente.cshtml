@@ -51,7 +51,7 @@
                                 <textarea class="form-control boceto-description" rows="2" placeholder="Descripción del boceto"></textarea>
                             </td>
                             <td style="text-align:left">
-                                <input type="number" class="form-control boceto-cantidad" placeholder="Cantidad">
+                                <input type="number" class="form-control boceto-cantidad" placeholder="Cantidad" min="1">
                             </td>
                             <td style="text-align:left">
                                 <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@boceto.RutaImagen">Ver Imagen</button>
@@ -118,6 +118,18 @@
             destroy: true
 
         });
+
+        $(document).on('input', '.boceto-cantidad', function () {
+            const input = $(this);
+            const value = parseInt(input.val());
+
+            if (isNaN(value) || value < 1) {
+                input.val(1);
+                input.addClass('is-invalid');
+                setTimeout(() => input.removeClass('is-invalid'), 500);
+            }
+        });
+        
         let selectedBocetos = [];
         // Guardar los datos actuales al cambiar de página
         function saveCurrentPageSelections() {
