@@ -39,7 +39,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-last-name">Cantidad</label>
                                             @* <input type="number" id="Cantidad" name="Cantidad" class="form-control form-control-user" placeholder="Ingrese la cantidad" required> *@
-                                            @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", @placeholder = "Ingrese la cantidad", @required = "required", @type = "number" })
+                                            @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control cantidad", @placeholder = "Ingrese la cantidad", @required = "required", @type = "number", @min = "1" })
                                         </div>
                                     </div>
                                 </div>
@@ -48,14 +48,16 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Precio en Colones</label>
                                             @* <input type="number" id="Precio" name="Precio" class="form-control form-control-user" placeholder="Ingrese el precio" required> *@
-                                            @Html.TextBoxFor(m => m.PrecioUnitarioColones, new { @class = "form-control", @placeholder = "Ingrese el precio en colones", @required = "required", @type = "number" })
+                                            @Html.TextBoxFor(m => m.PrecioUnitarioColones, new { @class = "form-control precio-colones", @placeholder = "Ingrese el precio en colones", @required = "required", @type = "number", @min = "0",
+                                                @step = "0.01" })
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first-name">Precio en Dólares</label>
                                             @* <input type="number" id="Precio" name="Precio" class="form-control form-control-user" placeholder="Ingrese el precio" required> *@
-                                            @Html.TextBoxFor(m => m.PrecioUnitarioDolares, new { @class = "form-control", @placeholder = "Ingrese el precio en dólares", @required = "required", @type = "number" })
+                                            @Html.TextBoxFor(m => m.PrecioUnitarioDolares, new { @class = "form-control precio-dolares", @placeholder = "Ingrese el precio en dólares", @required = "required", @type = "number", @min = "0",
+                                                @step = "0.01" })
                                         </div>
                                     </div>
                                 </div>
@@ -111,11 +113,30 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/sweetalert.js"></script>
 <script>
+    $(document).on('input', '.cantidad, .precio-colones, .precio-dolares', function () {
+        const input = $(this);
+        const value = parseFloat(input.val());
+
+        let minValue = 0;
+        let mensaje = '';
+
+        if (input.hasClass('cantidad')) {
+            minValue = 1;
+            mensaje = 'La cantidad mínima permitida es 1.';
+        } else {
+            minValue = 0;
+            mensaje = 'El precio no puede ser negativo.';
+        }
+
+        if (isNaN(value) || value < minValue) {
+            input.val(minValue);
+            input.addClass('is-invalid');
+            setTimeout(() => input.removeClass('is-invalid'), 500);
+        }
+    });
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('agregarForm');
-
         form.addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -142,4 +163,5 @@
             });
         });
     });
+
 </script>

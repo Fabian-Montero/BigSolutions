@@ -20,8 +20,7 @@ namespace BigSolutionsWeb.Controllers
         {
             return View();
         }
-
-
+        
         [FiltroSesiones]
         [HttpGet]
         public IActionResult ConsultarSolicitudCotizacionesCliente()
@@ -59,16 +58,7 @@ namespace BigSolutionsWeb.Controllers
                 return View(new SolicitudCotizacionDetalleDTO());
             }
         }
-
-        public IActionResult AgregarBocetoEditar()
-        {
-            return View();
-        }
-        public IActionResult EditarSolicitudCotizacionCliente()
-        {
-            return View();
-        }
-
+        
         [FiltroSesiones]
         [HttpGet]
         public IActionResult CrearSolicitudCotizacionCliente()
@@ -301,7 +291,7 @@ namespace BigSolutionsWeb.Controllers
             else
             {
                 ViewBag.MsjPantalla = resp.Mensaje;
-                return View(new List<SolicitudCotizacion>());
+                return View(new List<Cotizacion>());
             }
         }
 

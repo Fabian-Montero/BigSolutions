@@ -36,7 +36,7 @@
                 </div>
                 <div class="card-body">
                     <input type="hidden" id="idSolicitudCotizacion" value="@Model.SolicitudCotizacion.IdSolicitudCotizacion">
-                    <p><strong>Descripción:</strong> <span id="descripcionSolicitud">@Model.SolicitudCotizacion.Descripcion</span></p>
+                    <p><strong>Descripción de la solicitud:</strong> <span id="descripcionSolicitud">@Model.SolicitudCotizacion.Descripcion</span></p>
                     <input type="hidden" id="moneda" value="@((int)Model.SolicitudCotizacion.Moneda)">
                     <p><strong>Moneda:</strong> @Model.SolicitudCotizacion.Moneda</p>
                 </div>
@@ -103,7 +103,7 @@
                             </td>
                             <td class="fecha-generacion">@boceto.FechaCreacion.ToString("yyyy-MM-dd")</td>
                             <td class="nombre-producto">@boceto.NombreProducto</td>
-                            <td><input type="number" class="form-control cantidad" value="@boceto.Cantidad" min="1"></td>
+                            <td><input type="number" class="form-control cantidad" value="@boceto.Cantidad" min="1" step="1"></td>
                             <td>
                                 <input type="number" class="form-control precio"
                                        value="@((Model.SolicitudCotizacion.Moneda == Moneda.Colones
@@ -186,11 +186,22 @@
             $('#totalImpuestos').text(`${simbolo} ${totalImpuestos.toFixed(2)}`);
             $('#total').text(`${simbolo} ${total.toFixed(2)}`);
         }
-
-
-
-
+        
         $(document).on('input', '.cantidad, .precio', function () {
+            const input = $(this);
+            const value = parseFloat(input.val());
+
+            const isCantidad = input.hasClass('cantidad');
+            const minValue = isCantidad ? 1 : 0;
+
+            if (isNaN(value) || value < minValue) {
+                input.val(minValue);
+
+                // Efecto visual de corrección
+                input.addClass('is-invalid');
+                setTimeout(() => input.removeClass('is-invalid'), 500);
+            }
+
             recalculateTotals();
         });
 
