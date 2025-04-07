@@ -2,140 +2,177 @@
 @using BigSolutionsWeb.Enums;
 
 @{
-    ViewData["Title"] = "Facturas";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Facturas";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Facturas Venta</h1>
-        <p>Aquí puedes ver todas las facturas de venta.</p>
-    </div>
-    <br />
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de facturas</h3>
-            <a class="botones-secundarios" href="@Url.Action("AgregarFacturasVenta", "Contabilidad")"> + Agregar</a>
-        </div>
-        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            <table id="tabla-Inventario" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">Número de Factura</th>
-                        <th style="text-align:left">Cliente</th>
-                        <th style="text-align:left">Número de Orden</th>
-                        <th style="text-align:left">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any())
-                    {
-                        foreach (var factura in Model)
-                        {
-                            <tr>
-                                <td>@factura.NumFacturaVenta</td>
-                                <td>@factura.NombreUsuario</td>
-                                <td>@factura.IdOrden</td>
-                                <td>
-                                    @if (!string.IsNullOrEmpty(factura.RutaFacturaVenta))
-                                    {
-                                        <a class="botones" href="@Url.Content(factura.RutaFacturaVenta)" target="_blank">Ver Factura</a>
-                                    }
-                                    else
-                                    {
-                                        <span>No disponible</span>
-                                    }
-                                    <a href="#"
-                                       class="botones-eliminar botonEliminarFactura"
-                                       data-id="@factura.IdOrden">
-                                        <i class="fas fa-trash-alt"></i>&nbsp; Eliminar
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="4" class="text-center">No hay facturas disponibles.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Facturas Venta</h1>
+		<p>Aquí puedes ver todas las facturas de venta.</p>
+	</div>
+	<br />
+	<div class="card">
+		@{
+			long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+		}
+		<div class="card-header d-flex justify-content-between align-items-center">
+			<h3 class="mb-0">Lista de facturas</h3>
+			@if (rol == 1)
+			{
+				<a class="botones-secundarios" href="@Url.Action("AgregarFacturasVenta", "Contabilidad")"> + Agregar</a>
+			}
+			else
+			{
+				<div class="btn-group" role="group" aria-label="Botón deshabilitado" style="opacity: 0.5; pointer-events: none;">
+					<span class="botones-secundarios disabled-link">
+						+ Agregar
+					</span>
+				</div>
+			}
+		</div>
+		<div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+			<div class="table-responsive">
+				<table id="tabla-Inventario" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:left">Número de Factura</th>
+							<th style="text-align:left">Cliente</th>
+							<th style="text-align:left">Número de Orden</th>
+							<th style="text-align:left">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model != null && Model.Any())
+						{
+							foreach (var factura in Model)
+							{
+								<tr>
+									<td>@factura.NumFacturaVenta</td>
+									<td>@factura.NombreUsuario</td>
+									<td>@factura.IdOrden</td>
+									<td>
+										@if (rol == 1)
+										{
+											@if (!string.IsNullOrEmpty(factura.RutaFacturaVenta))
+											{
+												<a class="botones" href="@Url.Content(factura.RutaFacturaVenta)" target="_blank">Ver Factura</a>
+											}
+											else
+											{
+												<span>No disponible</span>
+											}
+											<a href="#"
+											   class="botones-eliminar botonEliminarFactura"
+											   data-id="@factura.IdOrden">
+												<i class="fas fa-trash-alt"></i>&nbsp; Eliminar
+											</a>
+										}
+										else
+										{
+											@if (!string.IsNullOrEmpty(factura.RutaFacturaVenta))
+											{
+												<a class="botones" href="@Url.Content(factura.RutaFacturaVenta)" target="_blank">Ver Factura</a>
+											}
+											else
+											{
+												<span>No disponible</span>
+											}
+											<div class="btn-group" role="group" aria-label="Botón eliminar deshabilitado" style="opacity: 0.5; pointer-events: none;">
+												<span class="botones-eliminar disabled-link">
+													<i class="fas fa-trash-alt"></i>&nbsp; Eliminar
+												</span>
+											</div>
+										}
+									</td>
+								</tr>
+							}
+						}
+						else
+						{
+							<tr>
+								<td colspan="4" class="text-center">No hay facturas disponibles.</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 
 <script>
-    $(document).ready(function () {
-        var table = $("#tabla-Inventario").DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            },
-            columnDefs: [
-                { type: 'string', targets: [0, 2] }
-            ],
-            order: [[2, 'desc']]
-        });
+	$(document).ready(function () {
+		var table = $("#tabla-Inventario").DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+			},
+			columnDefs: [
+				{ type: 'string', targets: [0, 2] }
+			],
+			order: [[2, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
 
-        // SweetAlert para eliminar factura
-        $('.botonEliminarFactura').on('click', function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var idOrden = $this.data('id');
+		// SweetAlert para eliminar factura
+		$('.botonEliminarFactura').on('click', function (e) {
+			e.preventDefault();
+			var $this = $(this);
+			var idOrden = $this.data('id');
 
-            Swal.fire({
-                title: '¿Está seguro de que desea eliminar esta factura?',
-                text: "¡Esta acción no se puede deshacer!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#c1952c',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var url = `/Contabilidad/EliminarFactura?IdOrden=${idOrden}`;
+			Swal.fire({
+				title: '¿Está seguro de que desea eliminar esta factura?',
+				text: "¡Esta acción no se puede deshacer!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#c1952c',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Sí, eliminar',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					var url = `/Contabilidad/EliminarFactura?IdOrden=${idOrden}`;
 
-                    // Enviar solicitud GET al controlador
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        success: function (response) {
-                            if (response.success) {
-                                Swal.fire({
-                                    title: '¡Eliminada!',
-                                    text: response.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#c1952c',
-                                    confirmButtonText: 'Aceptar'
-                                }).then(() => {
-                                    table.row($this.closest('tr')).remove().draw();
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: 'Error',
-                                    text: response.message,
-                                    icon: 'error',
-                                    confirmButtonColor: '#d33'
-                                });
-                            }
-                        },
-                        error: function () {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Ocurrió un problema al intentar eliminar la factura.',
-                                icon: 'error',
-                                confirmButtonColor: '#d33'
-                            });
-                        }
-                    });
-                }
-            });
-        });
-    });
+					// Enviar solicitud GET al controlador
+					$.ajax({
+						url: url,
+						type: 'GET',
+						success: function (response) {
+							if (response.success) {
+								Swal.fire({
+									title: '¡Eliminada!',
+									text: response.message,
+									icon: 'success',
+									confirmButtonColor: '#c1952c',
+									confirmButtonText: 'Aceptar'
+								}).then(() => {
+									table.row($this.closest('tr')).remove().draw();
+								});
+							} else {
+								Swal.fire({
+									title: 'Error',
+									text: response.message,
+									icon: 'error',
+									confirmButtonColor: '#d33'
+								});
+							}
+						},
+						error: function () {
+							Swal.fire({
+								title: 'Error',
+								text: 'Ocurrió un problema al intentar eliminar la factura.',
+								icon: 'error',
+								confirmButtonColor: '#d33'
+							});
+						}
+					});
+				}
+			});
+		});
+	});
 </script>

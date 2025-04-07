@@ -260,7 +260,13 @@
             const cotizacion = buildCotizacionObject();
 
             if (cotizacion.Bocetos.length === 0) {
-                Swal.fire('Atención', 'Debes seleccionar al menos un boceto con cantidad válida.', 'warning');
+                Swal.fire({
+                    title: 'Atención',
+                    text: 'Debes seleccionar al menos un boceto con cantidad válida.',
+                    icon: 'warning',
+                    confirmButtonColor: '#c1952c'
+                });
+
                 button.prop('disabled', false).text('Generar Cotización');
                 return;
             }
@@ -287,7 +293,13 @@
                     }
                 },
                 error: function () {
-                    Swal.fire('Error', 'Hubo un problema al generar la cotización.', 'error');
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema al generar la cotización.',
+                        icon: 'error',
+                        confirmButtonColor: '#d33'
+                    });
+
                     button.prop('disabled', false).text('Generar Cotización'); // Restaurar el botón en caso de error
                 }
             });

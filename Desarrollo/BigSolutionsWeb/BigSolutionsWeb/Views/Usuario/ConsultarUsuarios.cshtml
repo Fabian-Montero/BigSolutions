@@ -102,7 +102,9 @@
             $('#usuariosTable').DataTable({
                 language: {
                     url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-                }
+                },
+                autoWidth: false,
+                responsive: true
             });
             
             $('.btn-deleteUsu').on('click', function (e) {

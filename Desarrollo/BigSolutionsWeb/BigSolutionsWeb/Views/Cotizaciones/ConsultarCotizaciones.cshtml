@@ -1,74 +1,78 @@
 ﻿@model List<BigSolutionsWeb.Entidades.Cotizacion>
 
 @{
-    ViewData["Title"] = "Detalles de la Cotización";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Detalles de la Cotización";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Detalles de la Cotización</h1>
-        <p>Aquí puedes ver las cotizaciones disponibles.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Detalles de la Cotización</h1>
+		<p>Aquí puedes ver las cotizaciones disponibles.</p>
+	</div>
 
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Cotizaciones Asociadas</h3>
-        </div>
-        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            @if (ViewBag.MsjPantalla != null)
-            {
-                <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
-                    @ViewBag.MsjPantalla
-                </div>
-            }
-            <table id="tabla-Cotizaciones" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">ID Cotización</th>
-                        <th style="text-align:left">Descripción</th>
-                        <th style="text-align:left">Fecha de Creación</th>
-                        <th style="text-align:left">Acciones</th>   
-                        <th style="text-align:left">Moneda</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var cotizacion in Model)
-                    {
-                        <tr>
-                            <td style="text-align:left">@cotizacion.IdCotizacion</td>
-                            <td style="text-align:left">@cotizacion.Descripcion</td>
-                            <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                            <td style="text-align:left">@cotizacion.Moneda</td>
-                            <td style="text-align:left">
-                                <!-- Botón Ver Cotización -->
-                                <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
-                                <!-- Botón Generar Orden -->
-                                <a href="@(Url.Action("CargarCrearOrdenCliente", "Ordenes"))" class="botones">Generar Orden</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+	<div class="card">
+		<div class="card-header d-flex justify-content-between align-items-center">
+			<h3 class="mb-0">Cotizaciones Asociadas</h3>
+		</div>
+		<div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+			@if (ViewBag.MsjPantalla != null)
+			{
+				<div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+					@ViewBag.MsjPantalla
+				</div>
+			}
+			<div class="table-responsive">
+				<table id="tabla-Cotizaciones" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:left">ID Cotización</th>
+							<th style="text-align:left">Descripción</th>
+							<th style="text-align:left">Fecha de Creación</th>
+							<th style="text-align:left">Acciones</th>
+							<th style="text-align:left">Moneda</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var cotizacion in Model)
+						{
+							<tr>
+								<td style="text-align:left">@cotizacion.IdCotizacion</td>
+								<td style="text-align:left">@cotizacion.Descripcion</td>
+								<td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+								<td style="text-align:left">@cotizacion.Moneda</td>
+								<td style="text-align:left">
+									<!-- Botón Ver Cotización -->
+									<a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+									<!-- Botón Generar Orden -->
+									<a href="@(Url.Action("CargarCrearOrdenCliente", "Ordenes"))" class="botones-secundarios">Generar Orden</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    // Función para generar una orden con la cotización seleccionada
-    function generarOrden(idCotizacion) {
-        // Lógica para llamar a la API o redirigir al controlador correspondiente
-        window.location.href = `/Ordenes/GenerarOrden?idCotizacion=${idCotizacion}`;
-    }
+	// Función para generar una orden con la cotización seleccionada
+	function generarOrden(idCotizacion) {
+		// Lógica para llamar a la API o redirigir al controlador correspondiente
+		window.location.href = `/Ordenes/GenerarOrden?idCotizacion=${idCotizacion}`;
+	}
 
-    $(document).ready(function () {
-        $('#tabla-Cotizaciones').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            },
-                order: [[0, 'desc']],
-            });
-    });
+	$(document).ready(function () {
+		$('#tabla-Cotizaciones').DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+			},
+			order: [[0, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
+	});
 </script>

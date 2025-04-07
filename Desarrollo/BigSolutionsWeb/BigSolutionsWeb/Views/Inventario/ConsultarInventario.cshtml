@@ -1,138 +1,142 @@
 ﻿@model List<BigSolutionsWeb.Entidades.Producto>
 @{
-    ViewData["Title"] = "Consultar Inventario";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Consultar Inventario";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Inventario</h1>
-        <p>Aquí puedes ver todos los productos que hay en el inventario.</p>
-    </div>
-    <br />
-    <br />
-    @if (ViewBag.msj != null)
-    {
-        <div id="warningAlert" class="alert alert-warning alert-custom" role="alert" style="text-align: center;">
-            @ViewBag.msj
-        </div>
-    }
-    <div class="card">
-        @{
-            long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
-        }
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de productos</h3>
-            @if (rol == 1)
-            {
-                <a class="botones-secundarios" href="@Url.Action("AgregarInventario", "Inventario")"> + Agregar</a>
-            }
-            else
-            {
-                <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                    <span class="botones-secundarios disabled-link">
-                        + Agregar
-                    </span>
-                </div>
-            }
-        </div>
-        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            <table id="tabla-Inventario" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">Imagen</th>
-                        <th style="text-align:left">Nombre</th>
-                        <th style="text-align:left">Cantidad</th>
-                        <th style="text-align:left">Precio Colones</th>
-                        <th style="text-align:left">Precio Dólares</th>
-                        <th style="text-align:left">Categoría</th>
-                        <th style="text-align:left">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td class="image-centered">
-                                <img src="@item.RutaImagen" class="boceto-img producto-img" alt="Producto" style="width: 125px; height: 125px; cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@item.RutaImagen">
-                            </td>
-                            <td>@item.Nombre</td>
-                            <td>@item.Cantidad</td>
-                            <td>₡ @item.PrecioUnitarioColones.ToString("N2")</td>
-                            <td>$ @item.PrecioUnitarioDolares.ToString("N2")</td>
-                            <td>@item.NombreCategoria</td>
-                            <td style="text-align:center">
-                                @if (rol == 1)
-                                {
-                                    <a class="botones-editar" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
-                                        <i class="fas fa-pencil-alt"></i> Editar
-                                    </a>
-                                    <a class="botones-eliminar botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">
-                                        <i class="fas fa-trash-alt"></i> Eliminar
-                                    </a>
-                                }
-                                else
-                                {
-                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                        <span class="botones-editar disabled-link">
-                                            <i class="fas fa-pencil-alt"></i> Editar
-                                        </span>
-                                    </div>
+	<div class="text-center mb-4">
+		<h1>Inventario</h1>
+		<p>Aquí puedes ver todos los productos que hay en el inventario.</p>
+	</div>
+	<br />
+	<br />
+	@if (ViewBag.msj != null)
+	{
+		<div id="warningAlert" class="alert alert-warning alert-custom" role="alert" style="text-align: center;">
+			@ViewBag.msj
+		</div>
+	}
+	<div class="card">
+		@{
+			long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+		}
+		<div class="card-header d-flex justify-content-between align-items-center">
+			<h3 class="mb-0">Lista de productos</h3>
+			@if (rol == 1)
+			{
+				<a class="botones-secundarios" href="@Url.Action("AgregarInventario", "Inventario")"> + Agregar</a>
+			}
+			else
+			{
+				<div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+					<span class="botones-secundarios disabled-link">
+						+ Agregar
+					</span>
+				</div>
+			}
+		</div>
+		<div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+			<div class="table-responsive">
+				<table id="tabla-Inventario" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:left">Imagen</th>
+							<th style="text-align:left">Nombre</th>
+							<th style="text-align:left">Cantidad</th>
+							<th style="text-align:left">Precio Colones</th>
+							<th style="text-align:left">Precio Dólares</th>
+							<th style="text-align:left">Categoría</th>
+							<th style="text-align:left">Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+							<tr>
+								<td class="image-centered">
+									<img src="@item.RutaImagen" class="boceto-img producto-img" alt="Producto" style="width: 125px; height: 125px; cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@item.RutaImagen">
+								</td>
+								<td>@item.Nombre</td>
+								<td>@item.Cantidad</td>
+								<td>₡ @item.PrecioUnitarioColones.ToString("N2")</td>
+								<td>$ @item.PrecioUnitarioDolares.ToString("N2")</td>
+								<td>@item.NombreCategoria</td>
+								<td style="text-align:center">
+									@if (rol == 1)
+									{
+										<a class="botones-editar" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">
+											<i class="fas fa-pencil-alt"></i> Editar
+										</a>
+										<a class="botones-eliminar botonEliminar" href="@(Url.Action("EliminarInventario", "Inventario", new { id = item.IdProducto}))">
+											<i class="fas fa-trash-alt"></i> Eliminar
+										</a>
+									}
+									else
+									{
+										<div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+											<span class="botones-editar disabled-link">
+												<i class="fas fa-pencil-alt"></i> Editar
+											</span>
+										</div>
 
-                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                        <span class="botones-eliminar disabled-link">
-                                            <i class="fas fa-trash-alt"></i> Eliminar
-                                        </span>
-                                    </div>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+										<div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+											<span class="botones-eliminar disabled-link">
+												<i class="fas fa-trash-alt"></i> Eliminar
+											</span>
+										</div>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del producto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Producto Ampliado">
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="imageModalLabel">Imagen del producto</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">
+				<img id="modalImage" src="" class="img-fluid" alt="Producto Ampliado">
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/sweetalert.js"></script>
 
 <script>
-    $(document).ready(function () {
-        var table = new DataTable("#tabla-Inventario", {
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            },
-            columnDefs: [{ type: 'string', target: [0, 2, 3, 4] }]
-        });
+	$(document).ready(function () {
+		var table = new DataTable("#tabla-Inventario", {
+			language: {
+				url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+			},
+			columnDefs: [{ type: 'string', target: [0, 2, 3, 4] }],
+			autoWidth: false,
+			responsive: true
+		});
 
-        //Para ver imagen del producto
-        $('#tabla-Inventario').on('click', '.boceto-img', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
+		//Para ver imagen del producto
+		$('#tabla-Inventario').on('click', '.boceto-img', function () {
+			var src = $(this).data('src');
+			$('#modalImage').attr('src', src);
+		});
 
-        $('#tabla-Inventario').on('click', '.view-image', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
-    });
+		$('#tabla-Inventario').on('click', '.view-image', function () {
+			var src = $(this).data('src');
+			$('#modalImage').attr('src', src);
+		});
+	});
 </script>
 
 
