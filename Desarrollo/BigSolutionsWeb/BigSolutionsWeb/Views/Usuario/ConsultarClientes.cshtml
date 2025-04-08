@@ -1,186 +1,190 @@
 ﻿@model IEnumerable<BigSolutionsWeb.Entidades.Cliente>
 
 @{
-    ViewData["Title"] = "Consultar Clientes";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Consultar Clientes";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <body>
-<div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Clientes</h1>
-        <p>Aquí puedes ver todos los clientes que hay registrados actualmente.</p>
-    </div>
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Lista de clientes</h3>
-        </div>
-        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            <div id="clientesTable">
-                <table id="tabla-Usuarios" class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.Identificacion)</th>
-                        <th>@Html.DisplayNameFor(model => model.NombreCompleto)</th>
-                        <th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
-                        <th>@Html.DisplayNameFor(model => model.Estado)</th>
-                        <th>Acciones</th>
-                        <th>Ordenes</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @if (Model != null)
-                    {
-                        foreach (var item in Model)
-                        {   
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Identificacion)</td>
-                                <td>
-                                    <a href="@Url.Action("DetallesCliente", "Usuario", new { id = item.Identificacion })"
-                                       style="color: black; text-decoration: underline; cursor: pointer;">
-                                        @item.NombreCompleto
-                                    </a>
-                                </td>
+	<div class="container-fluid" style="margin-top: 50px;">
+		<div class="text-center mb-4">
+			<h1>Clientes</h1>
+			<p>Aquí puedes ver todos los clientes que hay registrados actualmente.</p>
+		</div>
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<h3 class="mb-0">Lista de clientes</h3>
+			</div>
+			<div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+				<div id="clientesTable">
+					<div class="table-responsive">
+						<table id="tabla-Usuarios" class="table table-hover">
+							<thead>
+								<tr>
+									<th>@Html.DisplayNameFor(model => model.Identificacion)</th>
+									<th>@Html.DisplayNameFor(model => model.NombreCompleto)</th>
+									<th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
+									<th>@Html.DisplayNameFor(model => model.Estado)</th>
+									<th>Acciones</th>
+									<th>Ordenes</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if (Model != null)
+								{
+									foreach (var item in Model)
+									{
+										<tr>
+											<td>@Html.DisplayFor(modelItem => item.Identificacion)</td>
+											<td>
+												<a href="@Url.Action("DetallesCliente", "Usuario", new { id = item.Identificacion })"
+												   style="color: black; text-decoration: underline; cursor: pointer;">
+													@item.NombreCompleto
+												</a>
+											</td>
 
-                                <td>@Html.DisplayFor(modelItem => item.CorreoElectronico)</td>
-                                <td>
-                                    @(item.Estado ? "Activo" : "Inactivo")
-                                </td>
-                                <td>
-                                    @{
-                                        long usuarioLogueadoId = Convert.ToInt64(Context.Session.GetString("IDUSUARIO"));
-                                        long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
-                                    }
-                                    @if (item.UsuarioId == usuarioLogueadoId)
-                                    {
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a href="#" class="botones" style="opacity: 0.5; pointer-events: none;">
-                                                <i class="fas fa-pencil-alt"></i>Actualizar
-                                            </a>
-                                            <div style="margin-left:5px">
-                                                <a href="#" class="botones-eliminar" style="opacity: 0.5; pointer-events: none;">
-                                                    <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
-                                                </a>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        @if (rol == 1)
-                                        {
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                <a href="@Url.Action("EditarUsuario", "Usuario", new { id = item.UsuarioId })" class="botones-editar">
-                                                    <i class="fas fa-pencil-alt"></i>&nbsp;Editar
-                                                </a>
-                                                <div style="margin-left:5px">
-                                                    <!-- Usamos AJAX en lugar de redirección directa -->
-                                                    <a href="#" class="botones-eliminar btn-deleteCliente"
-                                                       data-url="@Url.Action("EliminarUsuario", "Usuario", new { id = item.Identificacion })">
-                                                        <i class="fas fa-trash-alt"></i>&nbsp;Eliminar
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                                        <span class="botones-editar disabled-link">
-                                                            <i class="fas fa-pencil-alt"></i> &nbsp; Editar
-                                                        </span>
-                                            </div>
-                                            <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                                        <span class="botones-eliminar disabled-link">
-                                                            <i class="fas fa-trash-alt"></i> &nbsp; Eliminar
-                                                        </span>
-                                            </div>
-                                        }
-                                    }
-                                </td>
-                                <td>
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="#" class="botones" onclick="Orden('@Url.Action("ConsultarOrdenesClienteAdmin", "Ordenes", new { Identificacion = item.Identificacion })')">
-                                            Ver órdenes
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+											<td>@Html.DisplayFor(modelItem => item.CorreoElectronico)</td>
+											<td>
+												@(item.Estado ? "Activo" : "Inactivo")
+											</td>
+											<td>
+												@{
+													long usuarioLogueadoId = Convert.ToInt64(Context.Session.GetString("IDUSUARIO"));
+													long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+												}
+												@if (item.UsuarioId == usuarioLogueadoId)
+												{
+													<div class="btn-group" role="group" aria-label="Basic example">
+														<a href="#" class="botones" style="opacity: 0.5; pointer-events: none;">
+															<i class="fas fa-pencil-alt"></i>Actualizar
+														</a>
+														<div style="margin-left:5px">
+															<a href="#" class="botones-eliminar" style="opacity: 0.5; pointer-events: none;">
+																<i class="fas fa-trash-alt"></i>&nbsp;Eliminar
+															</a>
+														</div>
+													</div>
+												}
+												else
+												{
+													@if (rol == 1)
+													{
+														<div class="btn-group" role="group" aria-label="Basic example">
+															<a href="@Url.Action("EditarUsuario", "Usuario", new { id = item.UsuarioId })" class="botones-editar">
+																<i class="fas fa-pencil-alt"></i>&nbsp;Editar
+															</a>
+															<div style="margin-left:5px">
+																<!-- Usamos AJAX en lugar de redirección directa -->
+																<a href="#" class="botones-eliminar btn-deleteCliente"
+																   data-url="@Url.Action("EliminarUsuario", "Usuario", new { id = item.Identificacion })">
+																	<i class="fas fa-trash-alt"></i>&nbsp;Eliminar
+																</a>
+															</div>
+														</div>
+													}
+													else
+													{
+														<div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+															<span class="botones-editar disabled-link">
+																<i class="fas fa-pencil-alt"></i> &nbsp; Editar
+															</span>
+														</div>
+														<div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+															<span class="botones-eliminar disabled-link">
+																<i class="fas fa-trash-alt"></i> &nbsp; Eliminar
+															</span>
+														</div>
+													}
+												}
+											</td>
+											<td>
+												<div class="btn-group" role="group" aria-label="Basic example">
+													<a href="#" class="botones" onclick="Orden('@Url.Action("ConsultarOrdenesClienteAdmin", "Ordenes", new { Identificacion = item.Identificacion })')">
+														Ver órdenes
+													</a>
+												</div>
+											</td>
+										</tr>
+									}
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<!-- Scripts: jQuery, SweetAlert y DataTables -->
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    $(document).ready(function () {
-        // Inicializar DataTable
-        var table = $("#tabla-Usuarios").DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            },
-            columnDefs: [{ type: 'string', targets: [0] }]
-        });
+	<!-- Scripts: jQuery, SweetAlert y DataTables -->
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		$(document).ready(function () {
+			// Inicializar DataTable
+			var table = $("#tabla-Usuarios").DataTable({
+				language: {
+					url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+				},
+				columnDefs: [{ type: 'string', targets: [0] }],
+				autoWidth: false,
+				responsive: true
+			});
 
-        // Capturar clic en botón de eliminar clientes
-        $('.btn-deleteCliente').on('click', function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var eliminarUrl = $this.data('url');
+			// Capturar clic en botón de eliminar clientes
+			$('.btn-deleteCliente').on('click', function (e) {
+				e.preventDefault();
+				var $this = $(this);
+				var eliminarUrl = $this.data('url');
 
-            Swal.fire({
-                title: '¿Está seguro que deseas eliminar este cliente?',
-                text: "No podrá revertir esto",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#c1952c',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: eliminarUrl,
-                        type: 'GET',
-                        success: function (response) {
-                            if (response.success) {
-                                Swal.fire({
-                                    title: 'Eliminado',
-                                    text: response.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#c1952c'
-                                }).then(() => {
-                                    // Eliminar la fila de la tabla sin recargar la página
-                                    $("#tabla-Usuarios").DataTable().row($this.closest('tr')).remove().draw();
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: 'Error',
-                                    text: response.message,
-                                    icon: 'error',
-                                    confirmButtonColor: '#d33'
-                                });
-                            }
-                        },
-                        error: function () {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Ocurrió un problema al intentar eliminar el cliente.',
-                                icon: 'error',
-                                confirmButtonColor: '#d33'
-                            });
-                        }
-                    });
-                }
-            });
-        });
-    });
+				Swal.fire({
+					title: '¿Está seguro que deseas eliminar este cliente?',
+					text: "No podrá revertir esto",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#c1952c',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Sí, eliminarlo',
+					cancelButtonText: 'Cancelar'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							url: eliminarUrl,
+							type: 'GET',
+							success: function (response) {
+								if (response.success) {
+									Swal.fire({
+										title: 'Eliminado',
+										text: response.message,
+										icon: 'success',
+										confirmButtonColor: '#c1952c'
+									}).then(() => {
+										// Eliminar la fila de la tabla sin recargar la página
+										$("#tabla-Usuarios").DataTable().row($this.closest('tr')).remove().draw();
+									});
+								} else {
+									Swal.fire({
+										title: 'Error',
+										text: response.message,
+										icon: 'error',
+										confirmButtonColor: '#d33'
+									});
+								}
+							},
+							error: function () {
+								Swal.fire({
+									title: 'Error',
+									text: 'Ocurrió un problema al intentar eliminar el cliente.',
+									icon: 'error',
+									confirmButtonColor: '#d33'
+								});
+							}
+						});
+					}
+				});
+			});
+		});
 
-    function Orden(url) {
-        window.location.href = url;
-    }
-</script>
+		function Orden(url) {
+			window.location.href = url;
+		}
+	</script>
 </body>

@@ -1,81 +1,85 @@
 ﻿@model List<BigSolutionsWeb.Entidades.SolicitudCotizacion>
 
 @{
-    ViewData["Title"] = "Solicitudes de Cotización";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Solicitudes de Cotización";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Solicitudes de Cotización</h1>
-        <p>Aquí puedes ver todas las solicitudes de cotización generadas por los clientes.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Solicitudes de Cotización</h1>
+		<p>Aquí puedes ver todas las solicitudes de cotización generadas por los clientes.</p>
+	</div>
 
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Solicitudes de Cotización</h3>
-        </div>
-        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            @if (ViewBag.MsjPantalla != null)
-            {
-                <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
-                    @ViewBag.MsjPantalla
-                </div>
-            }
-            <table id="tabla-Solicitudes" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">Número de Solicitud</th>
-                        <th style="text-align:left">Fecha de Generación</th>
-                        <th style="text-align:left">Cliente</th>
-                        <th style="text-align:left">Moneda</th> 
-                        <th style="text-align:left">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
-                    }
-                    @foreach (var solicitud in Model)
-                    {
-                        <tr>
-                            <td style="text-align:left">@solicitud.IdSolicitudCotizacion</td>
-                            <td style="text-align:left">@solicitud.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                            <td style="text-align:left">@solicitud.NombreCliente</td>
-                            <td style="text-align:left">@solicitud.Moneda</td> 
-                            <td style="text-align:left">
-                                @if (rol == 1)
-                                {
-                                <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
-                                <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion}))" class="botones">Generar una cotización</a>
-                                }
-                                else
-                                {
-                                    <a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
-                                    <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-                                        <span class="botones disabled-link">
-                                            Generar cotización
-                                        </span>
-                                    </div>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+	<div class="card">
+		<div class="card-header d-flex justify-content-between align-items-center">
+			<h3 class="mb-0">Solicitudes de Cotización</h3>
+		</div>
+		<div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+			@if (ViewBag.MsjPantalla != null)
+			{
+				<div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+					@ViewBag.MsjPantalla
+				</div>
+			}
+			<div class="table-responsive">
+				<table id="tabla-Solicitudes" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:left">Número de Solicitud</th>
+							<th style="text-align:left">Fecha de Generación</th>
+							<th style="text-align:left">Cliente</th>
+							<th style="text-align:left">Moneda</th>
+							<th style="text-align:left">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@{
+							long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+						}
+						@foreach (var solicitud in Model)
+						{
+							<tr>
+								<td style="text-align:left">@solicitud.IdSolicitudCotizacion</td>
+								<td style="text-align:left">@solicitud.FechaCreacion.ToString("dd/MM/yyyy")</td>
+								<td style="text-align:left">@solicitud.NombreCliente</td>
+								<td style="text-align:left">@solicitud.Moneda</td>
+								<td style="text-align:left">
+									@if (rol == 1)
+									{
+										<a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
+										<a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion}))" class="botones-secundarios">Generar una cotización</a>
+									}
+									else
+									{
+										<a href="@(Url.Action("ConsultarSolicitudCotizacionClientes", "Cotizaciones", new { IdSolicitudCotizacion = solicitud.IdSolicitudCotizacion }))" class="botones">Ver detalles</a>
+										<div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+											<span class="botones-secundarios disabled-link">
+												Generar cotización
+											</span>
+										</div>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        var table = $('#tabla-Solicitudes').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            },
-            order: [[0, 'desc']],
-        });
-    });
+	$(document).ready(function () {
+		var table = $('#tabla-Solicitudes').DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+			},
+			order: [[0, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
+	});
 </script>

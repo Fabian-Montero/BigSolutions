@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var nombreUsuario = Context.Session.GetString("NOMBRE");
+    var nombreRol = Context.Session.GetString("NOMBREROL");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -37,6 +42,14 @@
                 </button>
 
                 <ul class="navbar-nav navbar-nav-right">
+                    <div class="d-flex flex-column align-items-end mr-3 text-right" style="margin-top: 14px;">
+                        <span style="font-weight: bold; color: #333;">@nombreUsuario</span>
+                        <span style="font-size: 0.85em; color: #777;">
+                            @(nombreRol == "Admin" ? "Administrador" : nombreRol)
+                        </span>
+
+                    </div>
+
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                             <img src="~/page/images/faces/FotoPerfil.png" alt="profile" style="border: 2px solid #c1952c; border-radius: 50%;" />
@@ -135,7 +148,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-wrap" style="width: 180px;" href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")">
+                            <a class="nav-link text-wrap" href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")">
                                 <i class="fa-solid fa-file-invoice menu-icon"></i>
                                 <span class="menu-title" style="margin-left: 5px;">Solicitudes de cotizaciones</span>
                             </a>
