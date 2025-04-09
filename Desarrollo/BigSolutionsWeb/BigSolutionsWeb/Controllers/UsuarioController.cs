@@ -217,12 +217,12 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
-        [FiltroSesiones]
+        /*[FiltroSesiones]
         [FiltroAdmin]
         public IActionResult EditarUsuario()
         {
             return View();
-        }
+        }*/
 
         [AutorizacionFiltro]
         [FiltroSesiones]
@@ -321,7 +321,7 @@ namespace BigSolutionsWeb.Controllers
 
         [AutorizacionFiltro]
         [FiltroSesiones]
-        [FiltroAdmin]
+        [FiltroAdmin] 
         [HttpGet]
         public IActionResult EliminarUsuario(long id)
         {

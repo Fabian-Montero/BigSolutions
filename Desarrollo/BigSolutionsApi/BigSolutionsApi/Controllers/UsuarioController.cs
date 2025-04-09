@@ -475,40 +475,62 @@ namespace BigSolutionsApi.Controllers
         {
             Respuesta resp = new Respuesta();
 
-            using (var context =
-                   new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
+            try
             {
-                var result = await context.ExecuteAsync("EditarUsuario", new
+                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:SQLServerConnection").Value))
                 {
-                    ent.UsuarioId,
-                    ent.IdRol,
-                    ent.Identificacion,
-                    ent.NombreCompleto,
-                    ent.NombreEmpresa,
-                    ent.NumeroTelefono,
-                    ent.CorreoElectronico,
-                    ent.DireccionExacta,
-                    ent.Estado
+                    var result = await context.ExecuteAsync("EditarUsuario", new
+                    {
+                        ent.UsuarioId,
+                        ent.IdRol,
+                        ent.Identificacion,
+                        ent.NombreCompleto,
+                        ent.NombreEmpresa,
+                        ent.NumeroTelefono,
+                        ent.CorreoElectronico,
+                        ent.DireccionExacta,
+                        ent.Estado
+                    }, commandType: CommandType.StoredProcedure);
 
-
-                }, commandType: CommandType.StoredProcedure);
-
-                if (result > 0)
-                {
-                    resp.Codigo = 1;
-                    resp.Mensaje = "";
-                    resp.Contenido = result;
-                    return Ok(resp);
+                    if (result > 0)
+                    {
+                        resp.Codigo = 1;
+                        resp.Mensaje = "";
+                        resp.Contenido = result;
+                        return Ok(resp);
+                    }
+                    else
+                    {
+                        resp.Codigo = 0;
+                        resp.Mensaje = "Error al actualizar el usuario";
+                        resp.Contenido = false;
+                        return Ok(resp);
+                    }
                 }
-                else
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
                 {
                     resp.Codigo = 0;
-                    resp.Mensaje = "Error al actualizar el usuario";
+                    resp.Mensaje = "La cédula o el correo ya están registrados por otro usuario.";
                     resp.Contenido = false;
                     return Ok(resp);
                 }
+                resp.Codigo = 0;
+                resp.Mensaje = "Error de SQL al actualizar.";
+                resp.Contenido = false;
+                return Ok(resp);
+            }
+            catch (Exception)
+            {
+                resp.Codigo = 0;
+                resp.Mensaje = "Error general al actualizar.";
+                resp.Contenido = false;
+                return Ok(resp);
             }
         }
+
 
         [HttpDelete]
         [Authorize]

@@ -301,6 +301,7 @@ namespace BigSolutionsWeb.Controllers
                         (int)idComprobante,
                         crearOrdenAdminDTO.ComprobantePago.ArchivoComprobante
                     );
+                    rutasDTO.IdOrdenDetalleComprobantes = idComprobante;
                 }
 
                 // Actualizar rutas de los archivos

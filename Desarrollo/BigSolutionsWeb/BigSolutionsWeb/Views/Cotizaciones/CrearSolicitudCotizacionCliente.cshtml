@@ -132,101 +132,118 @@
 				setTimeout(() => input.removeClass('is-invalid'), 500);
 			}
 		});
+    
+        let selectedBocetos = [];
+        // Guardar los datos actuales al cambiar de página
+        function saveCurrentPageSelections() {
+            $('#tabla-Bocetos tbody tr').each(function () {
+                const row = $(this);
+                const idBoceto = parseInt(row.find('td').eq(1).text());
+                const descripcion = row.find('.boceto-description').val();
+                const cantidad = row.find('.boceto-cantidad').val();
+                const isChecked = row.find('.select-boceto').is(':checked');
+                const existingBoceto = selectedBocetos.find(b => b.IdBoceto === idBoceto);
+                if (isChecked) {
+                    if (existingBoceto) {
+                        existingBoceto.DescripcionUsuario = descripcion || '';
+                        existingBoceto.Cantidad = parseInt(cantidad) || 0;
+                    } else {
+                        selectedBocetos.push({
+                            IdBoceto: idBoceto,
+                            DescripcionUsuario: descripcion || '',
+                            Cantidad: parseInt(cantidad) || 0
+                        });
+                    }
+                } else if (existingBoceto) {
+                    selectedBocetos = selectedBocetos.filter(b => b.IdBoceto !== idBoceto);
+                }
+            });
+        }
+        // Restaurar selección y datos de los bocetos seleccionados
+        function restoreSelections() {
+            $('#tabla-Bocetos tbody tr').each(function () {
+                const row = $(this);
+                const idBoceto = parseInt(row.find('td').eq(1).text());
+                const selected = selectedBocetos.find(b => b.IdBoceto === idBoceto);
+                if (selected) {
+                    row.find('.select-boceto').prop('checked', true);
+                    row.find('.boceto-description').val(selected.DescripcionUsuario);
+                    row.find('.boceto-cantidad').val(selected.Cantidad);
+                } else {
+                    row.find('.select-boceto').prop('checked', false);
+                    row.find('.boceto-description').val('');
+                    row.find('.boceto-cantidad').val('');
+                }
+            });
+        }
+        // Evento: Guardar datos antes de redibujar la tabla
+        table.on('draw', function () {
+            saveCurrentPageSelections();
+            restoreSelections();
+        });
+        // Evento: Guardar cambios en tiempo real
+        $(document).on('change', '.select-boceto, .boceto-description, .boceto-cantidad', function () {
+            saveCurrentPageSelections();
+        });
+        // Enviar datos al servidor
+        $('#enviarSolicitud').on('click', function () {
+            const descripcionGeneral = $('#generalDescription').val();
+            const moneda = $('#moneda').val();
+            if (!selectedBocetos.length) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Atención',
+                    text: 'Selecciona al menos un boceto.',
+                    confirmButtonColor: '#c1952c'
+                });
+                return;
+            }
 
-		let selectedBocetos = [];
-		// Guardar los datos actuales al cambiar de página
-		function saveCurrentPageSelections() {
-			$('#tabla-Bocetos tbody tr').each(function () {
-				const row = $(this);
-				const idBoceto = parseInt(row.find('td').eq(1).text());
-				const descripcion = row.find('.boceto-description').val();
-				const cantidad = row.find('.boceto-cantidad').val();
-				const isChecked = row.find('.select-boceto').is(':checked');
-				const existingBoceto = selectedBocetos.find(b => b.IdBoceto === idBoceto);
-				if (isChecked) {
-					if (existingBoceto) {
-						existingBoceto.DescripcionUsuario = descripcion || '';
-						existingBoceto.Cantidad = parseInt(cantidad) || 0;
-					} else {
-						selectedBocetos.push({
-							IdBoceto: idBoceto,
-							DescripcionUsuario: descripcion || '',
-							Cantidad: parseInt(cantidad) || 0
-						});
-					}
-				} else if (existingBoceto) {
-					selectedBocetos = selectedBocetos.filter(b => b.IdBoceto !== idBoceto);
-				}
-			});
-		}
-		// Restaurar selección y datos de los bocetos seleccionados
-		function restoreSelections() {
-			$('#tabla-Bocetos tbody tr').each(function () {
-				const row = $(this);
-				const idBoceto = parseInt(row.find('td').eq(1).text());
-				const selected = selectedBocetos.find(b => b.IdBoceto === idBoceto);
-				if (selected) {
-					row.find('.select-boceto').prop('checked', true);
-					row.find('.boceto-description').val(selected.DescripcionUsuario);
-					row.find('.boceto-cantidad').val(selected.Cantidad);
-				} else {
-					row.find('.select-boceto').prop('checked', false);
-					row.find('.boceto-description').val('');
-					row.find('.boceto-cantidad').val('');
-				}
-			});
-		}
-		// Evento: Guardar datos antes de redibujar la tabla
-		table.on('draw', function () {
-			saveCurrentPageSelections();
-			restoreSelections();
-		});
-		// Evento: Guardar cambios en tiempo real
-		$(document).on('change', '.select-boceto, .boceto-description, .boceto-cantidad', function () {
-			saveCurrentPageSelections();
-		});
-		// Enviar datos al servidor
-		$('#enviarSolicitud').on('click', function () {
-			const descripcionGeneral = $('#generalDescription').val();
-			const moneda = $('#moneda').val();
-			if (!selectedBocetos.length) {
-				Swal.fire('Atención', 'Selecciona al menos un boceto', 'warning');
-				return;
-			}
-			$.ajax({
-				url: '/Cotizaciones/CrearSolicitudCotizacionCliente',
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify({
-					DescripcionGeneral: descripcionGeneral,
-					Moneda: parseInt(moneda),
-					BocetosSeleccionados: selectedBocetos
-				}),
-				success: function (response) {
-					Swal.fire({
-						icon: 'success',
-						title: 'Solicitud Creada',
-						text: 'La solicitud de cotización se creó exitosamente.',
-						confirmButtonColor: '#c1952c',
-						timer: 1800
-					}).then(() => window.location.href = '/Cotizaciones/ConsultarSolicitudCotizacionesCliente');
-				},
-				error: function () {
-					Swal.fire({
-						title: 'Error',
-						text: response.message,
-						icon: 'error',
-						confirmButtonColor: '#d33'
-					});
-				}
-			});
-		});
-		// Manejar la visualización de imágenes
-		$('#tabla-Bocetos').on('click', '.boceto-img, .view-image', function () {
-			const src = $(this).data('src');
-			$('#modalImage').attr('src', src);
-		});
-	});
+            // Verificar que todos los bocetos seleccionados tengan cantidad válida
+            const bocetosInvalidos = selectedBocetos.filter(b => !b.Cantidad || b.Cantidad < 1);
+            if (bocetosInvalidos.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cantidad requerida',
+                    text: 'Debes ingresar una cantidad válida (mínimo 1) para cada boceto seleccionado.',
+                    confirmButtonColor: '#c1952c'
+                });
+                return;
+            }
+            $.ajax({
+                url: '/Cotizaciones/CrearSolicitudCotizacionCliente',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    DescripcionGeneral: descripcionGeneral,
+                    Moneda: parseInt(moneda),
+                    BocetosSeleccionados: selectedBocetos
+                }),
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Solicitud Creada',
+                        text: 'La solicitud de cotización se creó exitosamente.',
+                        confirmButtonColor: '#c1952c',
+                        timer: 1800
+                    }).then(() => window.location.href = '/Cotizaciones/ConsultarSolicitudCotizacionesCliente');
+                },
+                error: function () {
+                    Swal.fire({
+                        title: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonColor: '#d33'
+                    });
+                }
+            });
+        });
+        // Manejar la visualización de imágenes
+        $('#tabla-Bocetos').on('click', '.boceto-img, .view-image', function () {
+            const src = $(this).data('src');
+            $('#modalImage').attr('src', src);
+        });
+    });
 </script>
 
 
