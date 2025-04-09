@@ -26,8 +26,12 @@
                                 @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @type = "email", @required = "required", @id = "CorreoElectronico", @placeholder = "Correo electrónico" })
                             </div>
 
-                            <div class="form-group">
+                            @* <div class="form-group">
                                 @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "password", @required = "required", @id = "Contrasenna", @placeholder = "Contraseña" })
+                            </div> *@
+                            <div class="form-group position-relative">
+                               @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control pe-5", @type = "password", @required = "required", @id = "Contrasenna", @placeholder = "Contraseña" })
+                               <i class="bi bi-eye-fill" id="togglePassword" style="display: none; position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
                             </div>
 
                             <div class="mt-3">
@@ -49,5 +53,32 @@
     </div>
 </div>
 
+<script>
+    const passwordInput = document.getElementById("Contrasenna");
+    const toggleIcon = document.getElementById("togglePassword");
+
+    passwordInput.addEventListener("input", function () {
+        if (this.value.length > 0) {
+            toggleIcon.style.display = "block";
+        } else {
+            toggleIcon.style.display = "none";
+            passwordInput.type = "password";
+            toggleIcon.classList.remove("bi-eye-slash-fill");
+            toggleIcon.classList.add("bi-eye-fill");
+        }
+    });
+
+    toggleIcon.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            this.classList.remove("bi-eye-fill");
+            this.classList.add("bi-eye-slash-fill");
+        } else {
+            passwordInput.type = "password";
+            this.classList.remove("bi-eye-slash-fill");
+            this.classList.add("bi-eye-fill");
+        }
+    });
+</script>
 
 

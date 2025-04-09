@@ -368,15 +368,36 @@ namespace BigSolutionsWeb.Controllers
             }
         }
 
+        //private void ConsultarTiposRoles()
+        //{
+        //    var roles = iRolModel.ConsultarTiposRoles();
+        //    List<SelectListItem> listaRoles = new List<SelectListItem>();
+        //    listaRoles = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)roles.Contenido!)!;
+        //    listaRoles.Insert(0, new SelectListItem { Text = "Seleccione un rol ", Value = "" });
+
+        //    ViewBag.Roles = listaRoles;
+        //}
+
         private void ConsultarTiposRoles()
         {
             var roles = iRolModel.ConsultarTiposRoles();
             List<SelectListItem> listaRoles = new List<SelectListItem>();
             listaRoles = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)roles.Contenido!)!;
+
+            // Reemplazar texto "Admin" por "Administrador"
+            foreach (var rol in listaRoles)
+            {
+                if (rol.Text == "Admin")
+                {
+                    rol.Text = "Administrador";
+                }
+            }
+
             listaRoles.Insert(0, new SelectListItem { Text = "Seleccione un rol ", Value = "" });
 
             ViewBag.Roles = listaRoles;
         }
+
 
         private void ConsultarTiposEstados()
         {

@@ -1,159 +1,163 @@
 ﻿@model BigSolutionsWeb.DTOs.CrearFacturaDTO
 
 @{
-    ViewData["Title"] = "Agregar Factura Venta";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Agregar Factura Venta";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Registrar Factura de Venta</h1>
-        <p>Llena el siguiente formulario para agregar una nueva factura de venta.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Registrar Factura de Venta</h1>
+		<p>Llena el siguiente formulario para agregar una nueva factura de venta.</p>
+	</div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Seleccionar Orden</h3>
-        </div>
-        <div class="card-body">
-            <table id="tabla-Ordenes" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">Seleccionar</th>
-                        <th style="text-align:left">Número de Orden</th>
-                        <th style="text-align:left">Cliente</th>
-                        <th style="text-align:left">Descripción de la Orden</th>
-                        <th style="text-align:left">Orden de Compra</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Ordenes != null && Model.Ordenes.Any())
-                    {
-                        foreach (var orden in Model.Ordenes)
-                        {
-                            <tr>
-                                <td style="text-align:left">
-                                    <input type="radio" name="IdOrden" value="@orden.IdOrden">
-                                </td>
-                                <td style="text-align:left">@orden.IdOrden</td>
-                                <td style="text-align:left">@orden.NombreUsuario</td>
-                                <td style="text-align:left">@orden.Descripcion</td>
-                                <td style="text-align:left">
-                                    @if (!string.IsNullOrEmpty(orden.RutaOrdenCompra))
-                                    {
-                                        <a href="@Url.Content(orden.RutaOrdenCompra)" target="_blank" class="botones">Ver Orden de Compra</a>
-                                    }
-                                    else
-                                    {
-                                        <span>No disponible</span>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center">No hay órdenes disponibles.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Seleccionar Orden</h3>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="tabla-Ordenes" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:left">Seleccionar</th>
+							<th style="text-align:left">Número de Orden</th>
+							<th style="text-align:left">Cliente</th>
+							<th style="text-align:left">Descripción de la Orden</th>
+							<th style="text-align:left">Orden de Compra</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model.Ordenes != null && Model.Ordenes.Any())
+						{
+							foreach (var orden in Model.Ordenes)
+							{
+								<tr>
+									<td style="text-align:left">
+										<input type="radio" name="IdOrden" value="@orden.IdOrden">
+									</td>
+									<td style="text-align:left">@orden.IdOrden</td>
+									<td style="text-align:left">@orden.NombreUsuario</td>
+									<td style="text-align:left">@orden.Descripcion</td>
+									<td style="text-align:left">
+										@if (!string.IsNullOrEmpty(orden.RutaOrdenCompra))
+										{
+											<a href="@Url.Content(orden.RutaOrdenCompra)" target="_blank" class="botones">Ver Orden de Compra</a>
+										}
+										else
+										{
+											<span>No disponible</span>
+										}
+									</td>
+								</tr>
+							}
+						}
+						else
+						{
+							<tr>
+								<td colspan="5" class="text-center">No hay órdenes disponibles.</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Datos de la Factura</h3>
-        </div>
-        <div class="card-body">
-            <form id="agregarFacturaForm" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="FacturaArchivo">Adjuntar Factura</label>
-                            <input type="file" id="FacturaArchivo" name="FacturaArchivo" class="form-control-file">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="NumFacturaVenta">Número de Factura</label>
-                            <input type="text" id="NumFacturaVenta" name="NumFacturaVenta" class="form-control" placeholder="Ingrese el número de la factura">
-                        </div>
-                    </div>
-                </div>
-                <button id="crearFacturaButton" type="button" class="botones-secundarios">Crear Factura</button>
-            </form>
-        </div>
-        <div class="card-footer text-center py-3">
-            <a href="@Url.Action("ConsultarFacturasVenta", "Contabilidad")" class="inventario-link">Volver a facturas venta</a>
-        </div>
-    </div>
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Datos de la Factura</h3>
+		</div>
+		<div class="card-body">
+			<form id="agregarFacturaForm" enctype="multipart/form-data">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="FacturaArchivo">Adjuntar Factura</label>
+							<input type="file" id="FacturaArchivo" name="FacturaArchivo" class="form-control-file">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="NumFacturaVenta">Número de Factura</label>
+							<input type="text" id="NumFacturaVenta" name="NumFacturaVenta" class="form-control" placeholder="Ingrese el número de la factura">
+						</div>
+					</div>
+				</div>
+				<button id="crearFacturaButton" type="button" class="botones-secundarios">Crear Factura</button>
+			</form>
+		</div>
+		<div class="card-footer text-center py-3">
+			<a href="@Url.Action("ConsultarFacturasVenta", "Contabilidad")" class="inventario-link">Volver a facturas venta</a>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+	$(document).ready(function () {
 
-        $('#tabla-Ordenes').DataTable({
-            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']]
-        });
+		$('#tabla-Ordenes').DataTable({
+			language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
 
-        // Enviar datos al controller
-        $('#crearFacturaButton').on('click', function (e) {
-            e.preventDefault();
+		// Enviar datos al controller
+		$('#crearFacturaButton').on('click', function (e) {
+			e.preventDefault();
 
-            const idOrden = $('input[name="IdOrden"]:checked').val();
-            const numFacturaVenta = $('#NumFacturaVenta').val().trim();
-            const facturaArchivo = $('#FacturaArchivo')[0].files[0];
+			const idOrden = $('input[name="IdOrden"]:checked').val();
+			const numFacturaVenta = $('#NumFacturaVenta').val().trim();
+			const facturaArchivo = $('#FacturaArchivo')[0].files[0];
 
-            if (!idOrden || !numFacturaVenta || !facturaArchivo) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos incompletos',
-                    text: 'Por favor, complete todos los campos antes de aceptar.',
-                    confirmButtonColor: '#c1952c'
-                });
-                return;
-            }
+			if (!idOrden || !numFacturaVenta || !facturaArchivo) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Campos incompletos',
+					text: 'Por favor, complete todos los campos antes de aceptar.',
+					confirmButtonColor: '#c1952c'
+				});
+				return;
+			}
 
-            const formData = new FormData();
-            formData.append('IdOrden', idOrden);
-            formData.append('NumFacturaVenta', numFacturaVenta);
-            formData.append('FacturaVentaArchivo', facturaArchivo);
+			const formData = new FormData();
+			formData.append('IdOrden', idOrden);
+			formData.append('NumFacturaVenta', numFacturaVenta);
+			formData.append('FacturaVentaArchivo', facturaArchivo);
 
-            // Deshabilitar botón mientras se procesa
-            const $button = $(this);
-            $button.prop('disabled', true).text('Creando Factura...');
+			// Deshabilitar botón mientras se procesa
+			const $button = $(this);
+			$button.prop('disabled', true).text('Creando Factura...');
 
-            $.ajax({
-                url: '/Contabilidad/AgregarFacturasVenta',
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                data: formData,
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Factura Creada',
-                        text: 'La factura ha sido registrada exitosamente.',
-                        confirmButtonColor: '#c1952c',
-                        timer: 2000
-                    }).then(() => {
-                        window.location.href = '/Contabilidad/ConsultarFacturasVenta';
-                    });
-                },
-                error: function (xhr) {
-                    $button.prop('disabled', false).text('Crear Factura');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseText || 'Hubo un problema al registrar la factura.',
-                        confirmButtonColor: '#c1952c'
-                    });
-                }
-            });
-        });
-    });
+			$.ajax({
+				url: '/Contabilidad/AgregarFacturasVenta',
+				type: 'POST',
+				processData: false,
+				contentType: false,
+				data: formData,
+				success: function () {
+					Swal.fire({
+						icon: 'success',
+						title: 'Factura Creada',
+						text: 'La factura ha sido registrada exitosamente.',
+						confirmButtonColor: '#c1952c',
+						timer: 2000
+					}).then(() => {
+						window.location.href = '/Contabilidad/ConsultarFacturasVenta';
+					});
+				},
+				error: function (xhr) {
+					$button.prop('disabled', false).text('Crear Factura');
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: xhr.responseText || 'Hubo un problema al registrar la factura.',
+						confirmButtonColor: '#c1952c'
+					});
+				}
+			});
+		});
+	});
 </script>
