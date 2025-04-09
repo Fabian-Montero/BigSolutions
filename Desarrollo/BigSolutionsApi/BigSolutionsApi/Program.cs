@@ -11,6 +11,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+/*builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowWebApp",
+        policy => policy.WithOrigins("https://app.bigsolutionscr.com",   // producción
+                                    "https://localhost:7155",           // local HTTPS
+                                    "http://localhost:5162")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});*/
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x => { x.JsonSerializerOptions.PropertyNamingPolicy = null; });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -116,14 +135,17 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+/*if (app.Environment.IsDevelopment())
+{*/
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+/*}*/
 
-app.UseHttpsRedirection();
-
+/*app.UseHttpsRedirection();*/
+app.UseRouting();
+app.UseCors("AllowAll");
+/*app.UseCors("AllowWebApp");
+*/
 app.UseAuthorization();
 
 app.MapControllers();
