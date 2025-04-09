@@ -124,7 +124,12 @@
 									{
 										<tr>
 											<td style="text-align:left">@comprobante.IdOrdenDetalleComprobantes</td>
-											<td style="text-align:left">@comprobante.DescripcionComprobante</td>
+											@* <td style="text-align:left">@comprobante.DescripcionComprobante</td> *@
+											<td style="text-align:left" title="@comprobante.DescripcionComprobante">
+												@(comprobante.DescripcionComprobante?.Length > 35
+																						? comprobante.DescripcionComprobante.Substring(0, 35) + "..."
+																						: comprobante.DescripcionComprobante)
+											</td>
 											<td style="text-align:left">@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
 											<td style="text-align:left">
 												<a href="@comprobante.RutaComprobante" target="_blank" class="botones">Ver Comprobante</a>

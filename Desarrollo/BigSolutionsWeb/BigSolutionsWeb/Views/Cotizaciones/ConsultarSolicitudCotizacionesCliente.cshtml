@@ -39,7 +39,12 @@
 						{
 							<tr>
 								<td style="text-align:left">@solicitud.IdSolicitudCotizacion</td>
-								<td style="text-align:left">@solicitud.Descripcion</td>
+								@* <td style="text-align:left">@solicitud.Descripcion</td> *@
+								<td style="text-align:left" title="@solicitud.Descripcion">
+									@(solicitud.Descripcion?.Length > 40
+																? solicitud.Descripcion.Substring(0, 40) + "..."
+																: solicitud.Descripcion)
+								</td>
 								<td style="text-align:left">@solicitud.FechaCreacion.ToString("dd/MM/yyyy")</td>
 								<td style="text-align:left">@solicitud.Moneda</td>
 								<td style="text-align:left">
