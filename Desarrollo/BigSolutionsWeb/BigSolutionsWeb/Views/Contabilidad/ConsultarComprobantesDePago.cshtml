@@ -56,7 +56,11 @@
 								<tr>
 									<td style="text-align:start">@comprobante.IdOrdenDetalleComprobantes</td>
 									<td style="text-align:start">@comprobante.IdOrden</td>
-									<td>@comprobante.DescripcionComprobante</td>
+									<td title="@comprobante.DescripcionComprobante">
+										@(comprobante.DescripcionComprobante?.Length > 35
+																	? comprobante.DescripcionComprobante.Substring(0, 35) + "..."
+																	: comprobante.DescripcionComprobante)
+									</td>
 									<td>@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
 									<td>
 										@if (rol == 1)

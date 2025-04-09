@@ -59,7 +59,9 @@
 							{
 								<tr>
 									<td style="text-align:left">@orden.IdOrden</td>
-									<td style="text-align:left">@orden.Descripcion</td>
+									<td style="text-align:left">
+										@(orden.Descripcion?.Length > 30 ? orden.Descripcion.Substring(0, 30) + "..." : orden.Descripcion)
+									</td>
 									<td style="text-align:left">@orden.NombreUsuario</td>
 									<td style="text-align:left">@orden.Estado.GetDisplayName()</td>
 									<td style="text-align:left">@orden.MetodoPago.GetDisplayName()</td>

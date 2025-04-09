@@ -85,7 +85,11 @@
 											<input type="radio" name="IdCotizacion" value="@cotizacion.IdCotizacion" />
 										</td>
 										<td style="text-align:left">@cotizacion.IdCotizacion</td>
-										<td style="text-align:left">@cotizacion.Descripcion</td>
+										<td style="text-align:left" title="@cotizacion.Descripcion">
+											@(cotizacion.Descripcion?.Length > 40
+																					? cotizacion.Descripcion.Substring(0, 40) + "..."
+																					: cotizacion.Descripcion)
+										</td>
 										<td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
 										<td style="text-align:left">@cotizacion.Moneda</td>
 										<td style="text-align:left">
