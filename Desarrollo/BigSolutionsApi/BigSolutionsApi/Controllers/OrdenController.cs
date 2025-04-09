@@ -990,7 +990,8 @@ namespace BigSolutionsApi.Controllers
                         Orden = orden,
                         Cotizacion = cotizacion,
                         Bocetos = bocetos,
-                        Comprobantes = comprobantes
+                        Comprobantes = comprobantes,
+                        FacturasPendientes = facturasPendientes 
                     };
 
                     resp.Codigo = 1;

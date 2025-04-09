@@ -169,7 +169,7 @@ namespace BigSolutionsWeb.Controllers
 
                 // Subir el comprobante a Firebase
                 var rutaComprobante = await iFirebaseModel.GuardarImagen(
-                    "comprobantes-pago",
+                    "comprobantes",
                     (int)Comprobante.IdOrden,
                     Comprobante.ArchivoComprobante
                 );
@@ -204,7 +204,7 @@ namespace BigSolutionsWeb.Controllers
             if (resp.Codigo == 1)
             {
                 // Eliminar el archivo de Firebase
-                bool imagenEliminada = await iFirebaseModel.EliminarImagen("comprobantes-pago", (int)IdOrden);
+                bool imagenEliminada = await iFirebaseModel.EliminarImagen("comprobantes", (int)IdOrden);
 
                 if (imagenEliminada)
                 {

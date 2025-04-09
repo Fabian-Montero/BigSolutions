@@ -79,27 +79,40 @@
         <div class="card-body">
             <table id="tabla-FacturasPendientes" class="table table-hover">
                 <thead>
-                    <tr>
-                        <th style="text-align:left">Número de Orden</th>
-                        <th style="text-align:left">Cliente</th>
-                        <th style="text-align:left">Subtotal</th>
-                        <th style="text-align:left">Impuesto IVA</th>
-                        <th style="text-align:left">Total</th>
-                        <th style="text-align:left">Fecha Creación</th>
-                    </tr>
+                <tr>
+                    <th style="text-align:left">Número de Orden</th>
+                    <th style="text-align:left">Subtotal</th>
+                    <th style="text-align:left">Impuesto IVA</th>
+                    <th style="text-align:left">Total</th>
+                    <th style="text-align:left">Moneda</th>
+                    <th style="text-align:left">Fecha de Creación</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var factura in Model.FacturasPendientes)
+                @foreach (var factura in Model.FacturasPendientes)
+                {
+                    var currencySymbol = "";
+                    var monedaText = "";
+                    if (factura.Moneda == Moneda.Colones)
                     {
-                        <tr>
-                            <td style="text-align:left">@Model.Orden.IdOrden</td>
-                            <td style="text-align:left">@Model.Orden.NombreUsuario</td>
-                            <td style="text-align:left">@factura.SubTotal.ToString("C")</td>
-                            <td style="text-align:left">@factura.ImpuestoIVA.ToString("C")</td>
-                            <td style="text-align:left">@factura.Total.ToString("C")</td>
-                            <td style="text-align:left">@factura.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                        </tr>
+                        currencySymbol = "₡";
+                        monedaText = "Colones";
                     }
+                    else if (factura.Moneda == Moneda.Dólares)
+                    {
+                        currencySymbol = "$";
+                        monedaText = "Dólares";
+                    }
+
+                    <tr>
+                        <td style="text-align:left">@factura.IdOrden</td>
+                        <td style="text-align:left">@($"{currencySymbol} {factura.SubTotal:N2}")</td>
+                        <td style="text-align:left">@($"{currencySymbol} {factura.ImpuestoIVA:N2}")</td>
+                        <td style="text-align:left">@($"{currencySymbol} {factura.Total:N2}")</td>
+                        <td style="text-align:left">@monedaText</td>
+                        <td style="text-align:left">@factura.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>

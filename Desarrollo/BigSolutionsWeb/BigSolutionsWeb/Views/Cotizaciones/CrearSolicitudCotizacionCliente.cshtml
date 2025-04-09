@@ -187,7 +187,24 @@
             const descripcionGeneral = $('#generalDescription').val();
             const moneda = $('#moneda').val();
             if (!selectedBocetos.length) {
-                Swal.fire('Atención', 'Selecciona al menos un boceto', 'warning');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Atención',
+                    text: 'Selecciona al menos un boceto.',
+                    confirmButtonColor: '#c1952c'
+                });
+                return;
+            }
+
+            // Verificar que todos los bocetos seleccionados tengan cantidad válida
+            const bocetosInvalidos = selectedBocetos.filter(b => !b.Cantidad || b.Cantidad < 1);
+            if (bocetosInvalidos.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cantidad requerida',
+                    text: 'Debes ingresar una cantidad válida (mínimo 1) para cada boceto seleccionado.',
+                    confirmButtonColor: '#c1952c'
+                });
                 return;
             }
             $.ajax({
