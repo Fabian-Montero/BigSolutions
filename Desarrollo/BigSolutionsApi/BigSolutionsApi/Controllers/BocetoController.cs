@@ -17,7 +17,7 @@ namespace BigSolutionsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BocetoController(IConfiguration iConfiguration, IFirebaseModel iFirebaseModel) : ControllerBase
+    public class BocetoController(IConfiguration iConfiguration, IFirebaseModel iFirebaseModel, IComunesModel iComunesModel) : ControllerBase
     {
 
         [Authorize]
@@ -56,7 +56,8 @@ namespace BigSolutionsApi.Controllers
         public async Task<IActionResult> GenerarBoceto(GenerateSketchDTO ent)
         {
             Respuesta resp = new Respuesta();
-            string prompt = $"{ent.ProductPrompt}. Create a realistic, high-quality image of the described product, ensuring the appearance matches precisely. In the center of the product, incorporate a logo based on the following description: '{ent.LogoDescription}'. Position the logo so it’s clearly centered, covering approximately 30% of the product’s front surface to be noticeable and visually appealing, without obscuring or altering the original product design. The logo should blend naturally with the product’s texture, as if printed or embedded directly on it. Avoid any raised or three-dimensional effects for a seamless integration. Use a white, clean background with soft, uniform lighting that enhances the product’s features without introducing extra shadows. Highlight the product and logo clearly, preserving all specified design details.";
+            
+           string prompt = $"{ent.ProductPrompt}. Create a realistic, high-quality image of the described product, ensuring the appearance matches precisely. In the center of the product, incorporate a logo based on the following description, which is originally written in Spanish. First, translate the description to English: '{ent.LogoDescription}'. Then, use that translated version to render the logo. Position the logo so it’s clearly centered, covering approximately 30% of the product’s front surface to be noticeable and visually appealing, without obscuring or altering the original product design. The logo should blend naturally with the product’s texture, as if printed or embedded directly on it. Avoid any raised or three-dimensional effects for a seamless integration. Use a white, clean background with soft, uniform lighting that enhances the product’s features without introducing extra shadows. Highlight the product and logo clearly, preserving all specified design details.";
 
             var openAiApiKey = iConfiguration.GetSection("OpenAI:ApiKey").Value;
             var requestBody = new
