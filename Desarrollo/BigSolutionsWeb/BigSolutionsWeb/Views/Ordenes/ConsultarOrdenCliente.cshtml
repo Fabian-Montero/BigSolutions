@@ -67,6 +67,17 @@
 							<span>No disponible</span>
 						}
 					</p>
+					<p>
+						<strong>Boleta de Entrega:</strong>
+						@if (!string.IsNullOrEmpty(Model.Orden.RutaBoletaEntrega))
+						{
+							<a href="@Model.Orden.RutaBoletaEntrega" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Archivo</a>
+						}
+						else
+						{
+							<span>No disponible</span>
+						}
+					</p>
 				</div>
 			</div>
 		</div>

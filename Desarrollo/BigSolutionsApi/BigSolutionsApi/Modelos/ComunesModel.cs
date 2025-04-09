@@ -5,7 +5,11 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using Google.Api.Gax.ResourceNames;
+using Google.Cloud.Translate.V3;
+using GoogleTranslateFreeApi;
 
 namespace BigSolutionsApi.Modelos
 {
