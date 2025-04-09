@@ -2,361 +2,367 @@
 @using BigSolutionsWeb.Enums
 
 @{
-    ViewData["Title"] = "Editar Orden";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Editar Orden";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Editar Orden</h1>
-        <p>Modifica los campos necesarios para actualizar la orden.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Editar Orden</h1>
+		<p>Modifica los campos necesarios para actualizar la orden.</p>
+	</div>
 
-    @if (ViewBag.MsjPantalla != null)
-    {
-        <div class="alert alert-warning text-center">
-            @ViewBag.MsjPantalla
-        </div>
-    }
+	@if (ViewBag.MsjPantalla != null)
+	{
+		<div class="alert alert-warning text-center">
+			@ViewBag.MsjPantalla
+		</div>
+	}
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Formulario de Edición de Orden</h3>
-        </div>
-        <div class="card-body">
-            <form id="editarOrdenAdminForm" enctype="multipart/form-data">
-                <input type="hidden" id="idOrden" name="IdOrden" value="@Model.IdOrden" />
-                <input type="hidden" id="idUsuario" name="IdUsuario" value="" />
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Formulario de Edición de Orden</h3>
+		</div>
+		<div class="card-body">
+			<form id="editarOrdenAdminForm" enctype="multipart/form-data">
+				<input type="hidden" id="idOrden" name="IdOrden" value="@Model.IdOrden" />
+				<input type="hidden" id="idUsuario" name="IdUsuario" value="" />
 
-                <!-- Datos generales -->
-                <div class="row justify-content-center">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="descripcionOrden">Descripción de la Orden</label>
-                            <textarea id="descripcionOrden" name="Descripcion" class="form-control" rows="3">@Model.Descripcion</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="ordenCompra">Orden de Compra</label>
-                            <input style="margin-bottom: 5px;" type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file">
-                            @if (!string.IsNullOrEmpty(Model.RutaOrdenCompra))
-                            {
-                                <a href="@Model.RutaOrdenCompra" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Orden de Compra Actual</a>
-                            }
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="metodoPago">Método de Pago</label>
-                            <select id="metodoPago" name="MetodoPago" class="form-control">
-                                @foreach (var metodo in Enum.GetValues(typeof(BigSolutionsWeb.Enums.MetodoPago)).Cast<BigSolutionsWeb.Enums.MetodoPago>())
-                                {
-                                    <option value="@((int)metodo)">@metodo.GetDisplayName()</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <!-- Archivos adicionales -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="facturaVenta">Factura Venta</label>
-                            <input type="file" id="facturaVentaArchivo" name="FacturaVentaArchivo" class="form-control-file">
-                            @if (!string.IsNullOrEmpty(Model.RutaFacturaVenta))
-                            {
-                                
-                                <label style="margin-top: 5px;" for="numFacturaVenta">Número de Factura</label>
-                                <input style="margin-bottom: 5px;" type="text" id="numFacturaVenta" name="NumFacturaVenta" class="form-control" value="@Model.NumFacturaVenta"  placeholder="Ingrese el número de factura">
+				<!-- Datos generales -->
+				<div class="row justify-content-center">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="descripcionOrden">Descripción de la Orden</label>
+							<textarea id="descripcionOrden" name="Descripcion" class="form-control" rows="3">@Model.Descripcion</textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="ordenCompra">Orden de Compra</label>
+							<input style="margin-bottom: 5px;" type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file">
+							@if (!string.IsNullOrEmpty(Model.RutaOrdenCompra))
+							{
+								<a href="@Model.RutaOrdenCompra" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Orden de Compra Actual</a>
+							}
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="metodoPago">Método de Pago</label>
+							<select id="metodoPago" name="MetodoPago" class="form-control">
+								@foreach (var metodo in Enum.GetValues(typeof(BigSolutionsWeb.Enums.MetodoPago)).Cast<BigSolutionsWeb.Enums.MetodoPago>())
+								{
+									<option value="@((int)metodo)">@metodo.GetDisplayName()</option>
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+				<!-- Archivos adicionales -->
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="facturaVenta">Factura Venta</label>
+							<input type="file" id="facturaVentaArchivo" name="FacturaVentaArchivo" class="form-control-file">
+							@if (!string.IsNullOrEmpty(Model.RutaFacturaVenta))
+							{
 
-                                <a href="@Model.RutaFacturaVenta" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Factura Venta Actual</a>
-                            }
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="boletaEntrega">Boleta de Entrega</label>
-                            <input style="margin-bottom: 5px;" type="file" id="boletaEntregaArchivo" name="BoletaEntregaArchivo" class="form-control-file">
-                            @if (!string.IsNullOrEmpty(Model.RutaBoletaEntrega))
-                            {
-                                <a href="@Model.RutaBoletaEntrega" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Boleta Actual</a>
-                            }
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="estadoOrden">Estado de la Orden</label>
-                            <select id="estadoOrden" name="EstadoOrden" class="form-control">
-                                @foreach (var estado in Enum.GetValues(typeof(BigSolutionsWeb.Enums.EstadoOrden)).Cast<BigSolutionsWeb.Enums.EstadoOrden>())
-                                {
-                                    <option value="@((int)estado)">@estado.GetDisplayName()</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group mt-4">
-                    <label for="comprobantePagoArchivo">Ingresar Nuevo Comprobante</label>
-                    <input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
-                    <label for="descripcionComprobante" class="mt-2">Descripción</label>
-                    <textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2"></textarea>
-                </div>
+								<label style="margin-top: 5px;" for="numFacturaVenta">Número de Factura</label>
+								<input style="margin-bottom: 5px;" type="text" id="numFacturaVenta" name="NumFacturaVenta" class="form-control" value="@Model.NumFacturaVenta" placeholder="Ingrese el número de factura">
 
-                <!-- Comprobantes -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Comprobantes de Pago</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="tabla-Comprobantes" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:left">Id del comprobante</th>
-                                    <th style="text-align:left">Descripción</th>
-                                    <th style="text-align:left">Fecha de Creación</th>
-                                    <th style="text-align:left">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var comprobante in Model.ComprobantesOrden)
-                                {
-                                    <tr>
-                                        <td style="text-align:left">@comprobante.IdOrdenDetalleComprobantes</td>
-                                        <td style="text-align:left">@comprobante.DescripcionComprobante</td>
-                                        <td style="text-align:left">@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                                        <td style="text-align:left">
-                                            <a href="@comprobante.RutaComprobante" target="_blank" class="botones">Ver Comprobante</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+								<a href="@Model.RutaFacturaVenta" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Factura Venta Actual</a>
+							}
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="boletaEntrega">Boleta de Entrega</label>
+							<input style="margin-bottom: 5px;" type="file" id="boletaEntregaArchivo" name="BoletaEntregaArchivo" class="form-control-file">
+							@if (!string.IsNullOrEmpty(Model.RutaBoletaEntrega))
+							{
+								<a href="@Model.RutaBoletaEntrega" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Boleta Actual</a>
+							}
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="estadoOrden">Estado de la Orden</label>
+							<select id="estadoOrden" name="EstadoOrden" class="form-control">
+								@foreach (var estado in Enum.GetValues(typeof(BigSolutionsWeb.Enums.EstadoOrden)).Cast<BigSolutionsWeb.Enums.EstadoOrden>())
+								{
+									<option value="@((int)estado)">@estado.GetDisplayName()</option>
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group mt-4">
+					<label for="comprobantePagoArchivo">Ingresar Nuevo Comprobante</label>
+					<input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
+					<label for="descripcionComprobante" class="mt-2">Descripción</label>
+					<textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2"></textarea>
+				</div>
 
-                        
-                    </div>
-                </div>
-
-                
-
-                <!-- Selección de cotización -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Seleccionar Cotización</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="tabla-Cotizaciones" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:left">Seleccionar</th>
-                                    <th style="text-align:left">Número de Cotización</th>
-                                    <th style="text-align:left">Fecha de Generación</th>
-                                    <th style="text-align:left">Cliente</th>
-                                    <th style="text-align:left">Moneda</th>
-                                    <th style="text-align:left">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var cotizacion in Model.ListaCotizaciones)
-                                {
-                                    <tr>
-                                        <td style="text-align:left">
-                                            <input type="radio" name="IdCotizacion" value="@cotizacion.IdCotizacion" data-idusuario="@cotizacion.IdUsuario" />
-                                        </td>
-                                        <td style="text-align:left">@cotizacion.IdCotizacion</td>
-                                        <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                                        <td style="text-align:left">@cotizacion.NombreCompleto</td>
-                                        <td style="text-align:left">@cotizacion.Moneda</td>
-                                        <td style="text-align:left">
-                                            <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Control interno -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Control Interno</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="material">Material</label>
-                                    <textarea id="material" name="Material" class="form-control" rows="3">@Model.Material</textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="fechaEntrega">Fecha de Entrega</label>
-                                    <input type="date" id="fechaEntrega" name="FechaEntrega" class="form-control" value="@Model.FechaEntrega?.ToString("yyyy-MM-dd")">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="estadoInterno">Estado Interno</label>
-                                    <select id="estadoInterno" name="EstadoInternoOrden" class="form-control">
-                                        @foreach (var estado in Enum.GetValues(typeof(EstadoInternoOrden)).Cast<EstadoInternoOrden>())
-                                        {
-                                            <option value="@((int)estado)">@estado.GetDisplayName()</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="descripcionInterna">Descripción Interna</label>
-                            <textarea id="descripcionInterna" name="DescripcionInterna" class="form-control" rows="3">@Model.DescripcionInterna</textarea>
-                        </div>
-                        <button style="margin-bo" id="editarOrdenAdminButton" type="button" class="botones-secundarios">Editar Orden</button>
-                    </div>
-                </div>
+				<!-- Comprobantes -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<h3>Comprobantes de Pago</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="tabla-Comprobantes" class="table table-hover">
+								<thead>
+									<tr>
+										<th style="text-align:left">Id del comprobante</th>
+										<th style="text-align:left">Descripción</th>
+										<th style="text-align:left">Fecha de Creación</th>
+										<th style="text-align:left">Acciones</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var comprobante in Model.ComprobantesOrden)
+									{
+										<tr>
+											<td style="text-align:left">@comprobante.IdOrdenDetalleComprobantes</td>
+											<td style="text-align:left">@comprobante.DescripcionComprobante</td>
+											<td style="text-align:left">@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
+											<td style="text-align:left">
+												<a href="@comprobante.RutaComprobante" target="_blank" class="botones">Ver Comprobante</a>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 
 
-            </form>
-            <div class="card-footer text-center py-3">
-                <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver órdenes</a>
-            </div>
-        </div>
 
-    </div>
+				<!-- Selección de cotización -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<h3>Seleccionar Cotización</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="tabla-Cotizaciones" class="table table-hover">
+								<thead>
+									<tr>
+										<th style="text-align:left">Seleccionar</th>
+										<th style="text-align:left">Número de Cotización</th>
+										<th style="text-align:left">Fecha de Generación</th>
+										<th style="text-align:left">Cliente</th>
+										<th style="text-align:left">Moneda</th>
+										<th style="text-align:left">Acciones</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var cotizacion in Model.ListaCotizaciones)
+									{
+										<tr>
+											<td style="text-align:left">
+												<input type="radio" name="IdCotizacion" value="@cotizacion.IdCotizacion" data-idusuario="@cotizacion.IdUsuario" />
+											</td>
+											<td style="text-align:left">@cotizacion.IdCotizacion</td>
+											<td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+											<td style="text-align:left">@cotizacion.NombreCompleto</td>
+											<td style="text-align:left">@cotizacion.Moneda</td>
+											<td style="text-align:left">
+												<a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Control interno -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<h3>Control Interno</h3>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="material">Material</label>
+									<textarea id="material" name="Material" class="form-control" rows="3">@Model.Material</textarea>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="fechaEntrega">Fecha de Entrega</label>
+									<input type="date" id="fechaEntrega" name="FechaEntrega" class="form-control" value="@Model.FechaEntrega?.ToString("yyyy-MM-dd")">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="estadoInterno">Estado Interno</label>
+									<select id="estadoInterno" name="EstadoInternoOrden" class="form-control">
+										@foreach (var estado in Enum.GetValues(typeof(EstadoInternoOrden)).Cast<EstadoInternoOrden>())
+										{
+											<option value="@((int)estado)">@estado.GetDisplayName()</option>
+										}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="descripcionInterna">Descripción Interna</label>
+							<textarea id="descripcionInterna" name="DescripcionInterna" class="form-control" rows="3">@Model.DescripcionInterna</textarea>
+						</div>
+						<button style="margin-bo" id="editarOrdenAdminButton" type="button" class="botones-secundarios">Editar Orden</button>
+					</div>
+				</div>
+
+
+			</form>
+			<div class="card-footer text-center py-3">
+				<a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver órdenes</a>
+			</div>
+		</div>
+
+	</div>
 </div>
 
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        // Inicializar DataTables para comprobantes y cotizaciones
-        $('#tabla-Comprobantes').DataTable({
-            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' },
-            order: [[0, 'desc']]
-        });
+	$(document).ready(function () {
+		// Inicializar DataTables para comprobantes y cotizaciones
+		$('#tabla-Comprobantes').DataTable({
+			language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' },
+			order: [[0, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
 
-        $('#tabla-Cotizaciones').DataTable({
-            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' },
-            order: [[1, 'desc']]
-        });
+		$('#tabla-Cotizaciones').DataTable({
+			language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' },
+			order: [[1, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
 
-        // Campo oculto para capturar el IdUsuario basado en la cotización seleccionada
-        $('input[name="IdCotizacion"]').on('change', function () {
-            const selectedCotizacion = $(this);
-            const idUsuario = selectedCotizacion.data('idusuario');
-            $('#idUsuario').val(idUsuario);
-        });
+		// Campo oculto para capturar el IdUsuario basado en la cotización seleccionada
+		$('input[name="IdCotizacion"]').on('change', function () {
+			const selectedCotizacion = $(this);
+			const idUsuario = selectedCotizacion.data('idusuario');
+			$('#idUsuario').val(idUsuario);
+		});
 
-        // Función para construir el FormData para editar la orden
-        function buildEditarOrdenAdminFormData() {
-            const formData = new FormData();
+		// Función para construir el FormData para editar la orden
+		function buildEditarOrdenAdminFormData() {
+			const formData = new FormData();
 
-            // Capturar datos generales
-            const descripcion = $('#descripcionOrden').val()?.trim() || '';
-            const metodoPago = $('#metodoPago').val();
-            const estadoOrden = $('#estadoOrden').val();
-            const idCotizacion = $('input[name="IdCotizacion"]:checked').val();
-            const idUsuario = $('#idUsuario').val();
-            const material = $('#material').val()?.trim() || '';
-            const fechaEntrega = $('#fechaEntrega').val();
-            const estadoInternoOrden = $('#estadoInterno').val();
-            const descripcionInterna = $('#descripcionInterna').val()?.trim() || '';
-            const descripcionComprobante = $('#descripcionComprobante').val()?.trim() || '';
+			// Capturar datos generales
+			const descripcion = $('#descripcionOrden').val()?.trim() || '';
+			const metodoPago = $('#metodoPago').val();
+			const estadoOrden = $('#estadoOrden').val();
+			const idCotizacion = $('input[name="IdCotizacion"]:checked').val();
+			const idUsuario = $('#idUsuario').val();
+			const material = $('#material').val()?.trim() || '';
+			const fechaEntrega = $('#fechaEntrega').val();
+			const estadoInternoOrden = $('#estadoInterno').val();
+			const descripcionInterna = $('#descripcionInterna').val()?.trim() || '';
+			const descripcionComprobante = $('#descripcionComprobante').val()?.trim() || '';
 
-            if (!idCotizacion) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Selecciona una Cotización',
-                    text: 'Por favor, selecciona una cotización antes de guardar los cambios.',
-                    confirmButtonColor: '#c1952c'
-                });
-                throw new Error('Cotización no seleccionada.');
-            }
+			if (!idCotizacion) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Selecciona una Cotización',
+					text: 'Por favor, selecciona una cotización antes de guardar los cambios.',
+					confirmButtonColor: '#c1952c'
+				});
+				throw new Error('Cotización no seleccionada.');
+			}
 
-            if (!idUsuario) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Error',
-                    text: 'No se ha asignado un IdUsuario válido. Por favor, selecciona una cotización.',
-                    confirmButtonColor: '#c1952c'
-                });
-                throw new Error('IdUsuario no asignado.');
-            }
+			if (!idUsuario) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Error',
+					text: 'No se ha asignado un IdUsuario válido. Por favor, selecciona una cotización.',
+					confirmButtonColor: '#c1952c'
+				});
+				throw new Error('IdUsuario no asignado.');
+			}
 
-            formData.append('IdOrden', $('#idOrden').val());
-            formData.append('Descripcion', descripcion);
-            formData.append('MetodoPago', metodoPago);
-            formData.append('EstadoOrden', estadoOrden);
-            formData.append('IdCotizacion', idCotizacion);
-            formData.append('IdUsuario', idUsuario);
-            formData.append('Material', material);
-            formData.append('FechaEntrega', fechaEntrega);
-            formData.append('EstadoInternoOrden', estadoInternoOrden);
-            formData.append('DescripcionInterna', descripcionInterna);
-            formData.append('ComprobantePago.DescripcionComprobante', descripcionComprobante);
-            const numFacturaVenta = $('#numFacturaVenta').val()?.trim || '';
-            if (numFacturaVenta) {
-                formData.append('NumFacturaVenta', numFacturaVenta);
-            }
+			formData.append('IdOrden', $('#idOrden').val());
+			formData.append('Descripcion', descripcion);
+			formData.append('MetodoPago', metodoPago);
+			formData.append('EstadoOrden', estadoOrden);
+			formData.append('IdCotizacion', idCotizacion);
+			formData.append('IdUsuario', idUsuario);
+			formData.append('Material', material);
+			formData.append('FechaEntrega', fechaEntrega);
+			formData.append('EstadoInternoOrden', estadoInternoOrden);
+			formData.append('DescripcionInterna', descripcionInterna);
+			formData.append('ComprobantePago.DescripcionComprobante', descripcionComprobante);
+			const numFacturaVenta = $('#numFacturaVenta').val()?.trim || '';
+			if (numFacturaVenta) {
+				formData.append('NumFacturaVenta', numFacturaVenta);
+			}
 
-            // Capturar archivos solo si están seleccionados
-            const ordenCompraFile = $('#ordenCompraArchivo')[0]?.files[0];
-            const facturaVentaFile = $('#facturaVentaArchivo')[0]?.files[0];
-            const boletaEntregaFile = $('#boletaEntregaArchivo')[0]?.files[0];
-            const comprobantePagoFile = $('#comprobantePagoArchivo')[0]?.files[0];
+			// Capturar archivos solo si están seleccionados
+			const ordenCompraFile = $('#ordenCompraArchivo')[0]?.files[0];
+			const facturaVentaFile = $('#facturaVentaArchivo')[0]?.files[0];
+			const boletaEntregaFile = $('#boletaEntregaArchivo')[0]?.files[0];
+			const comprobantePagoFile = $('#comprobantePagoArchivo')[0]?.files[0];
 
-            if (ordenCompraFile) formData.append('OrdenCompraArchivo', ordenCompraFile);
-            if (facturaVentaFile) formData.append('FacturaVentaArchivo', facturaVentaFile);
-            if (boletaEntregaFile) formData.append('BoletaEntregaArchivo', boletaEntregaFile);
-            if (comprobantePagoFile) formData.append('ComprobantePago.ArchivoComprobante', comprobantePagoFile);
+			if (ordenCompraFile) formData.append('OrdenCompraArchivo', ordenCompraFile);
+			if (facturaVentaFile) formData.append('FacturaVentaArchivo', facturaVentaFile);
+			if (boletaEntregaFile) formData.append('BoletaEntregaArchivo', boletaEntregaFile);
+			if (comprobantePagoFile) formData.append('ComprobantePago.ArchivoComprobante', comprobantePagoFile);
 
-            return formData;
-        }
+			return formData;
+		}
 
-        // Peticion POST
-        $('#editarOrdenAdminButton').on('click', function (e) {
-            e.preventDefault();
+		// Peticion POST
+		$('#editarOrdenAdminButton').on('click', function (e) {
+			e.preventDefault();
 
-            try {
-                const formData = buildEditarOrdenAdminFormData();
+			try {
+				const formData = buildEditarOrdenAdminFormData();
 
-                const $button = $(this);
-                $button.prop('disabled', true).text('Guardando Cambios...');
+				const $button = $(this);
+				$button.prop('disabled', true).text('Guardando Cambios...');
 
-                $.ajax({
-                    url: '/Ordenes/EditarOrdenClienteAdmin',
-                    type: 'POST',
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Orden Editada',
-                            text: 'Los cambios fueron guardados exitosamente.',
-                            confirmButtonColor: '#c1952c',
-                            timer: 2000
-                        }).then(() => {
-                            window.location.href = '/Ordenes/ConsultarOrdenesClientesAdmin';
-                        });
-                    },
-                    error: function (xhr) {
-                        $button.prop('disabled', false).text('Guardar Cambios');
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: xhr.responseText || 'Hubo un problema al guardar los cambios.',
-                            confirmButtonColor: '#c1952c'
-                        });
-                    }
-                });
-            } catch (error) {
-                console.error(error.message);
-            }
-        });
-    });
+				$.ajax({
+					url: '/Ordenes/EditarOrdenClienteAdmin',
+					type: 'POST',
+					processData: false,
+					contentType: false,
+					data: formData,
+					success: function () {
+						Swal.fire({
+							icon: 'success',
+							title: 'Orden Editada',
+							text: 'Los cambios fueron guardados exitosamente.',
+							confirmButtonColor: '#c1952c',
+							timer: 2000
+						}).then(() => {
+							window.location.href = '/Ordenes/ConsultarOrdenesClientesAdmin';
+						});
+					},
+					error: function (xhr) {
+						$button.prop('disabled', false).text('Guardar Cambios');
+						Swal.fire({
+							icon: 'error',
+							title: 'Error',
+							text: xhr.responseText || 'Hubo un problema al guardar los cambios.',
+							confirmButtonColor: '#c1952c'
+						});
+					}
+				});
+			} catch (error) {
+				console.error(error.message);
+			}
+		});
+	});
 </script>
 
 

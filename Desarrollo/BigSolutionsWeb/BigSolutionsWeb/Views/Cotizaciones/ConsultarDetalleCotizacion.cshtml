@@ -2,163 +2,165 @@
 @model BigSolutionsWeb.DTOs.ConsultarCotizacionDTO?
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Detalle de la Cotización</h1>
-        @if (ViewBag.MsjPantalla != null)
-        {
-            <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
-                @ViewBag.MsjPantalla
-            </div>
-        }
-        else
-        {
-            <p>Información de la cotización seleccionada.</p>
-        }
-    </div>
+	<div class="text-center mb-4">
+		<h1>Detalle de la Cotización</h1>
+		@if (ViewBag.MsjPantalla != null)
+		{
+			<div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+				@ViewBag.MsjPantalla
+			</div>
+		}
+		else
+		{
+			<p>Información de la cotización seleccionada.</p>
+		}
+	</div>
 
-    @if (Model != null)
-    {
-        <!-- Información Principal en una Fila -->
-        <div class="row mb-4">
-            <!-- Información del Cliente -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Información del Cliente</h3>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Nombre Completo:</strong> <span id="nombreCliente">@Model.Usuario.NombreCompleto</span></p>
-                        <p><strong>Teléfono:</strong> <span id="telefonoCliente">@Model.Usuario.NumeroTelefono</span></p>
-                        <p><strong>Correo Electrónico:</strong> <span id="correoCliente">@Model.Usuario.CorreoElectronico</span></p>
-                    </div>
-                </div>
-            </div>
+	@if (Model != null)
+	{
+		<!-- Información Principal en una Fila -->
+		<div class="row mb-4">
+			<!-- Información del Cliente -->
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-header">
+						<h3>Información del Cliente</h3>
+					</div>
+					<div class="card-body">
+						<p><strong>Nombre Completo:</strong> <span id="nombreCliente">@Model.Usuario.NombreCompleto</span></p>
+						<p><strong>Teléfono:</strong> <span id="telefonoCliente">@Model.Usuario.NumeroTelefono</span></p>
+						<p><strong>Correo Electrónico:</strong> <span id="correoCliente">@Model.Usuario.CorreoElectronico</span></p>
+					</div>
+				</div>
+			</div>
 
-            <!-- Información de la Cotización -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Información de la Cotización</h3>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Descripción:</strong> <span id="descripcionCotizacion">@Model.Cotizacion.Descripcion</span></p>
-                        <p><strong>Fecha de Creación:</strong> <span id="fechaCreacion">@Model.Cotizacion.FechaCreacion.ToString("yyyy-MM-dd")</span></p>
-                        <p><strong>Moneda:</strong> <span id="moneda">@Model.Cotizacion.Moneda</span></p>
-                    </div>
-                </div>
-            </div>
+			<!-- Información de la Cotización -->
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-header">
+						<h3>Información de la Cotización</h3>
+					</div>
+					<div class="card-body">
+						<p><strong>Descripción:</strong> <span id="descripcionCotizacion">@Model.Cotizacion.Descripcion</span></p>
+						<p><strong>Fecha de Creación:</strong> <span id="fechaCreacion">@Model.Cotizacion.FechaCreacion.ToString("yyyy-MM-dd")</span></p>
+						<p><strong>Moneda:</strong> <span id="moneda">@Model.Cotizacion.Moneda</span></p>
+					</div>
+				</div>
+			</div>
 
-            <!-- Totales -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Totales</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            <strong>Subtotal:</strong> <span id="subtotal">
-                                @(Model.Cotizacion.Moneda == Moneda.Colones
-                                    ? "₡" + Model.SubTotal.ToString("N2")
-                                    : "$" + Model.SubTotal.ToString("N2"))
-                            </span>
-                        </p>
-                        <p>
-                            <strong>Total Impuestos:</strong> <span id="totalImpuestos">
-                                @(Model.Cotizacion.Moneda == Moneda.Colones
-                                    ? "₡" + Model.TotalImpuestos.ToString("N2")
-                                    : "$" + Model.TotalImpuestos.ToString("N2"))
-                            </span>
-                        </p>
-                        <p>
-                            <strong>Total:</strong> <span id="total">
-                                @(Model.Cotizacion.Moneda == Moneda.Colones
-                                    ? "₡" + Model.Total.ToString("N2")
-                                    : "$" + Model.Total.ToString("N2"))
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+			<!-- Totales -->
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-header">
+						<h3>Totales</h3>
+					</div>
+					<div class="card-body">
+						<p>
+							<strong>Subtotal:</strong> <span id="subtotal">
+								@(Model.Cotizacion.Moneda == Moneda.Colones
+															? "₡" + Model.SubTotal.ToString("N2")
+															: "$" + Model.SubTotal.ToString("N2"))
+							</span>
+						</p>
+						<p>
+							<strong>Total Impuestos:</strong> <span id="totalImpuestos">
+								@(Model.Cotizacion.Moneda == Moneda.Colones
+															? "₡" + Model.TotalImpuestos.ToString("N2")
+															: "$" + Model.TotalImpuestos.ToString("N2"))
+							</span>
+						</p>
+						<p>
+							<strong>Total:</strong> <span id="total">
+								@(Model.Cotizacion.Moneda == Moneda.Colones
+															? "₡" + Model.Total.ToString("N2")
+															: "$" + Model.Total.ToString("N2"))
+							</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <!-- Tabla de Bocetos -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3>Bocetos</h3>
-                <a href="@Model.Cotizacion.RutaCotizacion" target="_blank" class="botones-secundarios">Cotización en PDF</a>
-            </div>
-            <div class="card-body">
-                <table id="tabla-Bocetos" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Número de Boceto</th>
-                            <th>Imagen del Boceto</th>
-                            <th>Fecha de Generación</th>
-                            <th>Nombre del Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio Unitario</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var boceto in Model.Bocetos)
-                        {
-                            <tr>
-                                <td>@boceto.IdBoceto</td>
-                                <td>
-                                    <img src="@boceto.RutaImagen" class="boceto-img" alt="Boceto"
-                                         style="width: 80px; height: auto; cursor: pointer;"
-                                         data-src="@boceto.RutaImagen">
-                                </td>
-                                <td>@boceto.FechaCreacion.ToString("yyyy-MM-dd")</td>
-                                <td>@boceto.NombreProducto</td>
-                                <td>@boceto.Cantidad</td>
-                                <td>
-                                    @(Model.Cotizacion.Moneda == Moneda.Colones
-                                        ? "₡" + boceto.PrecioUnitarioColones.ToString("N2")
-                                        : "$" + boceto.PrecioUnitarioDolares.ToString("N2"))
-                                </td>
-                                <td>
-                                    <button class="botones view-image" data-src="@boceto.RutaImagen">Ver Imagen</button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                <div class="card-footer text-center py-3">
-                    <a href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")" class="inventario-link">Volver a las cotizaciones</a>
-                </div>
-            </div>
-        </div>
+		<!-- Tabla de Bocetos -->
+		<div class="card mb-4">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<h3>Bocetos</h3>
+				<a href="@Model.Cotizacion.RutaCotizacion" target="_blank" class="botones-secundarios">Cotización en PDF</a>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id="tabla-Bocetos" class="table table-hover">
+						<thead>
+							<tr>
+								<th>Número de Boceto</th>
+								<th>Imagen del Boceto</th>
+								<th>Fecha de Generación</th>
+								<th>Nombre del Producto</th>
+								<th>Cantidad</th>
+								<th>Precio Unitario</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var boceto in Model.Bocetos)
+							{
+								<tr>
+									<td>@boceto.IdBoceto</td>
+									<td>
+										<img src="@boceto.RutaImagen" class="boceto-img" alt="Boceto"
+											 style="width: 80px; height: auto; cursor: pointer;"
+											 data-src="@boceto.RutaImagen">
+									</td>
+									<td>@boceto.FechaCreacion.ToString("yyyy-MM-dd")</td>
+									<td>@boceto.NombreProducto</td>
+									<td>@boceto.Cantidad</td>
+									<td>
+										@(Model.Cotizacion.Moneda == Moneda.Colones
+																	? "₡" + boceto.PrecioUnitarioColones.ToString("N2")
+																	: "$" + boceto.PrecioUnitarioDolares.ToString("N2"))
+									</td>
+									<td>
+										<button class="botones view-image" data-src="@boceto.RutaImagen">Ver Imagen</button>
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+				<div class="card-footer text-center py-3">
+					<a href="@Url.Action("CotizacionesAdministrador", "Cotizaciones")" class="inventario-link">Volver a las cotizaciones</a>
+				</div>
+			</div>
+		</div>
 
-        
-    }
+
+	}
 </div>
 
 <!-- Modal para ver imágenes -->
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">
+				<img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
+			</div>
+		</div>
+	</div>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        // Evento para abrir el modal al hacer clic en la imagen o el botón "Ver Imagen"
-        $(document).on('click', '.view-image, .boceto-img', function () {
-            const imageUrl = $(this).data('src') || $(this).attr('src'); // Obtén la URL de la imagen
-            $('#modalImage').attr('src', imageUrl); // Actualiza la imagen del modal
-            $('#imageModal').modal('show'); // Muestra el modal
-        });
-    });
+	$(document).ready(function () {
+		// Evento para abrir el modal al hacer clic en la imagen o el botón "Ver Imagen"
+		$(document).on('click', '.view-image, .boceto-img', function () {
+			const imageUrl = $(this).data('src') || $(this).attr('src'); // Obtén la URL de la imagen
+			$('#modalImage').attr('src', imageUrl); // Actualiza la imagen del modal
+			$('#imageModal').modal('show'); // Muestra el modal
+		});
+	});
 </script>

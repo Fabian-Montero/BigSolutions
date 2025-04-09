@@ -45,7 +45,8 @@
                                     <td>@usuario.Identificacion</td>
                                     <td>@usuario.NumeroTelefono</td>
                                     <td>@usuario.CorreoElectronico</td>
-                                    <td>@usuario.NombreRol</td>
+                                    <td>@(usuario.NombreRol == "Admin" ? "Administrador" : usuario.NombreRol)</td>
+
                                     <td>
                                         @{
                                             long usuarioLogueadoId = Convert.ToInt64(Context.Session.GetString("IDUSUARIO"));
@@ -144,7 +145,7 @@
                                         title: 'Error',
                                         text: response.message,
                                         icon: 'error',
-                                        confirmButtonColor: '#d33'
+                                        confirmButtonColor: '#c1952c'
                                     });
                                 }
                             },
@@ -154,7 +155,7 @@
                                     title: 'Error',
                                     text: 'Ocurrió un problema al intentar eliminar el usuario.',
                                     icon: 'error',
-                                    confirmButtonColor: '#d33'
+                                    confirmButtonColor: '#c1952c'
                                 });
                             }
                         });

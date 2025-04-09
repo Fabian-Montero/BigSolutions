@@ -2,321 +2,320 @@
 @model BigSolutionsWeb.DTOs.CrearCotizacionVistaDTO
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Crear Cotización</h1>
-        <p>Selecciona los bocetos y completa los detalles necesarios para generar la cotización.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Crear Cotización</h1>
+		<p>Selecciona los bocetos y completa los detalles necesarios para generar la cotización.</p>
+	</div>
 
-    <div class="row mb-4">
-        @if (ViewBag.MsjPantalla != null)
-        {
-            <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
-                @ViewBag.MsjPantalla
-            </div>
-        }
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Información del Cliente</h3>
-                </div>
-                <div class="card-body">
-                    <input type="hidden" id="usuarioId" value="@Model.Usuario.UsuarioId">
-                    <p><strong>Nombre Completo:</strong> <span id="nombreCliente">@Model.Usuario.NombreCompleto</span></p>
-                    <p><strong>Empresa:</strong> <span id="nombreEmpresa">@Model.Usuario.NombreEmpresa</span></p>
-                    <p><strong>Teléfono:</strong> <span id="telefonoCliente">@Model.Usuario.NumeroTelefono</span></p>
-                    <p><strong>Correo Electrónico:</strong> <span id="correoCliente">@Model.Usuario.CorreoElectronico</span></p>
-                </div>
-            </div>
-        </div>
+	<div class="row mb-4">
+		@if (ViewBag.MsjPantalla != null)
+		{
+			<div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+				@ViewBag.MsjPantalla
+			</div>
+		}
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<h3>Información del Cliente</h3>
+				</div>
+				<div class="card-body">
+					<input type="hidden" id="usuarioId" value="@Model.Usuario.UsuarioId">
+					<p><strong>Nombre Completo:</strong> <span id="nombreCliente">@Model.Usuario.NombreCompleto</span></p>
+					<p><strong>Empresa:</strong> <span id="nombreEmpresa">@Model.Usuario.NombreEmpresa</span></p>
+					<p><strong>Teléfono:</strong> <span id="telefonoCliente">@Model.Usuario.NumeroTelefono</span></p>
+					<p><strong>Correo Electrónico:</strong> <span id="correoCliente">@Model.Usuario.CorreoElectronico</span></p>
+				</div>
+			</div>
+		</div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Información de la Orden</h3>
-                </div>
-                <div class="card-body">
-                    <input type="hidden" id="idSolicitudCotizacion" value="@Model.SolicitudCotizacion.IdSolicitudCotizacion">
-                    <p><strong>Descripción de la solicitud:</strong> <span id="descripcionSolicitud">@Model.SolicitudCotizacion.Descripcion</span></p>
-                    <input type="hidden" id="moneda" value="@((int)Model.SolicitudCotizacion.Moneda)">
-                    <p><strong>Moneda:</strong> @Model.SolicitudCotizacion.Moneda</p>
-                </div>
-            </div>
-        </div>
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<h3>Información de la Orden</h3>
+				</div>
+				<div class="card-body">
+					<input type="hidden" id="idSolicitudCotizacion" value="@Model.SolicitudCotizacion.IdSolicitudCotizacion">
+					<p><strong>Descripción de la solicitud:</strong> <span id="descripcionSolicitud">@Model.SolicitudCotizacion.Descripcion</span></p>
+					<input type="hidden" id="moneda" value="@((int)Model.SolicitudCotizacion.Moneda)">
+					<p><strong>Moneda:</strong> @Model.SolicitudCotizacion.Moneda</p>
+				</div>
+			</div>
+		</div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Totales</h3>
-                </div>
-                <div class="card-body">
-                    <p>
-                        <strong>Subtotal:</strong> <span id="subtotal">
-                            @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                                ? $"₡ {Model.SubTotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("es-CR"))}"
-                                : $"$ {Model.SubTotal.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)}")
-                        </span>
-                    </p>
-                    <p>
-                        <strong>Total Impuestos:</strong> <span id="totalImpuestos">
-                            @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                                ? $"₡ {Model.TotalImpuestos.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("es-CR"))}"
-                                : $"$ {Model.TotalImpuestos.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)}")
-                        </span>
-                    </p>
-                    <p>
-                        <strong>Total:</strong> <span id="total">
-                            @(Model.SolicitudCotizacion.Moneda == Moneda.Colones
-                                ? $"₡ {Model.Total.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("es-CR"))}"
-                                : $"$ {Model.Total.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)}")
-                        </span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<h3>Totales</h3>
+				</div>
+				<div class="card-body">
+					<p>
+						<strong>Subtotal:</strong> <span id="subtotal">
+							@(Model.SolicitudCotizacion.Moneda == Moneda.Colones
+														? $"₡ {Model.SubTotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("es-CR"))}"
+														: $"$ {Model.SubTotal.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)}")
+						</span>
+					</p>
+					<p>
+						<strong>Total Impuestos:</strong> <span id="totalImpuestos">
+							@(Model.SolicitudCotizacion.Moneda == Moneda.Colones
+														? $"₡ {Model.TotalImpuestos.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("es-CR"))}"
+														: $"$ {Model.TotalImpuestos.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)}")
+						</span>
+					</p>
+					<p>
+						<strong>Total:</strong> <span id="total">
+							@(Model.SolicitudCotizacion.Moneda == Moneda.Colones
+														? $"₡ {Model.Total.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("es-CR"))}"
+														: $"$ {Model.Total.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)}")
+						</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Bocetos</h3>
-        </div>
-        <div class="card-body">
-            <table id="tabla-Bocetos" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Número de Boceto</th>
-                        <th>Imagen del Boceto</th>
-                        <th>Fecha de Generación</th>
-                        <th>Nombre del Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var boceto in Model.Bocetos)
-                    {
-                        <tr data-id="@boceto.IdBoceto">
-                            <td>@boceto.IdBoceto</td>
-                            <td>
-                                <img src="@boceto.RutaImagen" class="boceto-img" alt="Boceto"
-                                     style="width: 80px; height: auto; cursor: pointer;" />
-                            </td>
-                            <td class="fecha-generacion">@boceto.FechaCreacion.ToString("yyyy-MM-dd")</td>
-                            <td class="nombre-producto">@boceto.NombreProducto</td>
-                            <td><input type="number" class="form-control cantidad" value="@boceto.Cantidad" min="1" step="1"></td>
-                            <td>
-                                <input type="number" class="form-control precio"
-                                       value="@((Model.SolicitudCotizacion.Moneda == Moneda.Colones
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Bocetos</h3>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="tabla-Bocetos" class="table table-hover">
+					<thead>
+						<tr>
+							<th>Número de Boceto</th>
+							<th>Imagen del Boceto</th>
+							<th>Fecha de Generación</th>
+							<th>Nombre del Producto</th>
+							<th>Cantidad</th>
+							<th>Precio Unitario</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var boceto in Model.Bocetos)
+						{
+							<tr data-id="@boceto.IdBoceto">
+								<td>@boceto.IdBoceto</td>
+								<td>
+									<img src="@boceto.RutaImagen" class="boceto-img" alt="Boceto"
+										 style="width: 80px; height: auto; cursor: pointer;" />
+								</td>
+								<td class="fecha-generacion">@boceto.FechaCreacion.ToString("yyyy-MM-dd")</td>
+								<td class="nombre-producto">@boceto.NombreProducto</td>
+								<td><input type="number" class="form-control cantidad" value="@boceto.Cantidad" min="1" step="1"></td>
+								<td>
+									<input type="number" class="form-control precio"
+										   value="@((Model.SolicitudCotizacion.Moneda == Moneda.Colones
                                 ? boceto.PrecioUnitarioColones.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)
                                 : boceto.PrecioUnitarioDolares.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)))"
-                                       step="0.01" min="0">
-                            </td>
-                            <td>
-                                <button class="botones view-image" data-src="@boceto.RutaImagen">Ver Imagen</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+										   step="0.01" min="0">
+								</td>
+								<td>
+									<button class="botones view-image" data-src="@boceto.RutaImagen">Ver Imagen</button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Descripción General</h3>
+		</div>
+		<div class="card-body">
+			<textarea id="generalDescription" class="form-control" rows="4" placeholder="Descripción general de la cotización">@Model.DescripcionCotizacion</textarea>
+		</div>
+	</div>
 
-
-            </table>
-        </div>
-    </div>
-
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Descripción General</h3>
-        </div>
-        <div class="card-body">
-            <textarea id="generalDescription" class="form-control" rows="4" placeholder="Descripción general de la cotización">@Model.DescripcionCotizacion</textarea>
-        </div>
-    </div>
-
-    <div class="mt-4">
-        <button id="generarCotizacion" type="button" class="botones-secundarios">Generar Cotización</button>
-    </div>
-    <div class=" text-center py-3">
-        <a href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")" class="inventario-link">Volver a las solicitudes de cotización</a>
-    </div>
+	<div class="mt-4">
+		<button id="generarCotizacion" type="button" class="botones-secundarios">Generar Cotización</button>
+	</div>
+	<div class=" text-center py-3">
+		<a href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")" class="inventario-link">Volver a las solicitudes de cotización</a>
+	</div>
 </div>
 
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">
+				<img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
+			</div>
+		</div>
+	</div>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        let subtotal = 0;
-        let totalImpuestos = 0;
-        let total = 0;
+	$(document).ready(function () {
+		let subtotal = 0;
+		let totalImpuestos = 0;
+		let total = 0;
 
-        function recalculateTotals() {
-            subtotal = 0;
-            totalImpuestos = 0;
-            const moneda = parseInt($('#moneda').val());
-            const simbolo = moneda === 1 ? "₡" : "$";
+		function recalculateTotals() {
+			subtotal = 0;
+			totalImpuestos = 0;
+			const moneda = parseInt($('#moneda').val());
+			const simbolo = moneda === 1 ? "₡" : "$";
 
-            $('#tabla-Bocetos tbody tr').each(function () {
-                // Obtener los valores de cantidad y precio
-                const cantidad = parseFloat($(this).find('.cantidad').val().replace(',', '.') || 0);
-                const precio = parseFloat($(this).find('.precio').val().replace(',', '.') || 0);
+			$('#tabla-Bocetos tbody tr').each(function () {
+				// Obtener los valores de cantidad y precio
+				const cantidad = parseFloat($(this).find('.cantidad').val().replace(',', '.') || 0);
+				const precio = parseFloat($(this).find('.precio').val().replace(',', '.') || 0);
 
-                // Sumar al subtotal y calcular impuestos
-                subtotal += cantidad * precio;
-                totalImpuestos += cantidad * precio * 0.13;
-            });
+				// Sumar al subtotal y calcular impuestos
+				subtotal += cantidad * precio;
+				totalImpuestos += cantidad * precio * 0.13;
+			});
 
-            total = subtotal + totalImpuestos;
-
-           
-            $('#subtotal').text(`${simbolo} ${subtotal.toFixed(2)}`);
-            $('#totalImpuestos').text(`${simbolo} ${totalImpuestos.toFixed(2)}`);
-            $('#total').text(`${simbolo} ${total.toFixed(2)}`);
-        }
-        
-        $(document).on('input', '.cantidad, .precio', function () {
-            const input = $(this);
-            const value = parseFloat(input.val());
-
-            const isCantidad = input.hasClass('cantidad');
-            const minValue = isCantidad ? 1 : 0;
-
-            if (isNaN(value) || value < minValue) {
-                input.val(minValue);
-
-                // Efecto visual de corrección
-                input.addClass('is-invalid');
-                setTimeout(() => input.removeClass('is-invalid'), 500);
-            }
-
-            recalculateTotals();
-        });
-
-        $(document).on('click', '.view-image, .boceto-img', function () {
-            const imageUrl = $(this).data('src') || $(this).attr('src');
-            $('#modalImage').attr('src', imageUrl); 
-            $('#imageModal').modal('show'); 
-        });
-
-        function buildCotizacionObject() {
-            const usuario = {
-                UsuarioId: parseInt($('#usuarioId').val()),
-                NombreCompleto: $('#nombreCliente').text().trim(),
-                NombreEmpresa: $('#nombreEmpresa').text().trim(),
-                NumeroTelefono: $('#telefonoCliente').text().trim(),
-                CorreoElectronico: $('#correoCliente').text().trim()
-            };
-
-            const solicitudCotizacion = {
-                IdSolicitudCotizacion: parseInt($('#idSolicitudCotizacion').val()),
-                Descripcion: $('#descripcionSolicitud').text().trim(),
-                Moneda: parseInt($('#moneda').val())
-            };
-
-            const bocetos = [];
-            $('#tabla-Bocetos tbody tr').each(function () {
-                const idBoceto = parseInt($(this).data('id'));
-                const cantidad = parseInt($(this).find('.cantidad').val()) || 0;
-                const precio = parseFloat($(this).find('.precio').val().replace(/[^0-9.-]+/g, '')) || 0;
-                const nombreProducto = $(this).find('.nombre-producto').text().trim();
-                const fechaGeneracion = $(this).find('.fecha-generacion').text().trim();
-                const rutaImagen = $(this).find('img').attr('src');
-
-                if (cantidad > 0) {
-                    bocetos.push({
-                        IdBoceto: idBoceto,
-                        Cantidad: cantidad,
-                        NombreProducto: nombreProducto,
-                        FechaCreacion: fechaGeneracion,
-                        RutaImagen: rutaImagen,
-                        PrecioUnitarioColones: parseFloat(precio.toFixed(2)),
-                        PrecioUnitarioDolares: parseFloat(precio.toFixed(2))
-                    });
-                }
-            });
-
-            const subtotal = parseFloat($('#subtotal').text().replace(/[^0-9.-]+/g, ''));
-            const totalImpuestos = parseFloat($('#totalImpuestos').text().replace(/[^0-9.-]+/g, ''));
-            const total = parseFloat($('#total').text().replace(/[^0-9.-]+/g, ''));
-
-            return {
-                Usuario: usuario,
-                SolicitudCotizacion: solicitudCotizacion,
-                DescripcionCotizacion: $('#generalDescription').val().trim(),
-                Bocetos: bocetos,
-                SubTotal: parseFloat(subtotal),
-                TotalImpuestos: parseFloat(totalImpuestos),
-                Total: parseFloat(total)
-            };
-        }
+			total = subtotal + totalImpuestos;
 
 
-        $('#generarCotizacion').on('click', function () {
-            const button = $(this);
-            button.prop('disabled', true).text('Generando...');
+			$('#subtotal').text(`${simbolo} ${subtotal.toFixed(2)}`);
+			$('#totalImpuestos').text(`${simbolo} ${totalImpuestos.toFixed(2)}`);
+			$('#total').text(`${simbolo} ${total.toFixed(2)}`);
+		}
 
-            const cotizacion = buildCotizacionObject();
+		$(document).on('input', '.cantidad, .precio', function () {
+			const input = $(this);
+			const value = parseFloat(input.val());
 
-            if (cotizacion.Bocetos.length === 0) {
-                Swal.fire({
-                    title: 'Atención',
-                    text: 'Debes seleccionar al menos un boceto con cantidad válida.',
-                    icon: 'warning',
-                    confirmButtonColor: '#c1952c'
-                });
+			const isCantidad = input.hasClass('cantidad');
+			const minValue = isCantidad ? 1 : 0;
 
-                button.prop('disabled', false).text('Generar Cotización');
-                return;
-            }
+			if (isNaN(value) || value < minValue) {
+				input.val(minValue);
 
-            $.ajax({
-                url: '/Cotizaciones/GenerarCotizacion',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(cotizacion),
-                success: function (response) {
-                    // Abrir el PDF en una nueva pestaña
-                    const pdfUrl = response.pdfUrl;
-                    const newTab = window.open(pdfUrl, '_blank');
+				// Efecto visual de corrección
+				input.addClass('is-invalid');
+				setTimeout(() => input.removeClass('is-invalid'), 500);
+			}
 
-                    if (!newTab) {
-                        // Si el navegador bloquea la pestaña, muestra un mensaje al usuario
-                        Swal.fire('Atención', 'Permite ventanas emergentes para ver el PDF.', 'warning');
-                    } else {
-                        // Esperar un tiempo breve para asegurarse de que la pestaña se abra
-                        setTimeout(() => {
-                            // Redirigir a la vista de cotizaciones en la página del sistema
-                            window.location.href = '/Cotizaciones/CotizacionesAdministrador';
-                        }, 500);
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Hubo un problema al generar la cotización.',
-                        icon: 'error',
-                        confirmButtonColor: '#d33'
-                    });
+			recalculateTotals();
+		});
 
-                    button.prop('disabled', false).text('Generar Cotización'); // Restaurar el botón en caso de error
-                }
-            });
-        });
+		$(document).on('click', '.view-image, .boceto-img', function () {
+			const imageUrl = $(this).data('src') || $(this).attr('src');
+			$('#modalImage').attr('src', imageUrl);
+			$('#imageModal').modal('show');
+		});
 
-        recalculateTotals();
-    });
+		function buildCotizacionObject() {
+			const usuario = {
+				UsuarioId: parseInt($('#usuarioId').val()),
+				NombreCompleto: $('#nombreCliente').text().trim(),
+				NombreEmpresa: $('#nombreEmpresa').text().trim(),
+				NumeroTelefono: $('#telefonoCliente').text().trim(),
+				CorreoElectronico: $('#correoCliente').text().trim()
+			};
+
+			const solicitudCotizacion = {
+				IdSolicitudCotizacion: parseInt($('#idSolicitudCotizacion').val()),
+				Descripcion: $('#descripcionSolicitud').text().trim(),
+				Moneda: parseInt($('#moneda').val())
+			};
+
+			const bocetos = [];
+			$('#tabla-Bocetos tbody tr').each(function () {
+				const idBoceto = parseInt($(this).data('id'));
+				const cantidad = parseInt($(this).find('.cantidad').val()) || 0;
+				const precio = parseFloat($(this).find('.precio').val().replace(/[^0-9.-]+/g, '')) || 0;
+				const nombreProducto = $(this).find('.nombre-producto').text().trim();
+				const fechaGeneracion = $(this).find('.fecha-generacion').text().trim();
+				const rutaImagen = $(this).find('img').attr('src');
+
+				if (cantidad > 0) {
+					bocetos.push({
+						IdBoceto: idBoceto,
+						Cantidad: cantidad,
+						NombreProducto: nombreProducto,
+						FechaCreacion: fechaGeneracion,
+						RutaImagen: rutaImagen,
+						PrecioUnitarioColones: parseFloat(precio.toFixed(2)),
+						PrecioUnitarioDolares: parseFloat(precio.toFixed(2))
+					});
+				}
+			});
+
+			const subtotal = parseFloat($('#subtotal').text().replace(/[^0-9.-]+/g, ''));
+			const totalImpuestos = parseFloat($('#totalImpuestos').text().replace(/[^0-9.-]+/g, ''));
+			const total = parseFloat($('#total').text().replace(/[^0-9.-]+/g, ''));
+
+			return {
+				Usuario: usuario,
+				SolicitudCotizacion: solicitudCotizacion,
+				DescripcionCotizacion: $('#generalDescription').val().trim(),
+				Bocetos: bocetos,
+				SubTotal: parseFloat(subtotal),
+				TotalImpuestos: parseFloat(totalImpuestos),
+				Total: parseFloat(total)
+			};
+		}
+
+
+		$('#generarCotizacion').on('click', function () {
+			const button = $(this);
+			button.prop('disabled', true).text('Generando...');
+
+			const cotizacion = buildCotizacionObject();
+
+			if (cotizacion.Bocetos.length === 0) {
+				Swal.fire({
+					title: 'Atención',
+					text: 'Debes seleccionar al menos un boceto con cantidad válida.',
+					icon: 'warning',
+					confirmButtonColor: '#c1952c'
+				});
+
+				button.prop('disabled', false).text('Generar Cotización');
+				return;
+			}
+
+			$.ajax({
+				url: '/Cotizaciones/GenerarCotizacion',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(cotizacion),
+				success: function (response) {
+					// Abrir el PDF en una nueva pestaña
+					const pdfUrl = response.pdfUrl;
+					const newTab = window.open(pdfUrl, '_blank');
+
+					if (!newTab) {
+						// Si el navegador bloquea la pestaña, muestra un mensaje al usuario
+						Swal.fire('Atención', 'Permite ventanas emergentes para ver el PDF.', 'warning');
+					} else {
+						// Esperar un tiempo breve para asegurarse de que la pestaña se abra
+						setTimeout(() => {
+							// Redirigir a la vista de cotizaciones en la página del sistema
+							window.location.href = '/Cotizaciones/CotizacionesAdministrador';
+						}, 500);
+					}
+				},
+				error: function () {
+					Swal.fire({
+						title: 'Error',
+						text: 'Hubo un problema al generar la cotización.',
+						icon: 'error',
+						confirmButtonColor: '#d33'
+					});
+
+					button.prop('disabled', false).text('Generar Cotización'); // Restaurar el botón en caso de error
+				}
+			});
+		});
+
+		recalculateTotals();
+	});
 
 </script>
