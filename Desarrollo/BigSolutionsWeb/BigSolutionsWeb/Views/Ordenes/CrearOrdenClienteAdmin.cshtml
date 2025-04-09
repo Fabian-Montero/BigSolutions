@@ -2,260 +2,264 @@
 @using BigSolutionsWeb.Enums
 
 @{
-    ViewData["Title"] = "Crear Orden Admin";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Crear Orden Admin";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Crear Orden</h1>
-        <p>Llena el siguiente formulario para crear una nueva orden.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Crear Orden</h1>
+		<p>Llena el siguiente formulario para crear una nueva orden.</p>
+	</div>
 
-    @if (ViewBag.MsjPantalla != null)
-    {
-        <div class="alert alert-warning text-center">
-            @ViewBag.MsjPantalla
-        </div>
-    }
+	@if (ViewBag.MsjPantalla != null)
+	{
+		<div class="alert alert-warning text-center">
+			@ViewBag.MsjPantalla
+		</div>
+	}
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Formulario de Creación de Orden</h3>
-        </div>
-        <div class="card-body">
-            <form id="crearOrdenAdminForm" enctype="multipart/form-data">
-                <input type="hidden" id="idUsuario" name="IdUsuario" value="" />
-                <div class="row justify-content-center">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="descripcionOrden">Descripción de la Orden</label>
-                            <textarea id="descripcionOrden" name="descripcion" class="form-control" rows="3">@Model.Descripcion</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="ordenCompra">Orden de Compra</label>
-                            <input type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="metodoPago">Método de Pago</label>
-                            <select id="metodoPago" name="metodoPago" class="form-control">
-                                @foreach (var metodo in Enum.GetValues(typeof(MetodoPago)).Cast<MetodoPago>())
-                                {
-                                    <option value="@((int)metodo)">@metodo.GetDisplayName()</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Formulario de Creación de Orden</h3>
+		</div>
+		<div class="card-body">
+			<form id="crearOrdenAdminForm" enctype="multipart/form-data">
+				<input type="hidden" id="idUsuario" name="IdUsuario" value="" />
+				<div class="row justify-content-center">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="descripcionOrden">Descripción de la Orden</label>
+							<textarea id="descripcionOrden" name="descripcion" class="form-control" rows="3">@Model.Descripcion</textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="ordenCompra">Orden de Compra</label>
+							<input type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="metodoPago">Método de Pago</label>
+							<select id="metodoPago" name="metodoPago" class="form-control">
+								@foreach (var metodo in Enum.GetValues(typeof(MetodoPago)).Cast<MetodoPago>())
+								{
+									<option value="@((int)metodo)">@metodo.GetDisplayName()</option>
+								}
+							</select>
+						</div>
+					</div>
+				</div>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="facturaVenta">Factura Venta</label>
-                            <input type="file" id="facturaVentaArchivo" name="FacturaVentaArchivo" class="form-control-file">
-                            <label style="margin-top: 5px;"for="numFacturaVenta">Número de Factura</label>
-                            <input type="text" id="numFacturaVenta" name="NumFacturaVenta" class="form-control" placeholder="Ingrese el número de factura">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="boletaEntrega">Boleta de Entrega</label>
-                            <input type="file" id="boletaEntregaArchivo" name="BoletaEntregaArchivo" class="form-control-file">
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="comprobantePagoArchivo">Comprobante de Pago</label>
-                            <input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
-                            <label style="margin-top: 5px;" for="descripcionComprobante">Descripción del Comprobante</label>
-                            <textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2">@Model.ComprobantePago.DescripcionComprobante</textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Seleccionar Cotización</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="tabla-Cotizaciones" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:left">Seleccionar</th>
-                                    <th style="text-align:left">Número de Cotización</th>
-                                    <th style="text-align:left">Fecha de Generación</th>
-                                    <th style="text-align:left">Cliente</th>
-                                    <th style="text-align:left">Moneda</th>                                    
-                                    <th style="text-align:left">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var cotizacion in Model.ListaCotizaciones)
-                                {
-                                    <tr>
-                                        <td style="text-align:left">
-                                            <input type="radio" name="IdCotizacion" value="@cotizacion.IdCotizacion" data-idusuario="@cotizacion.IdUsuario" />
-                                        </td>
-                                        <td style="text-align:left">@cotizacion.IdCotizacion</td>
-                                        <td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                                        <td style="text-align:left">@cotizacion.NombreCompleto</td>
-                                        <td style="text-align:left">@cotizacion.Moneda</td>                                       
-                                        <td style="text-align:left">
-                                            <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Control Interno</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="material">Material</label>
-                                    <textarea id="material" name="material" class="form-control" rows="3">@Model.Material</textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="fechaEntrega">Fecha de Entrega</label>
-                                    <input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control" value="@Model.FechaEntrega?.ToString("yyyy-MM-dd")">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="estadoInterno">Estado Interno</label>
-                                    <select id="estadoInterno" name="estadoInterno" class="form-control">
-                                        @foreach (var estado in Enum.GetValues(typeof(EstadoInternoOrden)).Cast<EstadoInternoOrden>())
-                                        {
-                                            <option value="@((int)estado)">@estado.GetDisplayName()</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="descripcionInterna">Descripción Interna</label>
-                            <textarea id="descripcionInterna" name="descripcionInterna" class="form-control" rows="3">@Model.DescripcionInterna</textarea>
-                        </div>
-                        <button style="margin-bo" id="crearOrdenAdminButton" type="button" class="botones-secundarios">Crear Orden</button>
-                    </div>
-                </div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="facturaVenta">Factura Venta</label>
+							<input type="file" id="facturaVentaArchivo" name="FacturaVentaArchivo" class="form-control-file">
+							<label style="margin-top: 5px;" for="numFacturaVenta">Número de Factura</label>
+							<input type="text" id="numFacturaVenta" name="NumFacturaVenta" class="form-control" placeholder="Ingrese el número de factura">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="boletaEntrega">Boleta de Entrega</label>
+							<input type="file" id="boletaEntregaArchivo" name="BoletaEntregaArchivo" class="form-control-file">
 
-              
-            </form>
-            <div class="card-footer text-center py-3">
-                <a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver órdenes</a>
-            </div>
-        </div>
-        
-    </div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="comprobantePagoArchivo">Comprobante de Pago</label>
+							<input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
+							<label style="margin-top: 5px;" for="descripcionComprobante">Descripción del Comprobante</label>
+							<textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2">@Model.ComprobantePago.DescripcionComprobante</textarea>
+						</div>
+					</div>
+				</div>
+				<div class="card mb-4">
+					<div class="card-header">
+						<h3>Seleccionar Cotización</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="tabla-Cotizaciones" class="table table-hover">
+								<thead>
+									<tr>
+										<th style="text-align:left">Seleccionar</th>
+										<th style="text-align:left">Número de Cotización</th>
+										<th style="text-align:left">Fecha de Generación</th>
+										<th style="text-align:left">Cliente</th>
+										<th style="text-align:left">Moneda</th>
+										<th style="text-align:left">Acciones</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var cotizacion in Model.ListaCotizaciones)
+									{
+										<tr>
+											<td style="text-align:left">
+												<input type="radio" name="IdCotizacion" value="@cotizacion.IdCotizacion" data-idusuario="@cotizacion.IdUsuario" />
+											</td>
+											<td style="text-align:left">@cotizacion.IdCotizacion</td>
+											<td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+											<td style="text-align:left">@cotizacion.NombreCompleto</td>
+											<td style="text-align:left">@cotizacion.Moneda</td>
+											<td style="text-align:left">
+												<a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card mb-4">
+					<div class="card-header">
+						<h3>Control Interno</h3>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="material">Material</label>
+									<textarea id="material" name="material" class="form-control" rows="3">@Model.Material</textarea>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="fechaEntrega">Fecha de Entrega</label>
+									<input type="date" id="fechaEntrega" name="fechaEntrega" class="form-control" value="@Model.FechaEntrega?.ToString("yyyy-MM-dd")">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="estadoInterno">Estado Interno</label>
+									<select id="estadoInterno" name="estadoInterno" class="form-control">
+										@foreach (var estado in Enum.GetValues(typeof(EstadoInternoOrden)).Cast<EstadoInternoOrden>())
+										{
+											<option value="@((int)estado)">@estado.GetDisplayName()</option>
+										}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="descripcionInterna">Descripción Interna</label>
+							<textarea id="descripcionInterna" name="descripcionInterna" class="form-control" rows="3">@Model.DescripcionInterna</textarea>
+						</div>
+						<button style="margin-bo" id="crearOrdenAdminButton" type="button" class="botones-secundarios">Crear Orden</button>
+					</div>
+				</div>
+
+
+			</form>
+			<div class="card-footer text-center py-3">
+				<a href="@Url.Action("ConsultarOrdenesClientesAdmin", "Ordenes")" class="inventario-link">Volver órdenes</a>
+			</div>
+		</div>
+
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#tabla-Cotizaciones').DataTable({
-            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']]
-        });
-        
-        //Campo con el id del usuario en oculto
-        $('input[name="IdCotizacion"]').on('change', function () {
-            const selectedCotizacion = $(this);
-            const idUsuario = selectedCotizacion.data('idusuario');
-            $('#idUsuario').val(idUsuario);
-        });
+	$(document).ready(function () {
+		$('#tabla-Cotizaciones').DataTable({
+			language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
 
-        // Función para construir el FormData
-        function buildCrearOrdenAdminFormData() {
-            const formData = new FormData();
+		//Campo con el id del usuario en oculto
+		$('input[name="IdCotizacion"]').on('change', function () {
+			const selectedCotizacion = $(this);
+			const idUsuario = selectedCotizacion.data('idusuario');
+			$('#idUsuario').val(idUsuario);
+		});
 
-            // Capturar datos generales
-            formData.append('Descripcion', $('#descripcionOrden').val().trim());
-            formData.append('MetodoPago', $('#metodoPago').val());
-            formData.append('IdCotizacion', $('input[name="IdCotizacion"]:checked').val());
-            formData.append('IdUsuario', $('#idUsuario').val());
-            formData.append('Material', $('#material').val().trim());
-            formData.append('FechaEntrega', $('#fechaEntrega').val());
-            formData.append('EstadoInternoOrden', $('#estadoInterno').val());
-            formData.append('DescripcionInterna', $('#descripcionInterna').val().trim());
-            formData.append('ComprobantePago.DescripcionComprobante', $('#descripcionComprobante').val().trim());
+		// Función para construir el FormData
+		function buildCrearOrdenAdminFormData() {
+			const formData = new FormData();
 
-            // Capturar archivos
-            const ordenCompraFile = $('#ordenCompraArchivo')[0].files[0];
-            const facturaVentaFile = $('#facturaVentaArchivo')[0].files[0];
-            const boletaEntregaFile = $('#boletaEntregaArchivo')[0].files[0];
-            const comprobantePagoFile = $('#comprobantePagoArchivo')[0].files[0];
+			// Capturar datos generales
+			formData.append('Descripcion', $('#descripcionOrden').val().trim());
+			formData.append('MetodoPago', $('#metodoPago').val());
+			formData.append('IdCotizacion', $('input[name="IdCotizacion"]:checked').val());
+			formData.append('IdUsuario', $('#idUsuario').val());
+			formData.append('Material', $('#material').val().trim());
+			formData.append('FechaEntrega', $('#fechaEntrega').val());
+			formData.append('EstadoInternoOrden', $('#estadoInterno').val());
+			formData.append('DescripcionInterna', $('#descripcionInterna').val().trim());
+			formData.append('ComprobantePago.DescripcionComprobante', $('#descripcionComprobante').val().trim());
 
-            if (ordenCompraFile) formData.append('OrdenCompraArchivo', ordenCompraFile);
-            if (facturaVentaFile) {
-                formData.append('FacturaVentaArchivo', facturaVentaFile);
-            }
-            const numFacturaVenta = $('#numFacturaVenta').val().trim();
-            if (numFacturaVenta) {
-                formData.append('NumFacturaVenta', numFacturaVenta);
-            }
-            if (boletaEntregaFile) formData.append('BoletaEntregaArchivo', boletaEntregaFile);
-            if (comprobantePagoFile) formData.append('ComprobantePago.ArchivoComprobante', comprobantePagoFile);
+			// Capturar archivos
+			const ordenCompraFile = $('#ordenCompraArchivo')[0].files[0];
+			const facturaVentaFile = $('#facturaVentaArchivo')[0].files[0];
+			const boletaEntregaFile = $('#boletaEntregaArchivo')[0].files[0];
+			const comprobantePagoFile = $('#comprobantePagoArchivo')[0].files[0];
 
-            return formData;
-        }
+			if (ordenCompraFile) formData.append('OrdenCompraArchivo', ordenCompraFile);
+			if (facturaVentaFile) {
+				formData.append('FacturaVentaArchivo', facturaVentaFile);
+			}
+			const numFacturaVenta = $('#numFacturaVenta').val().trim();
+			if (numFacturaVenta) {
+				formData.append('NumFacturaVenta', numFacturaVenta);
+			}
+			if (boletaEntregaFile) formData.append('BoletaEntregaArchivo', boletaEntregaFile);
+			if (comprobantePagoFile) formData.append('ComprobantePago.ArchivoComprobante', comprobantePagoFile);
 
-        // Crear Orden
-        $('#crearOrdenAdminButton').on('click', function (e) {
-            e.preventDefault();
+			return formData;
+		}
 
-            const formData = buildCrearOrdenAdminFormData();
+		// Crear Orden
+		$('#crearOrdenAdminButton').on('click', function (e) {
+			e.preventDefault();
 
-            if (!formData.get('IdCotizacion')) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Selecciona una Cotización',
-                    text: 'Por favor, selecciona una cotización antes de crear la orden.',
-                    confirmButtonColor: '#c1952c'
-                });
-                return;
-            }
+			const formData = buildCrearOrdenAdminFormData();
 
-            const $button = $(this);
-            $button.prop('disabled', true).text('Creando Orden...');
+			if (!formData.get('IdCotizacion')) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Selecciona una Cotización',
+					text: 'Por favor, selecciona una cotización antes de crear la orden.',
+					confirmButtonColor: '#c1952c'
+				});
+				return;
+			}
 
-            $.ajax({
-                url: '/Ordenes/CrearOrdenClienteAdmin',
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                data: formData,
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Orden Creada',
-                        text: 'La orden fue creada exitosamente.',
-                        confirmButtonColor: '#c1952c',
-                        timer: 2000
-                    }).then(() => {
-                        window.location.href = '/Ordenes/ConsultarOrdenesClientesAdmin';
-                    });
-                },
-                error: function (xhr) {
-                    $button.prop('disabled', false).text('Crear Orden');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseText || 'Hubo un problema al crear la orden.',
-                        confirmButtonColor: '#c1952c'
-                    });
-                }
-            });
-        });
-    });
+			const $button = $(this);
+			$button.prop('disabled', true).text('Creando Orden...');
+
+			$.ajax({
+				url: '/Ordenes/CrearOrdenClienteAdmin',
+				type: 'POST',
+				processData: false,
+				contentType: false,
+				data: formData,
+				success: function () {
+					Swal.fire({
+						icon: 'success',
+						title: 'Orden Creada',
+						text: 'La orden fue creada exitosamente.',
+						confirmButtonColor: '#c1952c',
+						timer: 2000
+					}).then(() => {
+						window.location.href = '/Ordenes/ConsultarOrdenesClientesAdmin';
+					});
+				},
+				error: function (xhr) {
+					$button.prop('disabled', false).text('Crear Orden');
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: xhr.responseText || 'Hubo un problema al crear la orden.',
+						confirmButtonColor: '#c1952c'
+					});
+				}
+			});
+		});
+	});
 </script>

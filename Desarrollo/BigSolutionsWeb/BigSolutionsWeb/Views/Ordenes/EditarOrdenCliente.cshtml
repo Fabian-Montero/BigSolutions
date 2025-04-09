@@ -2,202 +2,206 @@
 @using BigSolutionsWeb.Enums
 
 @{
-    ViewData["Title"] = "Editar Orden";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Editar Orden";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Editar Orden</h1>
-        <p>Aquí puedes ver los detalles completos de esta orden y agregar nuevos comprobantes de pago.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Editar Orden</h1>
+		<p>Aquí puedes ver los detalles completos de esta orden y agregar nuevos comprobantes de pago.</p>
+	</div>
 
-    @if (ViewBag.MsjPantalla != null)
-    {
-        <div class="alert alert-warning text-center">
-            @ViewBag.MsjPantalla
-        </div>
-    }
+	@if (ViewBag.MsjPantalla != null)
+	{
+		<div class="alert alert-warning text-center">
+			@ViewBag.MsjPantalla
+		</div>
+	}
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Detalles de la Orden</h3>
-        </div>
-        <div class="card-body">
-            <form id="editarOrdenClienteForm" enctype="multipart/form-data">
-                <input type="hidden" id="idOrden" name="IdOrden" value="@Model.IdOrden" />
-                <input type="hidden" id="idUsuario" name="IdUsuario" value="@Model.IdUsuario" />
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Detalles de la Orden</h3>
+		</div>
+		<div class="card-body">
+			<form id="editarOrdenClienteForm" enctype="multipart/form-data">
+				<input type="hidden" id="idOrden" name="IdOrden" value="@Model.IdOrden" />
+				<input type="hidden" id="idUsuario" name="IdUsuario" value="@Model.IdUsuario" />
 
-                <!-- Datos generales deshabilitados -->
-                <div class="row justify-content-center">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="descripcionOrden">Descripción de la Orden</label>
-                            <textarea id="descripcionOrden" name="Descripcion" class="form-control" rows="3" readonly>@Model.Descripcion</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group text-center">
-                            <label for="ordenCompra">Orden de Compra</label>
-                            @* <input type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file"> *@
-                            @if (!string.IsNullOrEmpty(Model.RutaOrdenCompra))
-                            {
-                                <br>
-                                <a href="@Model.RutaOrdenCompra" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Orden de Compra Actual</a>
-                            }
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="metodoPago">Método de Pago</label>
-                            <select id="metodoPago" name="MetodoPago" class="form-control" disabled>
-                                @foreach (var metodo in Enum.GetValues(typeof(MetodoPago)).Cast<MetodoPago>())
-                                {
-                                    <option value="@((int)metodo)">@metodo.GetDisplayName()</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group mt-4">
-                    <label for="comprobantePagoArchivo">Ingresar Nuevo Comprobante</label>
-                    <input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
-                    <label for="descripcionComprobante" class="mt-2">Descripción</label>
-                    <textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2"></textarea>
-                </div>
+				<!-- Datos generales deshabilitados -->
+				<div class="row justify-content-center">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="descripcionOrden">Descripción de la Orden</label>
+							<textarea id="descripcionOrden" name="Descripcion" class="form-control" rows="3" readonly>@Model.Descripcion</textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group text-center">
+							<label for="ordenCompra">Orden de Compra</label>
+							@* <input type="file" id="ordenCompraArchivo" name="OrdenCompraArchivo" class="form-control-file"> *@
+							@if (!string.IsNullOrEmpty(Model.RutaOrdenCompra))
+							{
+								<br>
+								<a href="@Model.RutaOrdenCompra" style="color: black; text-decoration: underline; cursor: pointer;" target="_blank">Ver Orden de Compra Actual</a>
+							}
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="metodoPago">Método de Pago</label>
+							<select id="metodoPago" name="MetodoPago" class="form-control" disabled>
+								@foreach (var metodo in Enum.GetValues(typeof(MetodoPago)).Cast<MetodoPago>())
+								{
+									<option value="@((int)metodo)">@metodo.GetDisplayName()</option>
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group mt-4">
+					<label for="comprobantePagoArchivo">Ingresar Nuevo Comprobante</label>
+					<input type="file" id="comprobantePagoArchivo" name="ComprobantePago.ArchivoComprobante" class="form-control-file">
+					<label for="descripcionComprobante" class="mt-2">Descripción</label>
+					<textarea id="descripcionComprobante" name="ComprobantePago.DescripcionComprobante" class="form-control" rows="2"></textarea>
+				</div>
 
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Comprobantes de Pago Existentes</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="tabla-Comprobantes" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:left">Id del comprobante</th>
-                                    <th style="text-align:left">Descripción</th>
-                                    <th style="text-align:left">Fecha de Creación</th>
-                                    <th style="text-align:left">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var comprobante in Model.ComprobantesOrden)
-                                {
-                                    <tr>
-                                        <td style="text-align:left">@comprobante.IdOrdenDetalleComprobantes</td>
-                                        <td style="text-align:left">@comprobante.DescripcionComprobante</td>
-                                        <td style="text-align:left">@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                                        <td style="text-align:left">
-                                            <a href="@comprobante.RutaComprobante" target="_blank" class="botones">Ver Comprobante</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+				<div class="card mb-4">
+					<div class="card-header">
+						<h3>Comprobantes de Pago Existentes</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="tabla-Comprobantes" class="table table-hover">
+								<thead>
+									<tr>
+										<th style="text-align:left">Id del comprobante</th>
+										<th style="text-align:left">Descripción</th>
+										<th style="text-align:left">Fecha de Creación</th>
+										<th style="text-align:left">Acciones</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var comprobante in Model.ComprobantesOrden)
+									{
+										<tr>
+											<td style="text-align:left">@comprobante.IdOrdenDetalleComprobantes</td>
+											<td style="text-align:left">@comprobante.DescripcionComprobante</td>
+											<td style="text-align:left">@comprobante.FechaCreacion.ToString("dd/MM/yyyy")</td>
+											<td style="text-align:left">
+												<a href="@comprobante.RutaComprobante" target="_blank" class="botones">Ver Comprobante</a>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 
-                        
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Detalles de la Cotización</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="tabla-Cotizaciones" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:left">Número de Cotización</th>
-                                    <th style="text-align:left">Fecha de Generación</th>
-                                    <th style="text-align:left">Cliente</th>
-                                    <th style="text-align:left">Moneda</th>
-                                    <th style="text-align:left">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var cotizacion in Model.ListaCotizaciones)
-                                {
-                                    <tr>
-                                        <td style="text-align:left" >@cotizacion.IdCotizacion</td>
-                                        <td style="text-align:left" >@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                                        <td style="text-align:left" >@cotizacion.NombreCompleto</td>
-                                        <td style="text-align:left" >@cotizacion.Moneda</td>
-                                        <td style="text-align:left" >
-                                            <a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>  
-                <button type="submit" id="guardarComprobanteCliente" class="botones-secundarios">Guardar Cambios</button>
-            </form>
-        </div>
-        <div class="card-footer text-center py-3">
-            <a href="@Url.Action("ClienteConsultarOrdenes", "Ordenes")" class="inventario-link">Volver a mis órdenes</a>
-        </div>
-    </div>
+				<div class="card mb-4">
+					<div class="card-header">
+						<h3>Detalles de la Cotización</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="tabla-Cotizaciones" class="table table-hover">
+								<thead>
+									<tr>
+										<th style="text-align:left">Número de Cotización</th>
+										<th style="text-align:left">Fecha de Generación</th>
+										<th style="text-align:left">Cliente</th>
+										<th style="text-align:left">Moneda</th>
+										<th style="text-align:left">Acciones</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var cotizacion in Model.ListaCotizaciones)
+									{
+										<tr>
+											<td style="text-align:left">@cotizacion.IdCotizacion</td>
+											<td style="text-align:left">@cotizacion.FechaCreacion.ToString("dd/MM/yyyy")</td>
+											<td style="text-align:left">@cotizacion.NombreCompleto</td>
+											<td style="text-align:left">@cotizacion.Moneda</td>
+											<td style="text-align:left">
+												<a href="@cotizacion.RutaCotizacion" target="_blank" class="botones">Ver Cotización</a>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<button type="submit" id="guardarComprobanteCliente" class="botones-secundarios">Guardar Cambios</button>
+			</form>
+		</div>
+		<div class="card-footer text-center py-3">
+			<a href="@Url.Action("ClienteConsultarOrdenes", "Ordenes")" class="inventario-link">Volver a mis órdenes</a>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#tabla-Cotizaciones, #tabla-Comprobantes').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            },
-            order: [[0, 'desc']]
-        });
+	$(document).ready(function () {
+		$('#tabla-Cotizaciones, #tabla-Comprobantes').DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+			},
+			order: [[0, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
 
-        $('#guardarComprobanteCliente').on('click', function (e) {
-            e.preventDefault();
+		$('#guardarComprobanteCliente').on('click', function (e) {
+			e.preventDefault();
 
-            const formData = new FormData();
-            const comprobanteArchivo = $('#comprobantePagoArchivo')[0].files[0];
-            const descripcionComprobante = $('#descripcionComprobante').val()?.trim();
+			const formData = new FormData();
+			const comprobanteArchivo = $('#comprobantePagoArchivo')[0].files[0];
+			const descripcionComprobante = $('#descripcionComprobante').val()?.trim();
 
-            if (!comprobanteArchivo || !descripcionComprobante) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos incompletos',
-                    text: 'Por favor, complete todos los campos antes de editar la orden.',
-                    confirmButtonColor: '#c1952c',
-                });
-                return;
-            }
+			if (!comprobanteArchivo || !descripcionComprobante) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Campos incompletos',
+					text: 'Por favor, complete todos los campos antes de editar la orden.',
+					confirmButtonColor: '#c1952c',
+				});
+				return;
+			}
 
-            formData.append('IdOrden', $('#idOrden').val());
-            formData.append('ComprobantePago.ArchivoComprobante', comprobanteArchivo);
-            formData.append('ComprobantePago.DescripcionComprobante', descripcionComprobante);
+			formData.append('IdOrden', $('#idOrden').val());
+			formData.append('ComprobantePago.ArchivoComprobante', comprobanteArchivo);
+			formData.append('ComprobantePago.DescripcionComprobante', descripcionComprobante);
 
-            $.ajax({
-                url: '/Ordenes/EditarOrdenCliente',
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                data: formData,
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Orden Editada',
-                        text: 'Los cambios fueron guardados exitosamente.',
-                        confirmButtonColor: '#c1952c',
-                        timer: 2000
-                    }).then(() => {
-                        window.location.href = '/Ordenes/ClienteConsultarOrdenes';
-                    });
-                },
-                error: function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseText || 'Hubo un problema al guardar el comprobante.',
-                        confirmButtonColor: '#c1952c'
-                    });
-                }
-            });
-        });
-    });
+			$.ajax({
+				url: '/Ordenes/EditarOrdenCliente',
+				type: 'POST',
+				processData: false,
+				contentType: false,
+				data: formData,
+				success: function () {
+					Swal.fire({
+						icon: 'success',
+						title: 'Orden Editada',
+						text: 'Los cambios fueron guardados exitosamente.',
+						confirmButtonColor: '#c1952c',
+						timer: 2000
+					}).then(() => {
+						window.location.href = '/Ordenes/ClienteConsultarOrdenes';
+					});
+				},
+				error: function (xhr) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: xhr.responseText || 'Hubo un problema al guardar el comprobante.',
+						confirmButtonColor: '#c1952c'
+					});
+				}
+			});
+		});
+	});
 </script>
 

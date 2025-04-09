@@ -62,7 +62,7 @@
 								<td>₡ @item.PrecioUnitarioColones.ToString("N2")</td>
 								<td>$ @item.PrecioUnitarioDolares.ToString("N2")</td>
 								<td>@item.NombreCategoria</td>
-								<td style="text-align:center">
+								<td style="text-align:left">
 									@if (rol == 1)
 									{
 										<a class="botones-editar" href="@(Url.Action("EditarInventario", "Inventario", new { id = item.IdProducto}))">

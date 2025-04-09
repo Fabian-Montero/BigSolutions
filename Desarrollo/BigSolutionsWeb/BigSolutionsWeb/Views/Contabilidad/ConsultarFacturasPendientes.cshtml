@@ -75,7 +75,7 @@
 									<td style="text-align:left">@($"{currencySymbol} {factura.Total.ToString("N2")}")</td>
 									<td style="text-align:left">@monedaText</td>
 									<td style="text-align:left">@factura.FechaCreacion.ToString("dd/MM/yyyy")</td>
-									<td style="text-align:center">
+									<td style="text-align:left">
 										@if (rol == 1)
 										{
 											<a class="botones-editar" href="@Url.Action("EditarFacturasPendientes", "Contabilidad", new { id = factura.IdFacturaPendiente })">

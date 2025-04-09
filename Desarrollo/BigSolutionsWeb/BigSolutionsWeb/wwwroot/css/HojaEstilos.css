@@ -30,13 +30,13 @@
 }
 
     .botones:hover {
-        background-color: #3f392e;
+        background-color: /*#3f392e*/ #ac842c;
         color: white;
         text-decoration: none;
     }
 
     .botones:active {
-        background-color: #837033;
+        background-color: /*#837033*/ #9c7623;
         color: white;
         text-decoration: none;
     }
@@ -123,13 +123,13 @@
 }
 
     .botones-secundarios:hover {
-        background-color: #c1952c; 
+        background-color: /*#c1952c*/ #495057;
         color: white;
         text-decoration: none;
     }
 
     .botones-secundarios:active {
-        background-color: #837033;
+        background-color: /*#837033*/ #2c3034;
         color: white;
         text-decoration: none;
     }

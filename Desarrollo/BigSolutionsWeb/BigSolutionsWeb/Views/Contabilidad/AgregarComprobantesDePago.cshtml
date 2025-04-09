@@ -1,158 +1,162 @@
 ﻿@model BigSolutionsWeb.DTOs.CrearComprobanteDTO
 
 @{
-    ViewData["Title"] = "Agregar Comprobante de Pago";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Agregar Comprobante de Pago";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Registrar Comprobante de Pago</h1>
-        <p>Llena el siguiente formulario para agregar un nuevo comprobante de pago.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Registrar Comprobante de Pago</h1>
+		<p>Llena el siguiente formulario para agregar un nuevo comprobante de pago.</p>
+	</div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Seleccionar Orden</h3>
-        </div>
-        <div class="card-body">
-            <table id="tabla-Ordenes" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">Seleccionar</th>
-                        <th style="text-align:left">Número de Orden</th>
-                        <th style="text-align:left">Cliente</th>
-                        <th style="text-align:left">Descripción de la Orden</th>
-                        <th style="text-align:left">Orden de Compra</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Ordenes != null && Model.Ordenes.Any())
-                    {
-                        foreach (var orden in Model.Ordenes)
-                        {
-                            <tr>
-                                <td style="text-align:left">
-                                    <input type="radio" name="IdOrden" value="@orden.IdOrden">
-                                </td>
-                                <td style="text-align:left">@orden.IdOrden</td>
-                                <td style="text-align:left">@orden.NombreUsuario</td>
-                                <td style="text-align:left">@orden.Descripcion</td>
-                                <td style="text-align:left">
-                                    @if (!string.IsNullOrEmpty(orden.RutaOrdenCompra))
-                                    {
-                                        <a href="@Url.Content(orden.RutaOrdenCompra)" target="_blank" class="botones">Ver Orden de Compra</a>
-                                    }
-                                    else
-                                    {
-                                        <span>No disponible</span>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center">No hay órdenes disponibles.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Seleccionar Orden</h3>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="tabla-Ordenes" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:left">Seleccionar</th>
+							<th style="text-align:left">Número de Orden</th>
+							<th style="text-align:left">Cliente</th>
+							<th style="text-align:left">Descripción de la Orden</th>
+							<th style="text-align:left">Orden de Compra</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model.Ordenes != null && Model.Ordenes.Any())
+						{
+							foreach (var orden in Model.Ordenes)
+							{
+								<tr>
+									<td style="text-align:left">
+										<input type="radio" name="IdOrden" value="@orden.IdOrden">
+									</td>
+									<td style="text-align:left">@orden.IdOrden</td>
+									<td style="text-align:left">@orden.NombreUsuario</td>
+									<td style="text-align:left">@orden.Descripcion</td>
+									<td style="text-align:left">
+										@if (!string.IsNullOrEmpty(orden.RutaOrdenCompra))
+										{
+											<a href="@Url.Content(orden.RutaOrdenCompra)" target="_blank" class="botones">Ver Orden de Compra</a>
+										}
+										else
+										{
+											<span>No disponible</span>
+										}
+									</td>
+								</tr>
+							}
+						}
+						else
+						{
+							<tr>
+								<td colspan="5" class="text-center">No hay órdenes disponibles.</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Datos del Comprobante</h3>
-        </div>
-        <div class="card-body">
-            <form id="agregarComprobanteForm" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="DescripcionComprobante">Descripción del Comprobante</label>
-                            <textarea id="DescripcionComprobante" name="DescripcionComprobante" class="form-control" rows="3" placeholder="Ingrese una descripción"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="ArchivoComprobante">Adjuntar Comprobante</label>
-                            <input type="file" id="ArchivoComprobante" name="ArchivoComprobante" class="form-control-file">
-                        </div>
-                    </div>
-                </div>
-                <button id="crearComprobanteButton" type="button" class="botones-secundarios">Registrar Comprobante</button>
-            </form>
-        </div>
-        <div class="card-footer text-center py-3">
-            <a href="@Url.Action("ConsultarComprobantesDePago", "Contabilidad")" class="inventario-link">Volver a comprobantes de pago</a>
-        </div>
-    </div>
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Datos del Comprobante</h3>
+		</div>
+		<div class="card-body">
+			<form id="agregarComprobanteForm" enctype="multipart/form-data">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="DescripcionComprobante">Descripción del Comprobante</label>
+							<textarea id="DescripcionComprobante" name="DescripcionComprobante" class="form-control" rows="3" placeholder="Ingrese una descripción"></textarea>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="ArchivoComprobante">Adjuntar Comprobante</label>
+							<input type="file" id="ArchivoComprobante" name="ArchivoComprobante" class="form-control-file">
+						</div>
+					</div>
+				</div>
+				<button id="crearComprobanteButton" type="button" class="botones-secundarios">Registrar Comprobante</button>
+			</form>
+		</div>
+		<div class="card-footer text-center py-3">
+			<a href="@Url.Action("ConsultarComprobantesDePago", "Contabilidad")" class="inventario-link">Volver a comprobantes de pago</a>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+	$(document).ready(function () {
 
-        $('#tabla-Ordenes').DataTable({
-            language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']]
-        });
+		$('#tabla-Ordenes').DataTable({
+			language: { url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json' }, order: [[1, 'desc']],
+			autoWidth: false,
+			responsive: true
+		});
 
-        // Enviar datos al controller
-        $('#crearComprobanteButton').on('click', function (e) {
-            e.preventDefault();
+		// Enviar datos al controller
+		$('#crearComprobanteButton').on('click', function (e) {
+			e.preventDefault();
 
-            const idOrden = $('input[name="IdOrden"]:checked').val();
-            const descripcionComprobante = $('#DescripcionComprobante').val().trim();
-            const archivoComprobante = $('#ArchivoComprobante')[0].files[0];
+			const idOrden = $('input[name="IdOrden"]:checked').val();
+			const descripcionComprobante = $('#DescripcionComprobante').val().trim();
+			const archivoComprobante = $('#ArchivoComprobante')[0].files[0];
 
-            if (!idOrden || !descripcionComprobante || !archivoComprobante) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos incompletos',
-                    text: 'Por favor, complete todos los campos antes de aceptar.',
-                    confirmButtonColor: '#c1952c'
-                });
-                return;
-            }
+			if (!idOrden || !descripcionComprobante || !archivoComprobante) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Campos incompletos',
+					text: 'Por favor, complete todos los campos antes de aceptar.',
+					confirmButtonColor: '#c1952c'
+				});
+				return;
+			}
 
-            const formData = new FormData();
-            formData.append('IdOrden', idOrden);
-            formData.append('DescripcionComprobante', descripcionComprobante);
-            formData.append('ArchivoComprobante', archivoComprobante);
+			const formData = new FormData();
+			formData.append('IdOrden', idOrden);
+			formData.append('DescripcionComprobante', descripcionComprobante);
+			formData.append('ArchivoComprobante', archivoComprobante);
 
-            const $button = $(this);
-            $button.prop('disabled', true).text('Registrando Comprobante...');
+			const $button = $(this);
+			$button.prop('disabled', true).text('Registrando Comprobante...');
 
-            $.ajax({
-                url: '/Contabilidad/AgregarComprobantesDePago',
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                data: formData,
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Comprobante Registrado',
-                        text: 'El comprobante de pago ha sido registrado exitosamente.',
-                        confirmButtonColor: '#c1952c',
-                        timer: 2000
-                    }).then(() => {
-                        window.location.href = '/Contabilidad/ConsultarComprobantesDePago';
-                    });
-                },
-                error: function (xhr) {
-                    $button.prop('disabled', false).text('Registrar Comprobante');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseText || 'Hubo un problema al registrar el comprobante.',
-                        confirmButtonColor: '#c1952c'
-                    });
-                }
-            });
-        });
-    });
+			$.ajax({
+				url: '/Contabilidad/AgregarComprobantesDePago',
+				type: 'POST',
+				processData: false,
+				contentType: false,
+				data: formData,
+				success: function () {
+					Swal.fire({
+						icon: 'success',
+						title: 'Comprobante Registrado',
+						text: 'El comprobante de pago ha sido registrado exitosamente.',
+						confirmButtonColor: '#c1952c',
+						timer: 2000
+					}).then(() => {
+						window.location.href = '/Contabilidad/ConsultarComprobantesDePago';
+					});
+				},
+				error: function (xhr) {
+					$button.prop('disabled', false).text('Registrar Comprobante');
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: xhr.responseText || 'Hubo un problema al registrar el comprobante.',
+						confirmButtonColor: '#c1952c'
+					});
+				}
+			});
+		});
+	});
 </script>

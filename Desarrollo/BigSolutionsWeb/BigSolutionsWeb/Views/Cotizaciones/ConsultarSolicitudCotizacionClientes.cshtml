@@ -1,133 +1,137 @@
 ﻿@model BigSolutionsWeb.DTOs.SolicitudCotizacionDetalleDTO
 
 @{
-    ViewData["Title"] = "Detalles de la Solicitud";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Detalles de la Solicitud";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid" style="margin-top: 50px;">
-    <div class="text-center mb-4">
-        <h1>Detalles de la Solicitud</h1>
-        <p>Aquí puedes ver los bocetos asociados a esta solicitud.</p>
-    </div>
+	<div class="text-center mb-4">
+		<h1>Detalles de la Solicitud</h1>
+		<p>Aquí puedes ver los bocetos asociados a esta solicitud.</p>
+	</div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h3>Información de la Solicitud</h3>
-        </div>
-        <div class="card-body">
-            <p><strong>Número de Solicitud:</strong> @Model.IdSolicitudCotizacion</p>
-            <p><strong>Fecha de Creación:</strong> @Model.FechaCreacion.ToString("dd/MM/yyyy")</p>
-            <p><strong>Cliente:</strong> @Model.NombreCliente</p>
-            <p><strong>Moneda:</strong> @Model.Moneda</p>
-            <p><strong>Descripción de la Solicitud:</strong> @Model.Descripcion</p>
-        </div>
-    </div>
+	<div class="card mb-4">
+		<div class="card-header">
+			<h3>Información de la Solicitud</h3>
+		</div>
+		<div class="card-body">
+			<p><strong>Número de Solicitud:</strong> @Model.IdSolicitudCotizacion</p>
+			<p><strong>Fecha de Creación:</strong> @Model.FechaCreacion.ToString("dd/MM/yyyy")</p>
+			<p><strong>Cliente:</strong> @Model.NombreCliente</p>
+			<p><strong>Moneda:</strong> @Model.Moneda</p>
+			<p><strong>Descripción de la Solicitud:</strong> @Model.Descripcion</p>
+		</div>
+	</div>
 
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Bocetos Asociados</h3>
-        </div>
-        <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
-            @if (ViewBag.MsjPantalla != null)
-            {
-                <div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
-                    @ViewBag.MsjPantalla
-                </div>
-            }
-            <table id="tabla-Bocetos" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">Número de Boceto</th>
-                        <th style="text-align:left">Imagen del Boceto</th>
-                        <th style="text-align:left">Producto</th>
-                        <th style="text-align:left">Fecha de Generación</th>
-                        <th style="text-align:left">Descripción</th>
-                        <th style="text-align:left">Cantidad</th>
-                        <th style="text-align:left">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
+	<div class="card">
+		<div class="card-header d-flex justify-content-between align-items-center">
+			<h3 class="mb-0">Bocetos Asociados</h3>
+		</div>
+		<div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+			@if (ViewBag.MsjPantalla != null)
+			{
+				<div id="warningAlert" class="alert alert-warning" role="alert" style="text-align: center;">
+					@ViewBag.MsjPantalla
+				</div>
+			}
+			<div class="table-responsive">
+				<table id="tabla-Bocetos" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:left">Número de Boceto</th>
+							<th style="text-align:left">Imagen del Boceto</th>
+							<th style="text-align:left">Producto</th>
+							<th style="text-align:left">Fecha de Generación</th>
+							<th style="text-align:left">Descripción</th>
+							<th style="text-align:left">Cantidad</th>
+							<th style="text-align:left">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
 
-                    @foreach (var boceto in Model.Bocetos)
-                    {
-                        <tr>
-                            <td style="text-align:left">@boceto.IdBoceto</td>
-                            <td style="text-align:left">
-                                <img src="@boceto.RutaImagen" class="boceto-img" alt="Boceto" style="width: 80px; height: auto; cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@boceto.RutaImagen">
-                            </td>
-                            <td style="text-align:left">@boceto.NombreProducto</td>
-                            <td style="text-align:left">@boceto.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                            <td style="text-align:left">@boceto.DescripcionUsuario</td>
-                            <td style="text-align:left">@boceto.Cantidad</td>
-                            <td style="text-align:left">
-                                <button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@boceto.RutaImagen">Ver Imagen</button>
-                            </td>
-                        </tr>
-                    }
+						@foreach (var boceto in Model.Bocetos)
+						{
+							<tr>
+								<td style="text-align:left">@boceto.IdBoceto</td>
+								<td style="text-align:left">
+									<img src="@boceto.RutaImagen" class="boceto-img" alt="Boceto" style="width: 80px; height: auto; cursor: pointer;" data-toggle="modal" data-target="#imageModal" data-src="@boceto.RutaImagen">
+								</td>
+								<td style="text-align:left">@boceto.NombreProducto</td>
+								<td style="text-align:left">@boceto.FechaCreacion.ToString("dd/MM/yyyy")</td>
+								<td style="text-align:left">@boceto.DescripcionUsuario</td>
+								<td style="text-align:left">@boceto.Cantidad</td>
+								<td style="text-align:left">
+									<button class="botones view-image" data-toggle="modal" data-target="#imageModal" data-src="@boceto.RutaImagen">Ver Imagen</button>
+								</td>
+							</tr>
+						}
 
 
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer text-center py-3">
-            <a href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")" class="inventario-link">Volver a las solicitudes de cotización</a>
-        </div>
-    </div>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="card-footer text-center py-3">
+			<a href="@Url.Action("ConsultarSolicitudesCotizacionesClientes", "Cotizaciones")" class="inventario-link">Volver a las solicitudes de cotización</a>
+		</div>
+	</div>
 
-    @{
-        long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
-    }
-    @if (rol == 1)
-    {
-        <div class="mt-4">
-            <a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = Model.IdSolicitudCotizacion}))" class="botones-secundarios">Generar una cotización con esta solicitud</a>
-        </div>
-    }
-    else
-    {
-        <div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
-            <span class="botones-secundarios disabled-link">
-                Generar una cotización con esta solicitud
-            </span>
-        </div>
-    }
+	@{
+		long rol = Convert.ToInt64(Context.Session.GetString("ROL"));
+	}
+	@if (rol == 1)
+	{
+		<div class="mt-4">
+			<a href="@(Url.Action("CrearCotizacionClienteConListaCliente", "Cotizaciones", new {IdSolicitudCotizacion = Model.IdSolicitudCotizacion}))" class="botones-secundarios">Generar una cotización con esta solicitud</a>
+		</div>
+	}
+	else
+	{
+		<div class="btn-group" role="group" aria-label="Basic example" style="opacity: 0.5; pointer-events: none;">
+			<span class="botones-secundarios disabled-link">
+				Generar una cotización con esta solicitud
+			</span>
+		</div>
+	}
 </div>
 
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="imageModalLabel">Imagen del Boceto</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">
+				<img id="modalImage" src="" class="img-fluid" alt="Boceto Ampliado">
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        var table = $('#tabla-Bocetos').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            }
-        });
+	$(document).ready(function () {
+		var table = $('#tabla-Bocetos').DataTable({
+			language: {
+				url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+			},
+			autoWidth: false,
+			responsive: true
+		});
 
-        $('#tabla-Bocetos').on('click', '.boceto-img', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
+		$('#tabla-Bocetos').on('click', '.boceto-img', function () {
+			var src = $(this).data('src');
+			$('#modalImage').attr('src', src);
+		});
 
-        $('#tabla-Bocetos').on('click', '.view-image', function () {
-            var src = $(this).data('src');
-            $('#modalImage').attr('src', src);
-        });
-    });
+		$('#tabla-Bocetos').on('click', '.view-image', function () {
+			var src = $(this).data('src');
+			$('#modalImage').attr('src', src);
+		});
+	});
 </script>
